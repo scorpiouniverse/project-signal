@@ -25,8 +25,28 @@
   --nav-h:76px;--safe-b:env(safe-area-inset-bottom,0px);--safe-t:env(safe-area-inset-top,0px);
   --r:16px;--r2:12px;--r3:24px;
 }
+[data-theme="light"]{
+  --bg:#f4f6f9;--bg1:#ffffff;--bg2:#eef1f6;
+  --glass:rgba(10,20,35,0.035);--glass2:rgba(10,20,35,0.06);--glass3:rgba(10,20,35,0.09);
+  --border:rgba(10,20,35,0.1);--border2:rgba(10,20,35,0.16);
+  --purple:#7c3aed;--purple2:#9333ea;--blue2:#2563eb;
+  --cyan:#0e7490;--cyan2:#0891b2;--cyan3:#0e7490;
+  --text:#0f1720;--text2:#475569;--text3:#64748b;
+  --red2:#dc2626;--amber2:#b45309;--green2:#059669;
+}
+@media(prefers-color-scheme:light){
+  :root:not([data-theme="dark"]){
+    --bg:#f4f6f9;--bg1:#ffffff;--bg2:#eef1f6;
+    --glass:rgba(10,20,35,0.035);--glass2:rgba(10,20,35,0.06);--glass3:rgba(10,20,35,0.09);
+    --border:rgba(10,20,35,0.1);--border2:rgba(10,20,35,0.16);
+    --purple:#7c3aed;--purple2:#9333ea;--blue2:#2563eb;
+    --cyan:#0e7490;--cyan2:#0891b2;--cyan3:#0e7490;
+    --text:#0f1720;--text2:#475569;--text3:#64748b;
+    --red2:#dc2626;--amber2:#b45309;--green2:#059669;
+  }
+}
 html{height:100%;overflow:hidden}
-body{height:100%;background:var(--bg);color:var(--text);font-family:var(--fb);font-size:15px;line-height:1.5;overflow:hidden;-webkit-font-smoothing:antialiased;user-select:none;-webkit-user-select:none}
+body{height:100%;background:var(--bg);color:var(--text);font-family:var(--fb);font-size:15px;line-height:1.5;overflow:hidden;-webkit-font-smoothing:antialiased;user-select:none;-webkit-user-select:none;transition:background 0.3s ease,color 0.3s ease}
 #mesh-bg{position:fixed;inset:0;z-index:0;pointer-events:none}
 .screen{position:fixed;inset:0;z-index:10;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 0.9s cubic-bezier(.4,0,.2,1)}
 .screen.hidden{opacity:0;pointer-events:none}
@@ -100,6 +120,7 @@ body{height:100%;background:var(--bg);color:var(--text);font-family:var(--fb);fo
 .cmd-value{font-family:var(--fm);font-size:24px;font-weight:600;line-height:1;text-shadow:0 0 18px currentColor}
 .skeleton{display:inline-block;width:34px;height:20px;border-radius:5px;background:linear-gradient(90deg,rgba(255,255,255,0.06) 25%,rgba(255,255,255,0.14) 50%,rgba(255,255,255,0.06) 75%);background-size:200% 100%;animation:shimmer 1.4s ease-in-out infinite}
 @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.theme-opt.active{background:var(--glass3);color:var(--text)!important}
 .cmd-sub{font-size:10px;color:var(--text3);margin-top:2px;font-family:var(--fm)}
 .status-row{display:flex;gap:7px;padding:10px 20px 0;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
 .status-row::-webkit-scrollbar{display:none}
@@ -528,6 +549,23 @@ body{height:100%;background:var(--bg);color:var(--text);font-family:var(--fb);fo
           <div class="settings-brand-about">Project Signal is a personal business intelligence system that continuously monitors trusted sources and filters them into actionable signals for entrepreneurs, freelancers, and e-commerce professionals.</div>
         </div>
         <div class="settings-section">
+          <div class="settings-section-title">Appearance</div>
+          <div class="settings-list">
+            <div class="settings-item" style="cursor:default">
+              <div class="settings-item-icon" style="background:rgba(34,211,238,0.07);color:var(--cyan2)"><i data-lucide="sun-moon" style="width:14px;height:14px"></i></div>
+              <div class="settings-item-body">
+                <div class="settings-item-title">Theme</div>
+                <div class="settings-item-sub">Light, dark, or match system</div>
+              </div>
+              <div style="display:flex;gap:4px;background:var(--glass);border:1px solid var(--border);border-radius:9px;padding:3px">
+                <div class="theme-opt" data-theme-opt="light" onclick="setThemeMode('light')" style="padding:5px 9px;border-radius:6px;font-family:var(--fm);font-size:9px;font-weight:600;cursor:pointer;color:var(--text3)">Light</div>
+                <div class="theme-opt" data-theme-opt="dark" onclick="setThemeMode('dark')" style="padding:5px 9px;border-radius:6px;font-family:var(--fm);font-size:9px;font-weight:600;cursor:pointer;color:var(--text3)">Dark</div>
+                <div class="theme-opt" data-theme-opt="system" onclick="setThemeMode('system')" style="padding:5px 9px;border-radius:6px;font-family:var(--fm);font-size:9px;font-weight:600;cursor:pointer;color:var(--text3)">Auto</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="settings-section">
           <div class="settings-section-title">Intelligence</div>
           <div class="settings-list">
             <div class="settings-item" onclick="showPage('sources')">
@@ -643,6 +681,7 @@ body{height:100%;background:var(--bg);color:var(--text);font-family:var(--fb);fo
 </div>
 <div class="toast" id="toast"></div>
 <script>
+(function(){var t=localStorage.getItem('sp_theme');if(t==='light')document.documentElement.setAttribute('data-theme','light');else if(t==='dark')document.documentElement.setAttribute('data-theme','dark');})();
 var CURRENT_PIN=localStorage.getItem('sp')||'1410';
 var savedIds=JSON.parse(localStorage.getItem('ss')||'[]');
 var reviewedIds=JSON.parse(localStorage.getItem('sr')||'[]');
@@ -787,6 +826,24 @@ document.querySelectorAll('.key').forEach(function(k){
 });
 function updateLockDots(){document.querySelectorAll('#lock-dots .lock-dot').forEach(function(d,i){d.classList.toggle('filled',i<lockPin.length);d.classList.remove('error');});}
 /* ─── APP INIT ─── */
+/* ─── THEME ─── */
+function setThemeMode(mode){
+  localStorage.setItem('sp_theme',mode);
+  applyTheme(mode);
+}
+function applyTheme(mode){
+  var root=document.documentElement;
+  if(mode==='light'){root.setAttribute('data-theme','light');}
+  else if(mode==='dark'){root.setAttribute('data-theme','dark');}
+  else{root.removeAttribute('data-theme');}
+  document.querySelectorAll('.theme-opt').forEach(function(o){
+    o.classList.toggle('active',o.dataset.themeOpt===mode);
+  });
+}
+function initTheme(){
+  var saved=localStorage.getItem('sp_theme')||'system';
+  applyTheme(saved);
+}
 function initApp(){updateGreeting();renderAll();renderSources();renderRegions();lucide.createIcons();setTimeout(initRSS,400);}
 function updateGreeting(){
   var h=new Date().getHours();
@@ -918,6 +975,7 @@ function showPage(name, skipHistory){
   if(name==='search')setTimeout(function(){var inp=document.getElementById('search-input');if(inp)inp.focus();},300);
   if(name==='sources')renderSources();
   if(name==='regions')renderRegions();
+  if(name==='settings')applyTheme(localStorage.getItem('sp_theme')||'system');
   lucide.createIcons();
 }
 var _curPage='dashboard';
@@ -1338,7 +1396,7 @@ function initRSS() {
 }
 
 /* ─── BOOT ─── */
-window.addEventListener('load',function(){lucide.createIcons();initMesh();initStartup();});
+window.addEventListener('load',function(){initTheme();lucide.createIcons();initMesh();initStartup();});
 </script>
 </body>
 </html>
