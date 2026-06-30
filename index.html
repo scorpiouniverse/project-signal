@@ -52,15 +52,42 @@ body{height:100%;background:var(--bg);color:var(--text);font-family:var(--fb);fo
 .screen.hidden{opacity:0;pointer-events:none}
 .screen.gone{display:none}
 #startup{background:#000;z-index:100}
+[data-theme="light"] #startup{background:#f0f2f5}
+[data-theme="light"] .startup-name{background:linear-gradient(135deg,#1a2535 0%,var(--cyan2) 50%,var(--purple) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+[data-theme="light"] .startup-by{color:rgba(0,0,0,0.55)}
+[data-theme="light"] .startup-tag{color:rgba(0,0,0,0.35)}
+[data-theme="light"] .startup-rule{background:linear-gradient(180deg,transparent,rgba(8,145,178,0.4),transparent)}
+@media(prefers-color-scheme:light){
+  :root:not([data-theme="dark"]) #startup{background:#f0f2f5}
+  :root:not([data-theme="dark"]) .startup-name{background:linear-gradient(135deg,#1a2535 0%,#0891b2 50%,#7c3aed 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  :root:not([data-theme="dark"]) .startup-by{color:rgba(0,0,0,0.55)}
+  :root:not([data-theme="dark"]) .startup-tag{color:rgba(0,0,0,0.35)}
+}
 #startup-canvas{position:absolute;inset:0}
 .startup-logo{position:relative;z-index:2;text-align:center;opacity:0;transition:opacity 1.4s ease,transform 1.4s ease;transform:translateY(10px)}
 .startup-logo.show{opacity:1;transform:translateY(0)}
 .startup-name{font-family:var(--fh);font-size:clamp(15px,3vw,26px);font-weight:500;letter-spacing:0.45em;background:linear-gradient(135deg,rgba(255,255,255,0.88) 0%,var(--cyan3) 50%,var(--purple2) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.startup-by{font-family:'Dancing Script',cursive;font-size:clamp(11px,1.8vw,16px);color:rgba(255,255,255,0.3);margin-top:10px}
+.startup-by{font-family:'Dancing Script',cursive;font-size:clamp(11px,1.8vw,16px);color:rgba(255,255,255,0.55);margin-top:10px}
 .startup-rule{width:1px;height:0;background:linear-gradient(180deg,transparent,rgba(34,211,238,0.35),transparent);margin:16px auto;transition:height 1s ease 0.3s}
 .startup-logo.show .startup-rule{height:32px}
-.startup-tag{font-family:var(--fm);font-size:9px;letter-spacing:0.28em;color:rgba(255,255,255,0.12);margin-top:16px;text-transform:uppercase}
+.startup-tag{font-family:var(--fm);font-size:9px;letter-spacing:0.28em;color:rgba(255,255,255,0.3);margin-top:16px;text-transform:uppercase}
 #lockscreen{z-index:90;background:linear-gradient(135deg,#020408 0%,#080f18 50%,#020810 100%)}
+[data-theme="light"] #lockscreen{background:linear-gradient(135deg,#e8ecf2 0%,#f4f6f9 50%,#eef1f6 100%)}
+[data-theme="light"] .lock-glow{background:radial-gradient(ellipse 70% 50% at 50% 20%,rgba(109,40,217,0.08) 0%,transparent 70%),radial-gradient(ellipse 50% 40% at 80% 75%,rgba(6,182,212,0.05) 0%,transparent 60%)}
+[data-theme="light"] .lock-brand-name{color:rgba(15,23,32,0.5)}
+[data-theme="light"] .lock-brand-script{color:rgba(15,23,32,0.3)}
+[data-theme="light"] .lock-dot{background:rgba(0,0,0,0.1);border-color:rgba(0,0,0,0.18)}
+[data-theme="light"] .key{background:linear-gradient(160deg,rgba(0,0,0,0.06),rgba(0,0,0,0.02));border-color:rgba(0,0,0,0.12);box-shadow:inset 0 1px 0 rgba(255,255,255,0.8),0 4px 10px rgba(0,0,0,0.08)}
+[data-theme="light"] .key-num{color:#0f1720;text-shadow:none}
+[data-theme="light"] .key:active,[data-theme="light"] .key.pressed{background:linear-gradient(160deg,rgba(8,145,178,0.15),rgba(8,145,178,0.05));border-color:rgba(8,145,178,0.4)}
+@media(prefers-color-scheme:light){
+  :root:not([data-theme="dark"]) #lockscreen{background:linear-gradient(135deg,#e8ecf2 0%,#f4f6f9 50%,#eef1f6 100%)}
+  :root:not([data-theme="dark"]) .lock-brand-name{color:rgba(15,23,32,0.5)}
+  :root:not([data-theme="dark"]) .lock-brand-script{color:rgba(15,23,32,0.3)}
+  :root:not([data-theme="dark"]) .lock-dot{background:rgba(0,0,0,0.1);border-color:rgba(0,0,0,0.18)}
+  :root:not([data-theme="dark"]) .key{background:linear-gradient(160deg,rgba(0,0,0,0.06),rgba(0,0,0,0.02));border-color:rgba(0,0,0,0.12);box-shadow:inset 0 1px 0 rgba(255,255,255,0.8),0 4px 10px rgba(0,0,0,0.08)}
+  :root:not([data-theme="dark"]) .key-num{color:#0f1720;text-shadow:none}
+}
 .lock-glow{position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 50% 20%,rgba(109,40,217,0.12) 0%,transparent 70%),radial-gradient(ellipse 50% 40% at 80% 75%,rgba(6,182,212,0.07) 0%,transparent 60%)}
 .lock-content{position:relative;z-index:2;width:100%;max-width:340px;padding:0 20px;display:flex;flex-direction:column;align-items:center;gap:34px}
 .lock-brand-name{font-family:var(--fh);font-size:11px;font-weight:500;letter-spacing:0.48em;text-transform:uppercase;color:rgba(255,255,255,0.27);text-align:center}
@@ -133,6 +160,9 @@ body{height:100%;background:var(--bg);color:var(--text);font-family:var(--fb);fo
 .section-sub{font-size:9px;color:var(--text3);margin-top:2px;font-family:var(--fm);letter-spacing:0.06em}
 .section-link{font-family:var(--fm);font-size:9px;font-weight:600;letter-spacing:0.1em;color:var(--cyan2);cursor:pointer;text-transform:uppercase}
 .cards-grid{padding:13px 20px;display:flex;flex-direction:column;gap:13px}
+.date-divider{display:flex;align-items:center;gap:10px;padding:18px 20px 4px;pointer-events:none}
+.date-divider span{font-family:var(--fm);font-size:9px;font-weight:700;letter-spacing:0.18em;color:var(--text3);white-space:nowrap}
+.date-divider::after{content:'';flex:1;height:1px;background:var(--border)}
 .card{background:linear-gradient(160deg,rgba(255,255,255,0.045) 0%,rgba(255,255,255,0.015) 45%,rgba(255,255,255,0.008) 100%);border:1px solid var(--border);border-radius:var(--r);padding:15px;cursor:pointer;transition:all 0.26s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden;box-shadow:inset 0 1px 0 rgba(255,255,255,0.05),0 4px 16px rgba(0,0,0,0.22);animation:cardIn 0.45s cubic-bezier(.16,1,.3,1) backwards}
 @keyframes cardIn{from{opacity:0;transform:translateY(10px) scale(0.98)}to{opacity:1;transform:translateY(0) scale(1)}}
 .card::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.08),transparent);pointer-events:none}
@@ -545,8 +575,12 @@ body{height:100%;background:var(--bg);color:var(--text);font-family:var(--fb);fo
         <div class="settings-brand">
           <div class="settings-brand-name">PROJECT SIGNAL</div>
           <div class="settings-brand-script">by Zain Akram</div>
-          <div class="settings-brand-ver">Version 2.3 · No Radar · Glossy UI</div>
-          <div class="settings-brand-about">Project Signal is a personal business intelligence system that continuously monitors trusted sources and filters them into actionable signals for entrepreneurs, freelancers, and e-commerce professionals.</div>
+          <div class="settings-brand-ver">Version 2.3 · Built for Scorpio</div>
+          <div class="settings-brand-about">Conceived, designed, and obsessed over by <strong style="color:var(--text);font-weight:700">Zain Akram</strong> — because no existing app was good enough.</div>
+          <div style="margin-top:14px;padding:10px 16px;background:var(--glass);border:1px solid var(--border);border-radius:10px;font-family:var(--fm);font-size:9px;letter-spacing:0.08em;color:var(--text2);line-height:1.7;text-align:center">
+            ✦ Special thanks to the one who built this ✦<br>
+            <span style="font-family:'Dancing Script',cursive;font-size:15px;color:var(--cyan2)">Zain Akram</span>
+          </div>
         </div>
         <div class="settings-section">
           <div class="settings-section-title">Appearance</div>
@@ -883,29 +917,70 @@ function renderAll(){
   document.getElementById('ai-cards').innerHTML=active.filter(function(s){return (s.category==='ai'||s.cat==='ai');}).slice(0,2).map(cardHTML).join('');
   document.getElementById('business-cards').innerHTML=active.filter(function(s){return['business','ecommerce','freelancing','seo'].includes(s.category);}).slice(0,2).map(cardHTML).join('');
   document.getElementById('pakistan-cards').innerHTML=active.filter(function(s){return s.category==='pakistan';}).slice(0,2).map(cardHTML).join('');
-  renderPage('pak-cards-full',active.filter(function(s){return s.category==='pakistan';}));
-  renderPage('usa-cards-full',active.filter(function(s){return (s.category==='usa'||s.cat==='usa');}));
-  renderPage('ai-cards-full',active.filter(function(s){return (s.category==='ai'||s.cat==='ai');}));
-  renderPage('biz-cards-full',active.filter(function(s){return['business','ecommerce','freelancing','payments','seo'].includes(s.category);}));
-  renderPage('ecom-cards-full',active.filter(function(s){return (s.category==='ecommerce'||s.cat==='ecommerce');}));
-  renderPage('freelance-cards-full',active.filter(function(s){return (s.category==='freelancing'||s.cat==='freelancing');}));
-  renderPage('payments-cards-full',active.filter(function(s){return (s.category==='payments'||s.cat==='payments');}));
-  renderPage('seo-cards-full',active.filter(function(s){return (s.category==='seo'||s.cat==='seo');}));
-  renderPage('opp-cards-full',active.filter(function(s){return s.type==='opportunity';}));
+  renderPageGrouped('pak-cards-full',active.filter(function(s){return s.category==='pakistan';}));
+  renderPageGrouped('usa-cards-full',active.filter(function(s){return (s.category==='usa'||s.cat==='usa');}));
+  renderPageGrouped('ai-cards-full',active.filter(function(s){return (s.category==='ai'||s.cat==='ai');}));
+  renderPageGrouped('biz-cards-full',active.filter(function(s){return['business','ecommerce','freelancing','payments','seo'].includes(s.category);}));
+  renderPageGrouped('ecom-cards-full',active.filter(function(s){return (s.category==='ecommerce'||s.cat==='ecommerce');}));
+  renderPageGrouped('freelance-cards-full',active.filter(function(s){return (s.category==='freelancing'||s.cat==='freelancing');}));
+  renderPageGrouped('payments-cards-full',active.filter(function(s){return (s.category==='payments'||s.cat==='payments');}));
+  renderPageGrouped('seo-cards-full',active.filter(function(s){return (s.category==='seo'||s.cat==='seo');}));
+  renderPageGrouped('opp-cards-full',active.filter(function(s){return s.type==='opportunity';}));
   var alList=active.filter(function(s){return['critical','important'].includes(s.type);});
-  document.getElementById('alert-list').innerHTML=alList.map(function(s){var col=s.type==='critical'?'#f87171':s.type==='scam'?'#fb7185':'#fbbf24';return'<div class="alert-item" onclick="openModal('+s.id+')"><div class="alert-item-dot" style="background:'+col+'"></div><div class="alert-item-body"><div class="alert-item-title">'+s.title+'</div><div class="alert-item-desc">'+s.summary.slice(0,90)+'…</div><div class="alert-item-time">DETECTED FROM: '+s.source.toUpperCase()+'</div></div></div>';}).join('')||'<div class="cat-empty"><div class="empty-title">No active alerts</div><div class="empty-sub">ALL SYSTEMS CLEAR</div></div>';
+  var alLive=alList.filter(function(s){return s.ts&&s.live;}).sort(function(a,b){return b.ts-a.ts;});
+  var alPinned=alList.filter(function(s){return !s.ts||!s.live;});
+  var alOrdered=alLive.concat(alPinned);
+  var alHtml='';var alLastLabel='';
+  alOrdered.forEach(function(s){
+    var label=s.live&&s.ts?dateLabel(s.ts):'PINNED';
+    if(label!==alLastLabel){alHtml+='<div class="date-divider" style="padding:14px 0 4px"><span>'+label+'</span></div>';alLastLabel=label;}
+    var col=s.type==='critical'?'#f87171':s.type==='scam'?'#fb7185':'#fbbf24';
+    alHtml+='<div class="alert-item" onclick="openModal('+s.id+')"><div class="alert-item-dot" style="background:'+col+'"></div><div class="alert-item-body"><div class="alert-item-title">'+s.title+'</div><div class="alert-item-desc">'+s.summary.slice(0,90)+'…</div><div class="alert-item-time">'+s.source.toUpperCase()+'</div></div></div>';
+  });
+  document.getElementById('alert-list').innerHTML=alHtml||'<div class="cat-empty"><div class="empty-title">No active alerts</div><div class="empty-sub">ALL SYSTEMS CLEAR</div></div>';
   var crit=active.filter(function(s){return s.type==='critical';}).length;
   var _sc=active.filter(function(s){return s.cat==='scams'||s.category==='scams';}).length;
   document.getElementById('alert-count-badge').textContent=crit+' CRITICAL'+(_sc?' · '+_sc+' SCAM':'');
   var _prio={critical:0,important:1,ai:2,opportunity:3};
   var _briefSorted=active.slice().sort(function(a,b){return(_prio[a.type]!=null?_prio[a.type]:9)-(_prio[b.type]!=null?_prio[b.type]:9)||b.ts-a.ts;});
   document.getElementById('briefing-list').innerHTML=_briefSorted.slice(0,12).map(function(s,i){return'<div class="briefing-card" onclick="openModal('+s.id+')"><div class="briefing-num">SIGNAL '+String(i+1).padStart(2,'0')+' · '+s.source.toUpperCase()+'</div><div class="briefing-card-title">'+s.title+'</div><div class="briefing-summary">'+s.summary.slice(0,125)+'…</div><div class="briefing-why">'+s.why+'</div><div class="briefing-action"><i data-lucide="arrow-right"></i><span>ANALYZE SIGNAL</span></div></div>';}).join('');
-  renderPage('scam-cards-full',gA(allSignals().filter(function(s){return s.cat==='scams'||s.category==='scams';})));
-  renderPage('seo-cards-full',gA(allSignals().filter(function(s){return (s.category==='seo'||s.cat==='seo');})));
+  renderPageGrouped('scam-cards-full',gA(allSignals().filter(function(s){return s.cat==='scams'||s.category==='scams';})));
   // Scam alerts always shown in critical-cards at top (mixed with other criticals)
   renderSaved();renderArchive();updateCounters();lucide.createIcons();
 }
 function emptyHTML(title,sub){return'<div class="cat-empty"><div class="empty-icon"><i data-lucide="check-circle" style="width:30px;height:30px;color:var(--green2)"></i></div><div class="empty-title">'+title+'</div><div class="empty-sub">'+sub+'</div></div>';}
+function dateLabel(ts){
+  if(!ts) return 'PINNED';
+  var now=Date.now(), diff=now-ts;
+  var day=86400000;
+  if(diff<day) return 'TODAY';
+  if(diff<2*day) return 'YESTERDAY';
+  if(diff<7*day) return 'THIS WEEK';
+  if(diff<30*day) return 'THIS MONTH';
+  return 'OLDER';
+}
+function dateOrder(label){
+  return{TODAY:0,YESTERDAY:1,'THIS WEEK':2,'THIS MONTH':3,OLDER:4,PINNED:5}[label]||6;
+}
+function renderPageGrouped(id,sigs){
+  var el=document.getElementById(id); if(!el) return;
+  if(!sigs.length){el.innerHTML=emptyHTML('No signals in this category','CHECK BACK SOON');return;}
+  // Sort: live signals by timestamp desc, pinned (static) at bottom
+  var live=sigs.filter(function(s){return s.ts&&s.live;});
+  var pinned=sigs.filter(function(s){return !s.ts||!s.live;});
+  live.sort(function(a,b){return b.ts-a.ts;});
+  var ordered=live.concat(pinned);
+  var html='';var lastLabel='';
+  ordered.forEach(function(s,i){
+    var label=s.live&&s.ts?dateLabel(s.ts):'PINNED';
+    if(label!==lastLabel){
+      html+='<div class="date-divider"><span>'+label+'</span></div>';
+      lastLabel=label;
+    }
+    html+=cardHTML(s,i);
+  });
+  el.innerHTML=html;
+}
 function renderPage(id,sigs){var el=document.getElementById(id);if(el)el.innerHTML=sigs.length?sigs.map(cardHTML).join(''):emptyHTML('No signals in this category','CHECK BACK SOON');}
 function cardHTML(s,i){
   var bc={critical:'badge-critical',important:'badge-important',opportunity:'badge-opportunity',ai:'badge-ai',scam:'badge-scam',info:'badge-info'}[s.type]||'badge-info';
@@ -991,7 +1066,7 @@ function filterEcom(f,el){
   else if(f==='tiktok')sigs=sigs.filter(function(s){return s.title.toLowerCase().includes('tiktok')||s.summary.toLowerCase().includes('tiktok');});
   else if(f==='etsy')sigs=sigs.filter(function(s){return s.title.toLowerCase().includes('etsy')||s.summary.toLowerCase().includes('etsy');});
   else if(f==='walmart')sigs=sigs.filter(function(s){return s.title.toLowerCase().includes('walmart')||s.summary.toLowerCase().includes('walmart');});
-  renderPage('ecom-cards-full',sigs);lucide.createIcons();
+  renderPageGrouped('ecom-cards-full',sigs);lucide.createIcons();
 }
 function filterBiz(f,el){
   document.querySelectorAll('#page-business .pill').forEach(function(p){p.classList.remove('active');});
@@ -1003,7 +1078,7 @@ function filterBiz(f,el){
   else if(f==='payments')sigs=sigs.filter(function(s){return (s.category==='payments'||s.cat==='payments');});
   else if(f==='ecommerce')sigs=sigs.filter(function(s){return (s.category==='ecommerce'||s.cat==='ecommerce');});
   else if(f==='seo')sigs=sigs.filter(function(s){return (s.category==='seo'||s.cat==='seo');});
-  renderPage('biz-cards-full',sigs);lucide.createIcons();
+  renderPageGrouped('biz-cards-full',sigs);lucide.createIcons();
 }
 /* ─── SOURCES ─── */
 function renderSources(){
@@ -1104,8 +1179,8 @@ function showToast(msg){var t=document.getElementById('toast');t.textContent=msg
 ═══════════════════════════════════════════════════════════ */
 
 /* ── CONFIG ── */
-var RSS_PROXY = 'https://api.allorigins.win/get?url=';
-var RSS_PROXY_FALLBACK = 'https://corsproxy.io/?url=';
+var RSS_PROXY = 'https://corsproxy.io/?url=';
+var RSS_PROXY_FALLBACK = 'https://api.allorigins.win/get?url=';
 var RSS_REFRESH_MS = 30 * 60 * 1000; // 30 minutes
 var RSS_CACHE_KEY = 'signal_rss_v2';
 var RSS_TS_KEY    = 'signal_rss_ts';
@@ -1244,32 +1319,29 @@ function hashStr(s) {
 }
 
 /* ── FETCH ONE FEED THROUGH CORS PROXY ── */
-/* Try the primary CORS proxy (allorigins). On any failure — network error,
-   timeout, bad JSON, rate limit — fall back to a second proxy (corsproxy.io)
-   before giving up on the feed entirely. */
-function fetchViaProxy(proxyUrl, feed, isFallback) {
+/* corsproxy.io (primary) returns raw XML text directly.
+   allorigins.win (fallback) wraps XML inside JSON { contents: "...xml..." } */
+function fetchViaProxy(proxyUrl, feed, isAllorigins) {
   var ctrl = new AbortController();
   var tid  = setTimeout(function(){ctrl.abort();}, 12000);
   return fetch(proxyUrl, { signal: ctrl.signal })
     .then(function(r){
       clearTimeout(tid);
       if (!r.ok) throw new Error('HTTP ' + r.status);
-      return isFallback ? r.text() : r.json();
+      return isAllorigins ? r.json() : r.text();
     })
     .then(function(data) {
-      // allorigins.win wraps the feed XML inside { contents: "...xml..." }
-      // corsproxy.io returns the raw XML body directly as text
-      var xml = isFallback ? data : (data.contents || '');
+      var xml = isAllorigins ? (data.contents || '') : data;
       return parseRSS(xml, feed);
     });
 }
 function fetchFeed(feed) {
   var primaryUrl  = RSS_PROXY + encodeURIComponent(feed.url);
   var fallbackUrl = RSS_PROXY_FALLBACK + encodeURIComponent(feed.url);
-  return fetchViaProxy(primaryUrl, feed, false)
+  return fetchViaProxy(primaryUrl, feed, false)   // corsproxy.io = raw text
     .catch(function() {
-      // Primary proxy failed — retry once via the fallback proxy
-      return fetchViaProxy(fallbackUrl, feed, true).catch(function() { return []; });
+      return fetchViaProxy(fallbackUrl, feed, true) // allorigins = JSON wrapped
+        .catch(function() { return []; });
     });
 }
 
