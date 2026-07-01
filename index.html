@@ -3,9 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#020408">
+<meta name="theme-color" content="#020408" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f4f6f9" media="(prefers-color-scheme: light)">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Project Signal">
+<meta name="application-name" content="Project Signal">
+<meta name="description" content="Personal business intelligence by Zain Akram">
+<link rel="manifest" href="manifest.json">
 <title>PROJECT SIGNAL</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,90 +24,42 @@
   --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.12);
   --purple:#6d28d9;--purple2:#a855f7;--blue2:#3b82f6;
   --cyan:#0891b2;--cyan2:#22d3ee;--cyan3:#67e8f9;
-  --text:#eef2f7;--text2:#7d95ab;--text3:#3d5466;
+  --text:#f0f4f8;--text2:#94a8bb;--text3:#5a7080;
   --red2:#f87171;--amber2:#fbbf24;--green2:#34d399;
   --fh:'Space Grotesk',sans-serif;--fb:'Manrope',sans-serif;--fm:'JetBrains Mono',monospace;
   --nav-h:76px;--safe-b:env(safe-area-inset-bottom,0px);--safe-t:env(safe-area-inset-top,0px);
   --r:16px;--r2:12px;--r3:24px;
 }
-[data-theme="light"]{
-  --bg:#f4f6f9;--bg1:#ffffff;--bg2:#eef1f6;
-  --glass:rgba(10,20,35,0.035);--glass2:rgba(10,20,35,0.06);--glass3:rgba(10,20,35,0.09);
-  --border:rgba(10,20,35,0.1);--border2:rgba(10,20,35,0.16);
-  --purple:#7c3aed;--purple2:#9333ea;--blue2:#2563eb;
-  --cyan:#0e7490;--cyan2:#0891b2;--cyan3:#0e7490;
-  --text:#0f1720;--text2:#475569;--text3:#64748b;
-  --red2:#dc2626;--amber2:#b45309;--green2:#059669;
-}
-@media(prefers-color-scheme:light){
-  :root:not([data-theme="dark"]){
-    --bg:#f4f6f9;--bg1:#ffffff;--bg2:#eef1f6;
-    --glass:rgba(10,20,35,0.035);--glass2:rgba(10,20,35,0.06);--glass3:rgba(10,20,35,0.09);
-    --border:rgba(10,20,35,0.1);--border2:rgba(10,20,35,0.16);
-    --purple:#7c3aed;--purple2:#9333ea;--blue2:#2563eb;
-    --cyan:#0e7490;--cyan2:#0891b2;--cyan3:#0e7490;
-    --text:#0f1720;--text2:#475569;--text3:#64748b;
-    --red2:#dc2626;--amber2:#b45309;--green2:#059669;
-  }
-}
 html{height:100%;overflow:hidden}
-body{height:100%;background:var(--bg);color:var(--text);font-family:var(--fb);font-size:15px;line-height:1.5;overflow:hidden;-webkit-font-smoothing:antialiased;user-select:none;-webkit-user-select:none;transition:background 0.3s ease,color 0.3s ease}
+body{height:100%;background:var(--bg);color:var(--text);font-family:var(--fb);font-size:15px;line-height:1.6;overflow:hidden;-webkit-font-smoothing:antialiased;user-select:none;-webkit-user-select:none}
 #mesh-bg{position:fixed;inset:0;z-index:0;pointer-events:none}
 .screen{position:fixed;inset:0;z-index:10;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 0.9s cubic-bezier(.4,0,.2,1)}
 .screen.hidden{opacity:0;pointer-events:none}
 .screen.gone{display:none}
 #startup{background:#000;z-index:100}
-[data-theme="light"] #startup{background:#f0f2f5}
-[data-theme="light"] .startup-name{background:linear-gradient(135deg,#1a2535 0%,var(--cyan2) 50%,var(--purple) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-[data-theme="light"] .startup-by{color:rgba(0,0,0,0.55)}
-[data-theme="light"] .startup-tag{color:rgba(0,0,0,0.35)}
-[data-theme="light"] .startup-rule{background:linear-gradient(180deg,transparent,rgba(8,145,178,0.4),transparent)}
-@media(prefers-color-scheme:light){
-  :root:not([data-theme="dark"]) #startup{background:#f0f2f5}
-  :root:not([data-theme="dark"]) .startup-name{background:linear-gradient(135deg,#1a2535 0%,#0891b2 50%,#7c3aed 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-  :root:not([data-theme="dark"]) .startup-by{color:rgba(0,0,0,0.55)}
-  :root:not([data-theme="dark"]) .startup-tag{color:rgba(0,0,0,0.35)}
-}
 #startup-canvas{position:absolute;inset:0}
 .startup-logo{position:relative;z-index:2;text-align:center;opacity:0;transition:opacity 1.4s ease,transform 1.4s ease;transform:translateY(10px)}
 .startup-logo.show{opacity:1;transform:translateY(0)}
 .startup-name{font-family:var(--fh);font-size:clamp(15px,3vw,26px);font-weight:500;letter-spacing:0.45em;background:linear-gradient(135deg,rgba(255,255,255,0.88) 0%,var(--cyan3) 50%,var(--purple2) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.startup-by{font-family:'Dancing Script',cursive;font-size:clamp(11px,1.8vw,16px);color:rgba(255,255,255,0.55);margin-top:10px}
+.startup-by{font-family:'Dancing Script',cursive;font-size:clamp(11px,1.8vw,16px);color:rgba(255,255,255,0.3);margin-top:10px}
 .startup-rule{width:1px;height:0;background:linear-gradient(180deg,transparent,rgba(34,211,238,0.35),transparent);margin:16px auto;transition:height 1s ease 0.3s}
 .startup-logo.show .startup-rule{height:32px}
-.startup-tag{font-family:var(--fm);font-size:9px;letter-spacing:0.28em;color:rgba(255,255,255,0.3);margin-top:16px;text-transform:uppercase}
+.startup-tag{font-family:var(--fm);font-size:9px;letter-spacing:0.28em;color:rgba(255,255,255,0.12);margin-top:16px;text-transform:uppercase}
 #lockscreen{z-index:90;background:linear-gradient(135deg,#020408 0%,#080f18 50%,#020810 100%)}
-[data-theme="light"] #lockscreen{background:linear-gradient(135deg,#e8ecf2 0%,#f4f6f9 50%,#eef1f6 100%)}
-[data-theme="light"] .lock-glow{background:radial-gradient(ellipse 70% 50% at 50% 20%,rgba(109,40,217,0.08) 0%,transparent 70%),radial-gradient(ellipse 50% 40% at 80% 75%,rgba(6,182,212,0.05) 0%,transparent 60%)}
-[data-theme="light"] .lock-brand-name{color:rgba(15,23,32,0.5)}
-[data-theme="light"] .lock-brand-script{color:rgba(15,23,32,0.3)}
-[data-theme="light"] .lock-dot{background:rgba(0,0,0,0.1);border-color:rgba(0,0,0,0.18)}
-[data-theme="light"] .key{background:linear-gradient(160deg,rgba(0,0,0,0.06),rgba(0,0,0,0.02));border-color:rgba(0,0,0,0.12);box-shadow:inset 0 1px 0 rgba(255,255,255,0.8),0 4px 10px rgba(0,0,0,0.08)}
-[data-theme="light"] .key-num{color:#0f1720;text-shadow:none}
-[data-theme="light"] .key:active,[data-theme="light"] .key.pressed{background:linear-gradient(160deg,rgba(8,145,178,0.15),rgba(8,145,178,0.05));border-color:rgba(8,145,178,0.4)}
-@media(prefers-color-scheme:light){
-  :root:not([data-theme="dark"]) #lockscreen{background:linear-gradient(135deg,#e8ecf2 0%,#f4f6f9 50%,#eef1f6 100%)}
-  :root:not([data-theme="dark"]) .lock-brand-name{color:rgba(15,23,32,0.5)}
-  :root:not([data-theme="dark"]) .lock-brand-script{color:rgba(15,23,32,0.3)}
-  :root:not([data-theme="dark"]) .lock-dot{background:rgba(0,0,0,0.1);border-color:rgba(0,0,0,0.18)}
-  :root:not([data-theme="dark"]) .key{background:linear-gradient(160deg,rgba(0,0,0,0.06),rgba(0,0,0,0.02));border-color:rgba(0,0,0,0.12);box-shadow:inset 0 1px 0 rgba(255,255,255,0.8),0 4px 10px rgba(0,0,0,0.08)}
-  :root:not([data-theme="dark"]) .key-num{color:#0f1720;text-shadow:none}
-}
 .lock-glow{position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 50% 20%,rgba(109,40,217,0.12) 0%,transparent 70%),radial-gradient(ellipse 50% 40% at 80% 75%,rgba(6,182,212,0.07) 0%,transparent 60%)}
-.lock-content{position:relative;z-index:2;width:100%;max-width:340px;padding:0 20px;display:flex;flex-direction:column;align-items:center;gap:34px}
+.lock-content{position:relative;z-index:2;width:100%;max-width:300px;padding:0 20px;display:flex;flex-direction:column;align-items:center;gap:38px}
 .lock-brand-name{font-family:var(--fh);font-size:11px;font-weight:500;letter-spacing:0.48em;text-transform:uppercase;color:rgba(255,255,255,0.27);text-align:center}
 .lock-brand-script{font-family:'Dancing Script',cursive;font-size:13px;color:rgba(255,255,255,0.15);margin-top:4px;text-align:center}
-.lock-dots{display:flex;gap:18px}
-.lock-dot{width:13px;height:13px;border-radius:50%;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.18);transition:all 0.18s ease}
+.lock-dots{display:flex;gap:13px}
+.lock-dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.18);transition:all 0.18s ease}
 .lock-dot.filled{background:var(--cyan2);border-color:var(--cyan2);box-shadow:0 0 9px rgba(34,211,238,0.45)}
 .lock-dot.error{background:var(--red2);border-color:var(--red2);box-shadow:0 0 9px rgba(248,113,113,0.45)}
 .lock-msg{font-family:var(--fm);font-size:9px;letter-spacing:0.1em;color:var(--red2);min-height:14px;text-align:center}
-.keypad{display:grid;grid-template-columns:repeat(3,64px);gap:16px}
-.key{width:64px;height:64px;border-radius:50%;background:linear-gradient(160deg,rgba(255,255,255,0.09),rgba(255,255,255,0.025));border:1px solid rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.12s ease;box-shadow:inset 0 1px 0 rgba(255,255,255,0.1),0 4px 10px rgba(0,0,0,0.3)}
-.key:active,.key.pressed{background:linear-gradient(160deg,rgba(34,211,238,0.16),rgba(34,211,238,0.05));border-color:rgba(34,211,238,0.35);transform:scale(0.93);box-shadow:0 0 18px rgba(34,211,238,0.25)}
-.key-num{font-family:var(--fh);font-size:23px;font-weight:400;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.4)}
+.keypad{display:grid;grid-template-columns:repeat(3,68px);gap:12px}
+.key{width:68px;height:68px;border-radius:50%;background:rgba(255,255,255,0.045);border:1px solid rgba(255,255,255,0.09);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.12s ease}
+.key:active,.key.pressed{background:rgba(34,211,238,0.1);border-color:rgba(34,211,238,0.28);transform:scale(0.93)}
+.key-num{font-family:var(--fh);font-size:21px;font-weight:400;color:#fff}
 .key.key-del{background:transparent;border-color:rgba(255,255,255,0.05)}
-.key.key-empty{background:transparent;border-color:transparent;box-shadow:none;pointer-events:none}
 .key.key-del svg{opacity:0.38}
 @keyframes shake{0%,100%{transform:translateX(0)}15%{transform:translateX(-8px)}30%{transform:translateX(8px)}45%{transform:translateX(-5px)}60%{transform:translateX(5px)}75%{transform:translateX(-3px)}90%{transform:translateX(3px)}}
 .shake{animation:shake 0.44s ease}
@@ -114,7 +71,7 @@ body{height:100%;background:var(--bg);color:var(--text);font-family:var(--fb);fo
 #rss-status{flex:0 1 auto;min-width:0}
 .topbar-brand{font-family:var(--fm);font-size:10px;font-weight:600;letter-spacing:0.32em;background:linear-gradient(90deg,var(--cyan2),var(--purple2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .topbar-right{display:flex;align-items:center;gap:9px;flex-shrink:0}
-@media(max-width:480px){.topbar-brand{font-size:9px;letter-spacing:0.18em}}
+@media(max-width:340px){#rss-status{display:none}}
 .topbar-icon{width:33px;height:33px;border-radius:9px;background:var(--glass);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.18s ease;color:var(--text2)}
 .topbar-icon:hover{background:var(--glass2);color:var(--text)}
 .live-ind{display:flex;align-items:center;gap:5px;font-family:var(--fm);font-size:9px;font-weight:500;letter-spacing:0.14em;color:var(--green2)}
@@ -123,8 +80,8 @@ body{height:100%;background:var(--bg);color:var(--text);font-family:var(--fb);fo
 .scroll-content{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding-bottom:calc(var(--nav-h) + 16px + var(--safe-b))}
 .scroll-content::-webkit-scrollbar{display:none}
 .page{display:none}
-.page.active{display:block;animation:pgIn 0.38s cubic-bezier(.16,1,.3,1)}
-@keyframes pgIn{from{opacity:0;transform:translateY(8px) scale(0.985)}to{opacity:1;transform:translateY(0) scale(1)}}
+.page.active{display:block;animation:pgIn 0.3s cubic-bezier(.4,0,.2,1)}
+@keyframes pgIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
 .nav{position:fixed;bottom:0;left:0;right:0;padding:7px 12px;padding-bottom:calc(7px + var(--safe-b));z-index:60}
 .nav-inner{display:flex;align-items:center;justify-content:space-around;background:rgba(6,12,18,0.9);backdrop-filter:blur(28px) saturate(180%);border:1px solid var(--border2);border-radius:28px;padding:6px 4px;box-shadow:0 8px 40px rgba(0,0,0,0.7)}
 .nav-item{display:flex;flex-direction:column;align-items:center;gap:3px;padding:7px 10px;border-radius:20px;cursor:pointer;transition:all 0.2s ease;color:var(--text3);flex:1;position:relative}
@@ -132,49 +89,42 @@ body{height:100%;background:var(--bg);color:var(--text);font-family:var(--fb);fo
 .nav-item.active::after{content:'';position:absolute;bottom:-2px;left:50%;transform:translateX(-50%);width:14px;height:2px;border-radius:1px;background:var(--cyan2);box-shadow:0 0 7px rgba(34,211,238,0.55)}
 .nav-item.active svg{filter:drop-shadow(0 0 4px rgba(34,211,238,0.45))}
 .nav-label{font-family:var(--fm);font-size:8px;font-weight:500;letter-spacing:0.05em}
-.hero{padding:24px 20px 8px;animation:heroIn 0.5s cubic-bezier(.16,1,.3,1)}
-@keyframes heroIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
-.hero-eyebrow{font-family:var(--fm);font-size:9px;letter-spacing:0.22em;color:var(--cyan2);font-weight:500;margin-bottom:7px;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.hero{padding:20px 20px 4px}
+.hero-eyebrow{font-family:var(--fm);font-size:9px;letter-spacing:0.22em;color:var(--cyan2);font-weight:500;margin-bottom:7px;display:flex;align-items:center;gap:7px}
+.hero-eyebrow::before{content:'';width:16px;height:1px;background:var(--cyan2);opacity:0.45}
 .hero-title{font-family:var(--fh);font-size:clamp(19px,4.5vw,25px);font-weight:600;line-height:1.2;margin-bottom:5px;letter-spacing:-0.015em}
 .hero-sub{font-size:10px;color:var(--text2);font-family:var(--fm);letter-spacing:0.06em}
-.command-grid{padding:16px 20px 0;display:grid;grid-template-columns:1fr 1fr;gap:11px}
-.cmd-card{background:linear-gradient(160deg,rgba(255,255,255,0.055) 0%,rgba(255,255,255,0.02) 40%,rgba(255,255,255,0.01) 100%);border:1px solid var(--border);border-radius:var(--r2);padding:13px;cursor:pointer;transition:all 0.22s ease;overflow:hidden;position:relative;box-shadow:inset 0 1px 0 rgba(255,255,255,0.06),0 4px 14px rgba(0,0,0,0.22);animation:cardIn 0.45s cubic-bezier(.16,1,.3,1) backwards}
-.cmd-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.05) 0%,transparent 50%);pointer-events:none}
-.cmd-card:hover{background:linear-gradient(160deg,rgba(255,255,255,0.08) 0%,rgba(255,255,255,0.03) 40%,rgba(255,255,255,0.015) 100%);border-color:var(--border2);transform:translateY(-2px);box-shadow:inset 0 1px 0 rgba(255,255,255,0.09),0 8px 22px rgba(0,0,0,0.3)}
+.command-grid{padding:13px 20px 0;display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.cmd-card{background:var(--glass);border:1px solid var(--border);border-radius:var(--r2);padding:13px;cursor:pointer;transition:all 0.22s ease;overflow:hidden;position:relative}
+.cmd-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.02) 0%,transparent 55%);pointer-events:none}
+.cmd-card:hover{background:var(--glass2);border-color:var(--border2);transform:translateY(-1px)}
 .cmd-card:active{transform:scale(0.965)}
-.cmd-icon{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;margin-bottom:9px;box-shadow:inset 0 1px 0 rgba(255,255,255,0.12),0 0 14px -2px currentColor}
+.cmd-icon{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;margin-bottom:9px}
 .cmd-label{font-family:var(--fm);font-size:8px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--text3);margin-bottom:3px}
-.cmd-value{font-family:var(--fm);font-size:24px;font-weight:600;line-height:1;text-shadow:0 0 18px currentColor}
-.skeleton{display:inline-block;width:34px;height:20px;border-radius:5px;background:linear-gradient(90deg,rgba(255,255,255,0.06) 25%,rgba(255,255,255,0.14) 50%,rgba(255,255,255,0.06) 75%);background-size:200% 100%;animation:shimmer 1.4s ease-in-out infinite}
-@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
-.theme-opt.active{background:var(--glass3);color:var(--text)!important}
+.cmd-value{font-family:var(--fm);font-size:24px;font-weight:600;line-height:1}
 .cmd-sub{font-size:10px;color:var(--text3);margin-top:2px;font-family:var(--fm)}
 .status-row{display:flex;gap:7px;padding:10px 20px 0;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
 .status-row::-webkit-scrollbar{display:none}
-.status-chip{flex-shrink:0;display:flex;align-items:center;gap:6px;padding:6px 11px;border-radius:20px;background:linear-gradient(160deg,rgba(255,255,255,0.05),rgba(255,255,255,0.015));border:1px solid var(--border);cursor:pointer;transition:all 0.18s ease;font-size:10px;font-family:var(--fm);font-weight:500;color:var(--text2);letter-spacing:0.03em;box-shadow:inset 0 1px 0 rgba(255,255,255,0.05)}
-.status-chip:hover{background:linear-gradient(160deg,rgba(255,255,255,0.08),rgba(255,255,255,0.02));border-color:var(--border2);color:var(--text)}
-.section-header{display:flex;align-items:center;justify-content:space-between;padding:26px 20px 0}
+.status-chip{flex-shrink:0;display:flex;align-items:center;gap:6px;padding:6px 11px;border-radius:20px;background:var(--glass);border:1px solid var(--border);cursor:pointer;transition:all 0.18s ease;font-size:10px;font-family:var(--fm);font-weight:500;color:var(--text2);letter-spacing:0.03em}
+.status-chip:hover{background:var(--glass2);border-color:var(--border2);color:var(--text)}
+.section-header{display:flex;align-items:center;justify-content:space-between;padding:20px 20px 0}
 .section-title{font-family:var(--fh);font-size:17px;font-weight:600;letter-spacing:-0.01em}
 .back-btn{display:flex;align-items:center;gap:5px;font-family:var(--fm);font-size:9px;font-weight:600;color:var(--text3);letter-spacing:0.1em;cursor:pointer;padding:4px 0;transition:color 0.15s ease;text-transform:uppercase}
 .back-btn:hover{color:var(--cyan2)}
 .section-sub{font-size:9px;color:var(--text3);margin-top:2px;font-family:var(--fm);letter-spacing:0.06em}
 .section-link{font-family:var(--fm);font-size:9px;font-weight:600;letter-spacing:0.1em;color:var(--cyan2);cursor:pointer;text-transform:uppercase}
-.cards-grid{padding:13px 20px;display:flex;flex-direction:column;gap:13px}
-.date-divider{display:flex;align-items:center;gap:10px;padding:18px 20px 4px;pointer-events:none}
-.date-divider span{font-family:var(--fm);font-size:9px;font-weight:700;letter-spacing:0.18em;color:var(--text3);white-space:nowrap}
-.date-divider::after{content:'';flex:1;height:1px;background:var(--border)}
-.card{background:linear-gradient(160deg,rgba(255,255,255,0.045) 0%,rgba(255,255,255,0.015) 45%,rgba(255,255,255,0.008) 100%);border:1px solid var(--border);border-radius:var(--r);padding:15px;cursor:pointer;transition:all 0.26s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden;box-shadow:inset 0 1px 0 rgba(255,255,255,0.05),0 4px 16px rgba(0,0,0,0.22);animation:cardIn 0.45s cubic-bezier(.16,1,.3,1) backwards}
-@keyframes cardIn{from{opacity:0;transform:translateY(10px) scale(0.98)}to{opacity:1;transform:translateY(0) scale(1)}}
-.card::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.08),transparent);pointer-events:none}
-.card:hover{transform:translateY(-3px);background:linear-gradient(160deg,rgba(255,255,255,0.07) 0%,rgba(255,255,255,0.025) 45%,rgba(255,255,255,0.01) 100%);border-color:var(--border2);box-shadow:inset 0 1px 0 rgba(255,255,255,0.08),0 14px 40px rgba(0,0,0,0.48)}
+.cards-grid{padding:11px 20px;display:flex;flex-direction:column;gap:11px}
+.card{background:var(--glass);border:1px solid var(--border);border-radius:var(--r);padding:15px;cursor:pointer;transition:all 0.26s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden}
+.card::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.05),transparent);pointer-events:none}
+.card:hover{transform:translateY(-2px);background:var(--glass2);border-color:var(--border2);box-shadow:0 10px 36px rgba(0,0,0,0.42)}
 .card:active{transform:scale(0.987)}
 .card.reviewing{animation:cExit 0.45s ease forwards}
 @keyframes cExit{to{opacity:0;transform:translateY(-6px) scale(0.986)}}
-.card.critical{border-left:2px solid rgba(248,113,113,0.45);box-shadow:inset 0 1px 0 rgba(255,255,255,0.05),0 4px 16px rgba(0,0,0,0.22),-2px 0 16px -8px rgba(248,113,113,0.5)}
-.card.important{border-left:2px solid rgba(251,191,36,0.35)}
-.card.opportunity{border-left:2px solid rgba(52,211,153,0.35);box-shadow:inset 0 1px 0 rgba(255,255,255,0.05),0 4px 16px rgba(0,0,0,0.22),-2px 0 16px -8px rgba(52,211,153,0.4)}
-.card.ai-card{border-left:2px solid rgba(168,85,247,0.35)}
-.card.scam-card{border-left:2px solid rgba(251,113,133,0.55);box-shadow:inset 0 1px 0 rgba(255,255,255,0.05),0 4px 16px rgba(0,0,0,0.22),-2px 0 16px -8px rgba(251,113,133,0.45)}
+.card.critical{border-left:2px solid rgba(248,113,113,0.4)}
+.card.important{border-left:2px solid rgba(251,191,36,0.3)}
+.card.opportunity{border-left:2px solid rgba(52,211,153,0.3)}
+.card.ai-card{border-left:2px solid rgba(168,85,247,0.3)}
+.card.scam-card{border-left:2px solid rgba(251,113,133,0.5)}
 .card-header{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:9px}
 .card-badge{display:inline-flex;align-items:center;padding:2px 6px;border-radius:4px;font-family:var(--fm);font-size:8px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase}
 .badge-critical{background:rgba(220,38,38,0.1);color:#f87171;border:1px solid rgba(220,38,38,0.18)}
@@ -201,6 +151,13 @@ body{height:100%;background:var(--bg);color:var(--text);font-family:var(--fb);fo
 .section-pills::-webkit-scrollbar{display:none}
 .pill{flex-shrink:0;padding:5px 11px;border-radius:20px;border:1px solid var(--border);background:var(--glass);font-family:var(--fm);font-size:9px;font-weight:600;color:var(--text2);cursor:pointer;transition:all 0.16s ease;letter-spacing:0.04em}
 .pill.active{background:rgba(34,211,238,0.09);border-color:rgba(34,211,238,0.22);color:var(--cyan2)}
+.radar-wrap{display:flex;flex-direction:column;align-items:center;padding:14px 20px 0}
+.radar-container{position:relative;width:min(280px,74vw);height:min(280px,74vw);margin:6px auto}
+#radar-canvas{width:100%;height:100%;border-radius:50%}
+.radar-legend{display:flex;gap:15px;margin-top:12px;flex-wrap:wrap;justify-content:center}
+.radar-legend-item{display:flex;align-items:center;gap:5px;font-family:var(--fm);font-size:9px;color:var(--text2);font-weight:500;letter-spacing:0.04em}
+.legend-dot{width:6px;height:6px;border-radius:50%}
+.radar-signals{width:100%;margin-top:12px;display:flex;flex-direction:column;gap:7px}
 .signal-row{display:flex;align-items:center;gap:9px;padding:10px 12px;background:var(--glass);border:1px solid var(--border);border-radius:var(--r2);cursor:pointer;transition:all 0.18s ease}
 .signal-row:hover{background:var(--glass2)}
 .signal-icon{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
@@ -316,12 +273,19 @@ body{height:100%;background:var(--bg);color:var(--text);font-family:var(--fb);fo
 .toast{position:fixed;top:calc(58px + var(--safe-t));left:50%;transform:translateX(-50%) translateY(-14px);background:var(--bg2);border:1px solid var(--border2);border-radius:9px;padding:8px 13px;font-family:var(--fm);font-size:10px;font-weight:600;color:var(--text);z-index:300;opacity:0;transition:all 0.26s ease;white-space:nowrap;backdrop-filter:blur(20px);box-shadow:0 4px 18px rgba(0,0,0,0.5);letter-spacing:0.05em}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 @media(min-width:768px){
-  #app .app-inner{max-width:500px;margin:0 auto;border-left:1px solid var(--border);border-right:1px solid var(--border)}
-  .nav{max-width:500px;left:50%;transform:translateX(-50%)}
+  #app .app-inner{max-width:520px;margin:0 auto;border-left:1px solid var(--border);border-right:1px solid var(--border)}
+  .nav{max-width:520px;left:50%;transform:translateX(-50%)}
   .modal-overlay{align-items:center}
-  .modal-sheet{border-radius:20px;max-width:500px;width:100%;margin:auto}
+  .modal-sheet{border-radius:20px;max-width:520px;width:100%;margin:auto}
 }
-@media(max-width:360px){.keypad{grid-template-columns:repeat(3,58px);gap:13px}.key{width:58px;height:58px}.key-num{font-size:20px}.cmd-value{font-size:20px}}
+@media(min-width:1024px){
+  body{background:var(--bg2)}
+  #app .app-inner{max-width:480px;box-shadow:0 0 80px rgba(0,0,0,0.5);border-radius:24px;margin-top:20px;margin-bottom:20px;height:calc(100vh - 40px);overflow:hidden}
+  .nav{max-width:480px}
+  .scroll-content{border-radius:0 0 24px 24px}
+  .topbar{border-radius:24px 24px 0 0}
+}
+@media(max-width:360px){.keypad{grid-template-columns:repeat(3,60px);gap:10px}.key{width:60px;height:60px}.cmd-value{font-size:20px}}
 @media(prefers-reduced-motion:reduce){*{animation-duration:0.01ms!important;transition-duration:0.01ms!important}}
 </style>
 </head>
@@ -357,7 +321,7 @@ body{height:100%;background:var(--bg);color:var(--text);font-family:var(--fb);fo
       <div class="key" data-key="9"><span class="key-num">9</span></div>
       <div class="key key-empty"></div>
       <div class="key" data-key="0"><span class="key-num">0</span></div>
-      <div class="key key-del" data-key="del"><i data-lucide="delete" style="width:18px;height:18px"></i></div>
+      <div class="key key-del" data-key="del"><i data-lucide="delete" style="width:17px;height:17px"></i></div>
     </div>
     <div class="lock-msg" id="lock-msg"></div>
   </div>
@@ -367,10 +331,11 @@ body{height:100%;background:var(--bg);color:var(--text);font-family:var(--fb);fo
   <div class="app-inner">
     <div class="topbar">
       <div class="topbar-left">
+        <div class="live-ind"><div class="live-dot"></div>LIVE</div>
         <div class="topbar-brand">PROJECT SIGNAL</div>
       </div>
-      <div id="rss-status" onclick="fetchAllFeeds(true)" style="font-family:var(--fm);font-size:9px;color:var(--text3);letter-spacing:0.05em;display:flex;align-items:center;gap:5px;cursor:pointer;overflow:hidden;min-width:0;flex:1">
-        <div id="rss-dot" style="width:6px;height:6px;border-radius:50%;background:var(--text3);flex-shrink:0;transition:background 0.4s ease"></div>
+      <div id="rss-status" onclick="fetchAllFeeds(true)" style="font-family:var(--fm);font-size:8px;color:var(--text3);letter-spacing:0.06em;display:flex;align-items:center;gap:4px;cursor:pointer;overflow:hidden">
+        <div id="rss-dot" style="width:5px;height:5px;border-radius:50%;background:var(--text3);flex-shrink:0;transition:background 0.4s ease"></div>
         <span id="rss-label" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">LOADING…</span>
       </div>
       <div class="topbar-right">
@@ -385,41 +350,40 @@ body{height:100%;background:var(--bg);color:var(--text);font-family:var(--fb);fo
           <div class="hero-eyebrow" id="hero-eyebrow">INTELLIGENCE BRIEF</div>
           <div class="hero-title" id="hero-title">Command Center<br>Operational.</div>
           <div class="hero-sub" id="hero-sub">24 SOURCES · SCANNING NOW</div>
-          <div style="font-family:'Dancing Script',cursive;font-size:13px;color:rgba(255,255,255,0.22);margin-top:6px">a personal app by Zain Akram</div>
         </div>
         <div class="command-grid">
-          <div class="cmd-card" onclick="showPage('alerts')" style="animation-delay:0.05s">
+          <div class="cmd-card" onclick="showPage('alerts')">
             <div class="cmd-icon" style="background:rgba(220,38,38,0.09)"><i data-lucide="alert-triangle" style="width:14px;height:14px;color:#f87171"></i></div>
             <div class="cmd-label">Critical</div>
-            <div class="cmd-value" id="cmd-critical" style="color:#f87171"><span class="skeleton"></span></div>
+            <div class="cmd-value" id="cmd-critical" style="color:#f87171">—</div>
             <div class="cmd-sub">Active alerts</div>
           </div>
-          <div class="cmd-card" onclick="showPage('opportunities')" style="animation-delay:0.1s">
+          <div class="cmd-card" onclick="showPage('opportunities')">
             <div class="cmd-icon" style="background:rgba(5,150,105,0.09)"><i data-lucide="trending-up" style="width:14px;height:14px;color:#34d399"></i></div>
             <div class="cmd-label">Opportunities</div>
-            <div class="cmd-value" id="cmd-opp" style="color:#34d399"><span class="skeleton"></span></div>
+            <div class="cmd-value" id="cmd-opp" style="color:#34d399">—</div>
             <div class="cmd-sub">Detected today</div>
           </div>
-          <div class="cmd-card" onclick="showPage('ai')" style="animation-delay:0.15s">
+          <div class="cmd-card" onclick="showPage('ai')">
             <div class="cmd-icon" style="background:rgba(109,40,217,0.09)"><i data-lucide="cpu" style="width:14px;height:14px;color:#c084fc"></i></div>
             <div class="cmd-label">AI Signals</div>
-            <div class="cmd-value" id="cmd-ai" style="color:#c084fc"><span class="skeleton"></span></div>
+            <div class="cmd-value" id="cmd-ai" style="color:#c084fc">—</div>
             <div class="cmd-sub">Tech frontier</div>
           </div>
-          <div class="cmd-card" onclick="showPage('opportunities')" style="animation-delay:0.2s">
-            <div class="cmd-icon" style="background:rgba(34,211,238,0.07)"><i data-lucide="layers" style="width:14px;height:14px;color:var(--cyan2)"></i></div>
-            <div class="cmd-label">All Signals</div>
-            <div class="cmd-value" id="cmd-total" style="color:var(--cyan2)"><span class="skeleton"></span></div>
-            <div class="cmd-sub">Total detected</div>
+          <div class="cmd-card" onclick="showPage('radar')">
+            <div class="cmd-icon" style="background:rgba(34,211,238,0.07)"><i data-lucide="radio" style="width:14px;height:14px;color:var(--cyan2)"></i></div>
+            <div class="cmd-label">Radar</div>
+            <div class="cmd-value" id="cmd-total" style="color:var(--cyan2)">—</div>
+            <div class="cmd-sub">Total signals</div>
           </div>
-          <div class="cmd-card" onclick="showPage('scams')" style="grid-column:1/-1;flex-direction:row;display:flex;align-items:center;gap:12px;padding:11px 14px;animation-delay:0.25s">
+          <div class="cmd-card" onclick="showPage('scams')" style="grid-column:1/-1;flex-direction:row;display:flex;align-items:center;gap:12px;padding:11px 14px">
             <div class="cmd-icon" style="background:rgba(220,38,38,0.09);margin-bottom:0;flex-shrink:0"><i data-lucide="shield-alert" style="width:14px;height:14px;color:var(--red2)"></i></div>
             <div style="flex:1"><div class="cmd-label" style="color:var(--red2)">Scam Alerts</div><div style="font-family:var(--fm);font-size:10px;color:var(--text3);margin-top:2px" id="cmd-scam-sub">Active threat intelligence</div></div>
-            <div class="cmd-value" id="cmd-scams" style="color:var(--red2);font-size:20px"><span class="skeleton"></span></div>
+            <div class="cmd-value" id="cmd-scams" style="color:var(--red2);font-size:20px">—</div>
           </div>
         </div>
         <div class="status-row">
-          <div class="status-chip" onclick="showPage('briefing')"><div class="live-dot"></div>Live Briefing</div>
+          <div class="status-chip" onclick="showPage('radar')"><div class="live-dot"></div>Radar Active</div>
           <div class="status-chip" onclick="showPage('sources')"><i data-lucide="rss" style="width:10px;height:10px"></i>Sources</div>
           <div class="status-chip" onclick="showPage('briefing')"><i data-lucide="file-text" style="width:10px;height:10px"></i>Briefing</div>
           <div class="status-chip" onclick="showPage('pakistan')">🇵🇰 Pakistan</div>
@@ -453,6 +417,24 @@ body{height:100%;background:var(--bg);color:var(--text);font-family:var(--fb);fo
           <div class="section-link" onclick="showPage('scams')" style="color:var(--red2)">View All</div>
         </div>
         <div class="cards-grid" id="scam-dash-cards"></div>
+      </div>
+      <!-- RADAR -->
+      <div class="page" id="page-radar">
+        <div class="section-header" style="padding-top:20px">
+          <div><div class="section-title">Signal Radar</div><div class="section-sub">CONTINUOUS SCAN · ACTIVE</div></div>
+          <div class="live-ind"><div class="live-dot"></div>LIVE</div>
+        </div>
+        <div class="radar-wrap">
+          <div class="radar-container"><canvas id="radar-canvas"></canvas></div>
+          <div class="radar-legend">
+            <div class="radar-legend-item"><div class="legend-dot" style="background:#f87171"></div>Critical</div>
+            <div class="radar-legend-item"><div class="legend-dot" style="background:#fbbf24"></div>Important</div>
+            <div class="radar-legend-item"><div class="legend-dot" style="background:#34d399"></div>Opportunity</div>
+            <div class="radar-legend-item"><div class="legend-dot" style="background:#c084fc"></div>AI</div>
+            <div class="radar-legend-item"><div class="legend-dot" style="background:#fb7185"></div>Scam</div>
+          </div>
+          <div class="radar-signals" id="radar-signals"></div>
+        </div>
       </div>
       <!-- ALERTS -->
       <div class="page" id="page-alerts">
@@ -521,6 +503,19 @@ body{height:100%;background:var(--bg);color:var(--text);font-family:var(--fb);fo
         <div class="section-header" style="padding-top:20px"><div><div class="section-title">Detected Signals</div><div class="section-sub">VETTED BUSINESS OPPORTUNITIES</div></div></div>
         <div class="cards-grid" id="opp-cards-full"></div>
       </div>
+      <!-- NEWS by date -->
+      <div class="page" id="page-news">
+        <div class="section-header" style="padding-top:18px">
+          <div><div class="section-title">News Feed</div><div class="section-sub">SORTED BY DATE</div></div>
+        </div>
+        <div class="section-pills" style="padding:10px 20px 0">
+          <div class="pill active" onclick="filterNews('today',this)">Today</div>
+          <div class="pill" onclick="filterNews('yesterday',this)">Yesterday</div>
+          <div class="pill" onclick="filterNews('earlier',this)">Earlier</div>
+          <div class="pill" onclick="filterNews('missed',this)">Missed</div>
+        </div>
+        <div class="cards-grid" id="news-list"></div>
+      </div>
       <!-- SAVED -->
       <div class="page" id="page-saved">
         <div class="section-header" style="padding-top:20px"><div><div class="section-title">Saved Signals</div><div class="section-sub" id="saved-count-sub">0 SIGNALS SAVED</div></div></div>
@@ -575,29 +570,9 @@ body{height:100%;background:var(--bg);color:var(--text);font-family:var(--fb);fo
         <div class="settings-brand">
           <div class="settings-brand-name">PROJECT SIGNAL</div>
           <div class="settings-brand-script">by Zain Akram</div>
-          <div class="settings-brand-ver">Version 2.3 · Built for Scorpio</div>
+          <div class="settings-brand-ver">Version 3.0 · PWA · Built for Scorpio</div>
           <div class="settings-brand-about">Conceived, designed, and obsessed over by <strong style="color:var(--text);font-weight:700">Zain Akram</strong> — because no existing app was good enough.</div>
-          <div style="margin-top:14px;padding:10px 16px;background:var(--glass);border:1px solid var(--border);border-radius:10px;font-family:var(--fm);font-size:9px;letter-spacing:0.08em;color:var(--text2);line-height:1.7;text-align:center">
-            ✦ Special thanks to the one who built this ✦<br>
-            <span style="font-family:'Dancing Script',cursive;font-size:15px;color:var(--cyan2)">Zain Akram</span>
-          </div>
-        </div>
-        <div class="settings-section">
-          <div class="settings-section-title">Appearance</div>
-          <div class="settings-list">
-            <div class="settings-item" style="cursor:default">
-              <div class="settings-item-icon" style="background:rgba(34,211,238,0.07);color:var(--cyan2)"><i data-lucide="sun-moon" style="width:14px;height:14px"></i></div>
-              <div class="settings-item-body">
-                <div class="settings-item-title">Theme</div>
-                <div class="settings-item-sub">Light, dark, or match system</div>
-              </div>
-              <div style="display:flex;gap:4px;background:var(--glass);border:1px solid var(--border);border-radius:9px;padding:3px">
-                <div class="theme-opt" data-theme-opt="light" onclick="setThemeMode('light')" style="padding:5px 9px;border-radius:6px;font-family:var(--fm);font-size:9px;font-weight:600;cursor:pointer;color:var(--text3)">Light</div>
-                <div class="theme-opt" data-theme-opt="dark" onclick="setThemeMode('dark')" style="padding:5px 9px;border-radius:6px;font-family:var(--fm);font-size:9px;font-weight:600;cursor:pointer;color:var(--text3)">Dark</div>
-                <div class="theme-opt" data-theme-opt="system" onclick="setThemeMode('system')" style="padding:5px 9px;border-radius:6px;font-family:var(--fm);font-size:9px;font-weight:600;cursor:pointer;color:var(--text3)">Auto</div>
-              </div>
-            </div>
-          </div>
+          <div id="pwa-install-btn" onclick="triggerInstall()" style="display:none;margin:12px auto 0;max-width:200px;padding:10px 16px;background:linear-gradient(135deg,var(--cyan2),var(--purple2));border-radius:10px;font-family:var(--fm);font-size:10px;font-weight:700;color:#fff;letter-spacing:0.08em;cursor:pointer;align-items:center;justify-content:center;gap:6px"><i data-lucide="download" style="width:13px;height:13px"></i>INSTALL APP</div>
         </div>
         <div class="settings-section">
           <div class="settings-section-title">Intelligence</div>
@@ -625,6 +600,17 @@ body{height:100%;background:var(--bg);color:var(--text);font-family:var(--fb);fo
           </div>
         </div>
         <div class="settings-section">
+          <div class="settings-section-title">Notifications</div>
+          <div class="settings-list">
+            <div class="settings-item" onclick="_notifEnabled?disableNotifications():requestNotificationPermission()">
+              <div class="settings-item-icon" style="background:rgba(168,85,247,0.1);color:var(--purple2)"><i data-lucide="bell-ring" style="width:14px;height:14px"></i></div>
+              <div class="settings-item-body">
+                <div class="settings-item-title">Push Notifications</div>
+                <div class="settings-item-sub" id="notif-sub">Tap to enable push alerts</div>
+              </div>
+              <div class="toggle" id="notif-toggle" style="pointer-events:none"></div>
+            </div>
+          </div>
           <div class="settings-section-title">Security</div>
           <div class="settings-list">
             <div class="settings-item" onclick="openPinChange()">
@@ -642,6 +628,11 @@ body{height:100%;background:var(--bg);color:var(--text);font-family:var(--fb);fo
         <div class="settings-section">
           <div class="settings-section-title">Signal Workflow</div>
           <div class="settings-list">
+            <div class="settings-item" onclick="showPage('readtab')">
+              <div class="settings-item-icon" style="background:rgba(34,211,238,0.07);color:var(--cyan2)"><i data-lucide="book-open" style="width:14px;height:14px"></i></div>
+              <div class="settings-item-body"><div class="settings-item-title">Read Articles</div><div class="settings-item-sub" id="read-settings-sub">Articles you've marked as read</div></div>
+              <i data-lucide="chevron-right" style="width:12px;height:12px;color:var(--text3)"></i>
+            </div>
             <div class="settings-item" onclick="showPage('archive')">
               <div class="settings-item-icon" style="background:rgba(255,255,255,0.04);color:var(--text2)"><i data-lucide="archive" style="width:14px;height:14px"></i></div>
               <div class="settings-item-body"><div class="settings-item-title">Signal Archive</div><div class="settings-item-sub" id="archive-settings-sub">0 reviewed signals</div></div>
@@ -664,7 +655,26 @@ body{height:100%;background:var(--bg);color:var(--text);font-family:var(--fb);fo
       <div class="page" id="page-sources">
                 <div style="padding:12px 20px 0"><div class="back-btn" onclick="goBack()"><i data-lucide="chevron-left" style="width:11px;height:11px"></i>Back</div></div>
 <div class="section-header" style="padding-top:20px"><div><div class="section-title">Monitored Sources</div><div class="section-sub">TAP TO ENABLE OR DISABLE</div></div></div>
+        <div class="section-pills" id="sources-tabs" style="padding:10px 20px 0">
+          <div class="pill active" onclick="filterSources('all',this)">All</div>
+          <div class="pill" onclick="filterSources('freelancing',this)">Freelancing</div>
+          <div class="pill" onclick="filterSources('ai',this)">AI</div>
+          <div class="pill" onclick="filterSources('ecommerce',this)">E-commerce</div>
+          <div class="pill" onclick="filterSources('payments',this)">Payments</div>
+          <div class="pill" onclick="filterSources('pakistan',this)">Pakistan</div>
+          <div class="pill" onclick="filterSources('seo',this)">SEO</div>
+          <div class="pill" onclick="filterSources('global',this)">Global</div>
+        </div>
         <div class="sources-list" id="sources-list"></div>
+      </div>
+      <!-- READ TAB -->
+      <div class="page" id="page-readtab">
+        <div style="padding:12px 20px 0"><div class="back-btn" onclick="goBack()"><i data-lucide="chevron-left" style="width:11px;height:11px"></i>Back</div></div>
+        <div class="section-header" style="padding-top:10px">
+          <div><div class="section-title">Read Articles</div><div class="section-sub" id="read-count-sub">0 ARTICLES READ</div></div>
+          <div class="section-link" onclick="clearRead()">Clear All</div>
+        </div>
+        <div id="read-list"></div>
       </div>
       <!-- REGIONS -->
       <div class="page" id="page-regions">
@@ -677,6 +687,8 @@ body{height:100%;background:var(--bg);color:var(--text);font-family:var(--fb);fo
     <div class="nav">
       <div class="nav-inner">
         <div class="nav-item active" onclick="showPage('dashboard')" id="nav-dashboard"><i data-lucide="layout-dashboard" style="width:18px;height:18px"></i><span class="nav-label">Command</span></div>
+        <div class="nav-item" onclick="showPage('radar')" id="nav-radar"><i data-lucide="radio" style="width:18px;height:18px"></i><span class="nav-label">Radar</span></div>
+        <div class="nav-item" onclick="showPage('news')" id="nav-news"><i data-lucide="newspaper" style="width:18px;height:18px"></i><span class="nav-label">News</span></div>
         <div class="nav-item" onclick="showPage('briefing')" id="nav-briefing"><i data-lucide="file-text" style="width:18px;height:18px"></i><span class="nav-label">Briefing</span></div>
         <div class="nav-item" onclick="showPage('opportunities')" id="nav-opportunities"><i data-lucide="trending-up" style="width:18px;height:18px"></i><span class="nav-label">Signals</span></div>
         <div class="nav-item" onclick="showPage('saved')" id="nav-saved"><i data-lucide="bookmark" style="width:18px;height:18px"></i><span class="nav-label">Saved</span></div>
@@ -715,7 +727,6 @@ body{height:100%;background:var(--bg);color:var(--text);font-family:var(--fb);fo
 </div>
 <div class="toast" id="toast"></div>
 <script>
-(function(){var t=localStorage.getItem('sp_theme');if(t==='light')document.documentElement.setAttribute('data-theme','light');else if(t==='dark')document.documentElement.setAttribute('data-theme','dark');})();
 var CURRENT_PIN=localStorage.getItem('sp')||'1410';
 var savedIds=JSON.parse(localStorage.getItem('ss')||'[]');
 var reviewedIds=JSON.parse(localStorage.getItem('sr')||'[]');
@@ -860,29 +871,11 @@ document.querySelectorAll('.key').forEach(function(k){
 });
 function updateLockDots(){document.querySelectorAll('#lock-dots .lock-dot').forEach(function(d,i){d.classList.toggle('filled',i<lockPin.length);d.classList.remove('error');});}
 /* ─── APP INIT ─── */
-/* ─── THEME ─── */
-function setThemeMode(mode){
-  localStorage.setItem('sp_theme',mode);
-  applyTheme(mode);
-}
-function applyTheme(mode){
-  var root=document.documentElement;
-  if(mode==='light'){root.setAttribute('data-theme','light');}
-  else if(mode==='dark'){root.setAttribute('data-theme','dark');}
-  else{root.removeAttribute('data-theme');}
-  document.querySelectorAll('.theme-opt').forEach(function(o){
-    o.classList.toggle('active',o.dataset.themeOpt===mode);
-  });
-}
-function initTheme(){
-  var saved=localStorage.getItem('sp_theme')||'system';
-  applyTheme(saved);
-}
-function initApp(){updateGreeting();renderAll();renderSources();renderRegions();lucide.createIcons();setTimeout(initRSS,400);}
+function initApp(){updateGreeting();renderAll();renderSources();renderRegions();lucide.createIcons();setTimeout(initRadar,100);setTimeout(initRSS,400);}
 function updateGreeting(){
   var h=new Date().getHours();
-  var ey=h<5?'STILL HUNTING, SCORPIO':h<12?'RISE AND STRIKE, SCORPIO':h<17?'IN YOUR ELEMENT, SCORPIO':'NIGHT WATCH, SCORPIO';
-  var ht=h<5?'The world sleeps.<br>You don\'t.':h<12?'Sharp eyes,<br>sharper instincts.':h<17?'Reading the signals<br>before anyone else.':'Scanning the dark<br>for what others miss.';
+  var ey=h<5?'NIGHT OPS':h<12?'MORNING BRIEF':h<17?'AFTERNOON INTEL':'EVENING DEBRIEF';
+  var ht=h<5?'System Monitoring.<br>All quiet.':h<12?'Command Center<br>Operational.':h<17?'Intelligence<br>Updated.':'End-of-Day<br>Summary Ready.';
   document.getElementById('hero-eyebrow').textContent=ey;
   document.getElementById('hero-title').innerHTML=ht;
   var n=new Date();var ds=['SUN','MON','TUE','WED','THU','FRI','SAT'];var ms=['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
@@ -917,77 +910,36 @@ function renderAll(){
   document.getElementById('ai-cards').innerHTML=active.filter(function(s){return (s.category==='ai'||s.cat==='ai');}).slice(0,2).map(cardHTML).join('');
   document.getElementById('business-cards').innerHTML=active.filter(function(s){return['business','ecommerce','freelancing','seo'].includes(s.category);}).slice(0,2).map(cardHTML).join('');
   document.getElementById('pakistan-cards').innerHTML=active.filter(function(s){return s.category==='pakistan';}).slice(0,2).map(cardHTML).join('');
-  renderPageGrouped('pak-cards-full',active.filter(function(s){return s.category==='pakistan';}));
-  renderPageGrouped('usa-cards-full',active.filter(function(s){return (s.category==='usa'||s.cat==='usa');}));
-  renderPageGrouped('ai-cards-full',active.filter(function(s){return (s.category==='ai'||s.cat==='ai');}));
-  renderPageGrouped('biz-cards-full',active.filter(function(s){return['business','ecommerce','freelancing','payments','seo'].includes(s.category);}));
-  renderPageGrouped('ecom-cards-full',active.filter(function(s){return (s.category==='ecommerce'||s.cat==='ecommerce');}));
-  renderPageGrouped('freelance-cards-full',active.filter(function(s){return (s.category==='freelancing'||s.cat==='freelancing');}));
-  renderPageGrouped('payments-cards-full',active.filter(function(s){return (s.category==='payments'||s.cat==='payments');}));
-  renderPageGrouped('seo-cards-full',active.filter(function(s){return (s.category==='seo'||s.cat==='seo');}));
-  renderPageGrouped('opp-cards-full',active.filter(function(s){return s.type==='opportunity';}));
+  renderPage('pak-cards-full',active.filter(function(s){return s.category==='pakistan';}));
+  renderPage('usa-cards-full',active.filter(function(s){return (s.category==='usa'||s.cat==='usa');}));
+  renderPage('ai-cards-full',active.filter(function(s){return (s.category==='ai'||s.cat==='ai');}));
+  renderPage('biz-cards-full',active.filter(function(s){return['business','ecommerce','freelancing','payments','seo'].includes(s.category);}));
+  renderPage('ecom-cards-full',active.filter(function(s){return (s.category==='ecommerce'||s.cat==='ecommerce');}));
+  renderPage('freelance-cards-full',active.filter(function(s){return (s.category==='freelancing'||s.cat==='freelancing');}));
+  renderPage('payments-cards-full',active.filter(function(s){return (s.category==='payments'||s.cat==='payments');}));
+  renderPage('seo-cards-full',active.filter(function(s){return (s.category==='seo'||s.cat==='seo');}));
+  renderPage('opp-cards-full',active.filter(function(s){return s.type==='opportunity';}));
   var alList=active.filter(function(s){return['critical','important'].includes(s.type);});
-  var alLive=alList.filter(function(s){return s.ts&&s.live;}).sort(function(a,b){return b.ts-a.ts;});
-  var alPinned=alList.filter(function(s){return !s.ts||!s.live;});
-  var alOrdered=alLive.concat(alPinned);
-  var alHtml='';var alLastLabel='';
-  alOrdered.forEach(function(s){
-    var label=s.live&&s.ts?dateLabel(s.ts):'PINNED';
-    if(label!==alLastLabel){alHtml+='<div class="date-divider" style="padding:14px 0 4px"><span>'+label+'</span></div>';alLastLabel=label;}
-    var col=s.type==='critical'?'#f87171':s.type==='scam'?'#fb7185':'#fbbf24';
-    alHtml+='<div class="alert-item" onclick="openModal(\''+s.id+'\')"><div class="alert-item-dot" style="background:'+col+'"></div><div class="alert-item-body"><div class="alert-item-title">'+s.title+'</div><div class="alert-item-desc">'+s.summary.slice(0,90)+'…</div><div class="alert-item-time">'+s.source.toUpperCase()+'</div></div></div>';
-  });
-  document.getElementById('alert-list').innerHTML=alHtml||'<div class="cat-empty"><div class="empty-title">No active alerts</div><div class="empty-sub">ALL SYSTEMS CLEAR</div></div>';
+  document.getElementById('alert-list').innerHTML=alList.map(function(s){var col=s.type==='critical'?'#f87171':s.type==='scam'?'#fb7185':'#fbbf24';return'<div class="alert-item" onclick="openModal('+s.id+')"><div class="alert-item-dot" style="background:'+col+'"></div><div class="alert-item-body"><div class="alert-item-title">'+s.title+'</div><div class="alert-item-desc">'+s.summary.slice(0,90)+'…</div><div class="alert-item-time">DETECTED FROM: '+s.source.toUpperCase()+'</div></div></div>';}).join('')||'<div class="cat-empty"><div class="empty-title">No active alerts</div><div class="empty-sub">ALL SYSTEMS CLEAR</div></div>';
   var crit=active.filter(function(s){return s.type==='critical';}).length;
   var _sc=active.filter(function(s){return s.cat==='scams'||s.category==='scams';}).length;
   document.getElementById('alert-count-badge').textContent=crit+' CRITICAL'+(_sc?' · '+_sc+' SCAM':'');
   var _prio={critical:0,important:1,ai:2,opportunity:3};
   var _briefSorted=active.slice().sort(function(a,b){return(_prio[a.type]!=null?_prio[a.type]:9)-(_prio[b.type]!=null?_prio[b.type]:9)||b.ts-a.ts;});
-  document.getElementById('briefing-list').innerHTML=_briefSorted.slice(0,12).map(function(s,i){return'<div class="briefing-card" onclick="openModal(\''+s.id+'\')"><div class="briefing-num">SIGNAL '+String(i+1).padStart(2,'0')+' · '+s.source.toUpperCase()+'</div><div class="briefing-card-title">'+s.title+'</div><div class="briefing-summary">'+s.summary.slice(0,125)+'…</div><div class="briefing-why">'+s.why+'</div><div class="briefing-action"><i data-lucide="arrow-right"></i><span>ANALYZE SIGNAL</span></div></div>';}).join('');
-  renderPageGrouped('scam-cards-full',gA(allSignals().filter(function(s){return s.cat==='scams'||s.category==='scams';})));
+  document.getElementById('briefing-list').innerHTML=_briefSorted.slice(0,12).map(function(s,i){return'<div class="briefing-card" onclick="openModal('+s.id+')"><div class="briefing-num">SIGNAL '+String(i+1).padStart(2,'0')+' · '+s.source.toUpperCase()+'</div><div class="briefing-card-title">'+s.title+'</div><div class="briefing-summary">'+s.summary.slice(0,125)+'…</div><div class="briefing-why">'+s.why+'</div><div class="briefing-action"><i data-lucide="arrow-right"></i><span>ANALYZE SIGNAL</span></div></div>';}).join('');
+  document.getElementById('radar-signals').innerHTML=active.filter(function(s){return['critical','important','scam'].includes(s.type);}).slice(0,5).map(function(s){var bg=s.type==='critical'?'rgba(220,38,38,0.09)':s.type==='scam'?'rgba(225,29,72,0.09)':'rgba(217,119,6,0.09)';var cl=s.type==='critical'?'#f87171':s.type==='scam'?'#fb7185':'#fbbf24';var rc=s.type==='critical'?'220,38,38':s.type==='scam'?'225,29,72':'217,119,6';var ic=s.type==='scam'?'shield-alert':'alert-triangle';return'<div class="signal-row" onclick="openModal('+s.id+')"><div class="signal-icon" style="background:'+bg+'"><i data-lucide="'+ic+'" style="width:13px;height:13px;color:'+cl+'"></i></div><div class="signal-body"><div class="signal-title">'+s.title+'</div><div class="signal-meta">DETECTED FROM: '+s.source.toUpperCase()+'</div></div><div class="signal-badge" style="background:rgba('+rc+',0.1);color:'+cl+';border:1px solid rgba('+rc+',0.22)">'+s.type.toUpperCase()+'</div></div>';}).join('');
+  renderPage('scam-cards-full',gA(allSignals().filter(function(s){return s.cat==='scams'||s.category==='scams';})));
+  renderPage('seo-cards-full',gA(allSignals().filter(function(s){return (s.category==='seo'||s.cat==='seo');})));
   // Scam alerts always shown in critical-cards at top (mixed with other criticals)
   renderSaved();renderArchive();updateCounters();lucide.createIcons();
 }
 function emptyHTML(title,sub){return'<div class="cat-empty"><div class="empty-icon"><i data-lucide="check-circle" style="width:30px;height:30px;color:var(--green2)"></i></div><div class="empty-title">'+title+'</div><div class="empty-sub">'+sub+'</div></div>';}
-function dateLabel(ts){
-  if(!ts) return 'PINNED';
-  var now=Date.now(), diff=now-ts;
-  var day=86400000;
-  if(diff<day) return 'TODAY';
-  if(diff<2*day) return 'YESTERDAY';
-  if(diff<7*day) return 'THIS WEEK';
-  if(diff<30*day) return 'THIS MONTH';
-  return 'OLDER';
-}
-function dateOrder(label){
-  return{TODAY:0,YESTERDAY:1,'THIS WEEK':2,'THIS MONTH':3,OLDER:4,PINNED:5}[label]||6;
-}
-function renderPageGrouped(id,sigs){
-  var el=document.getElementById(id); if(!el) return;
-  if(!sigs.length){el.innerHTML=emptyHTML('No signals in this category','CHECK BACK SOON');return;}
-  // Sort: live signals by timestamp desc, pinned (static) at bottom
-  var live=sigs.filter(function(s){return s.ts&&s.live;});
-  var pinned=sigs.filter(function(s){return !s.ts||!s.live;});
-  live.sort(function(a,b){return b.ts-a.ts;});
-  var ordered=live.concat(pinned);
-  var html='';var lastLabel='';
-  ordered.forEach(function(s,i){
-    var label=s.live&&s.ts?dateLabel(s.ts):'PINNED';
-    if(label!==lastLabel){
-      html+='<div class="date-divider"><span>'+label+'</span></div>';
-      lastLabel=label;
-    }
-    html+=cardHTML(s,i);
-  });
-  el.innerHTML=html;
-}
 function renderPage(id,sigs){var el=document.getElementById(id);if(el)el.innerHTML=sigs.length?sigs.map(cardHTML).join(''):emptyHTML('No signals in this category','CHECK BACK SOON');}
-function cardHTML(s,i){
+function cardHTML(s){
   var bc={critical:'badge-critical',important:'badge-important',opportunity:'badge-opportunity',ai:'badge-ai',scam:'badge-scam',info:'badge-info'}[s.type]||'badge-info';
   var cc={critical:'critical',important:'important',opportunity:'opportunity',ai:'ai-card',scam:'scam-card'}[s.type]||'';
   var sv=savedIds.includes(s.id);
-  var delay=Math.min((i||0)*0.05,0.4);
-  return'<div class="card '+cc+'" style="animation-delay:'+delay+'s" data-id="'+s.id+'" onclick="openModal(\''+s.id+'\')"><div class="card-header"><span class="card-badge '+bc+'">'+s.type+'</span><div><div class="card-source-label">'+s.source+'</div><div class="card-source-sub">'+(s.live?'&#9679; LIVE FEED':'DETECTED FROM')+'</div></div></div><div class="card-title">'+s.title+'</div><div class="card-summary">'+s.summary.slice(0,105)+'…</div><div class="card-impact"><div class="card-impact-label">Business Impact</div>'+s.impact.slice(0,90)+'</div><div class="card-meta"><div class="card-meta-item"><i data-lucide="clock" style="width:9px;height:9px"></i>'+s.readTime+' read</div></div><div class="card-actions" onclick="event.stopPropagation()"><div class="card-action-btn" onclick="openModal(\''+s.id+'\')"><i data-lucide="search" style="width:9px;height:9px"></i>Analyze</div><div class="card-action-btn" onclick="toggleSaveId(\''+s.id+'\',this)"><i data-lucide="'+(sv?'bookmark-check':'bookmark')+'" style="width:9px;height:9px"></i>'+(sv?'Saved':'Save')+'</div><div class="card-action-btn rev-btn" onclick="markReviewed(\''+s.id+'\',this)"><i data-lucide="check" style="width:9px;height:9px"></i>Reviewed</div></div></div>';
+  return'<div class="card '+cc+'" data-id="'+s.id+'" onclick="openModal('+s.id+')"><div class="card-header"><span class="card-badge '+bc+'">'+s.type+'</span><div><div class="card-source-label">'+s.source+'</div><div class="card-source-sub">'+(s.live?'&#9679; LIVE FEED':'DETECTED FROM')+'</div></div></div><div class="card-title">'+s.title+'</div><div class="card-summary">'+s.summary.slice(0,105)+'…</div><div class="card-impact"><div class="card-impact-label">Business Impact</div>'+s.impact.slice(0,90)+'</div><div class="card-meta"><div class="card-meta-item"><i data-lucide="clock" style="width:9px;height:9px"></i>'+s.readTime+' read</div></div><div class="card-actions" onclick="event.stopPropagation()"><div class="card-action-btn" onclick="openModal('+s.id+')"><i data-lucide="search" style="width:9px;height:9px"></i>Analyze</div><div class="card-action-btn" onclick="toggleSaveId('+s.id+',this)"><i data-lucide="'+(sv?'bookmark-check':'bookmark')+'" style="width:9px;height:9px"></i>'+(sv?'Saved':'Save')+'</div><div class="card-action-btn rev-btn" onclick="markReviewed('+s.id+',this)"><i data-lucide="check" style="width:9px;height:9px"></i>Reviewed</div></div></div>';
 }
 /* ─── WORKFLOW ─── */
 function markReviewed(id,btn){
@@ -1029,7 +981,7 @@ function openModal(id){
   var sv=savedIds.includes(s.id);var rv=reviewedIds.includes(s.id);
   var bc={critical:'badge-critical',important:'badge-important',opportunity:'badge-opportunity',ai:'badge-ai',scam:'badge-scam'}[s.type]||'badge-info';
   document.getElementById('modal-content').innerHTML='<div class="modal-badge-row"><span class="card-badge '+bc+'">'+s.type+'</span><span style="font-family:var(--fm);font-size:8px;color:var(--text3);letter-spacing:0.09em">'+s.source.toUpperCase()+' · '+s.readTime.toUpperCase()+' READ</span></div><div class="modal-title">'+s.title+'</div><div class="modal-section"><div class="modal-section-label">Summary</div><div class="modal-section-text">'+s.summary+'</div></div><div class="modal-section"><div class="modal-section-label">Why This Matters</div><div class="modal-section-text">'+s.why+'</div></div><div class="modal-impact-box"><div class="modal-section-label" style="color:var(--cyan2)">Business Impact</div><div class="modal-section-text">'+s.impact+'</div></div><div class="modal-action-box"><div class="modal-action-label">Recommended Action</div><div class="modal-action-text">'+s.action+'</div></div><div style="font-family:var(--fm);font-size:8px;color:var(--text3);letter-spacing:0.09em;margin-bottom:5px">DETECTED FROM: '+s.source.toUpperCase()+'</div>';
-  document.getElementById('modal-footer').innerHTML='<div class="modal-btn modal-btn-secondary" onclick="toggleSaveModal()"><i data-lucide="'+(sv?'bookmark-check':'bookmark')+'" style="width:12px;height:12px"></i>'+(sv?'SAVED':'SAVE')+'</div>'+(rv?'':'<div class="modal-btn modal-btn-reviewed" onclick="markReviewed(\''+s.id+'\',null)"><i data-lucide="check" style="width:12px;height:12px"></i>REVIEWED</div>')+'<div class="modal-btn modal-btn-primary" onclick="window.open(\''+s.url+'\',\'_blank\')"><i data-lucide="external-link" style="width:12px;height:12px"></i>SOURCE</div>';
+  document.getElementById('modal-footer').innerHTML='<div class="modal-btn modal-btn-secondary" onclick="toggleSaveModal()"><i data-lucide="'+(sv?'bookmark-check':'bookmark')+'" style="width:12px;height:12px"></i>'+(sv?'SAVED':'SAVE')+'</div>'+(rv?'':'<div class="modal-btn modal-btn-reviewed" onclick="markReviewed('+s.id+',null)"><i data-lucide="check" style="width:12px;height:12px"></i>REVIEWED</div>')+'<div class="modal-btn modal-btn-primary" onclick="window.open(\''+s.url+'\',\'_blank\')"><i data-lucide="external-link" style="width:12px;height:12px"></i>SOURCE</div>';
   var sheet=document.getElementById('modal-sheet');sheet.scrollTop=0;
   document.getElementById('modal-overlay').classList.add('open');
   document.getElementById('modal-sheet').scrollTop=0;
@@ -1037,6 +989,50 @@ function openModal(id){
 }
 function closeModal(e){if(e.target===document.getElementById('modal-overlay')){document.getElementById('modal-overlay').classList.remove('open');currentModal=null;}}
 function toggleSaveModal(){if(!currentModal)return;toggleSaveId(currentModal.id,null);var sv=savedIds.includes(currentModal.id);var b=document.querySelector('#modal-footer .modal-btn-secondary');if(b){b.innerHTML='<i data-lucide="'+(sv?'bookmark-check':'bookmark')+'" style="width:12px;height:12px"></i>'+(sv?'SAVED':'SAVE');lucide.createIcons();}}
+/* ─── RADAR ─── */
+function initRadar(){
+  var canvas=document.getElementById('radar-canvas');if(!canvas)return;
+  if(radarAnimId){cancelAnimationFrame(radarAnimId);radarAnimId=null;}
+  var sz=canvas.offsetWidth;
+  if(!sz){
+    // Canvas not yet laid out (page just became active) — retry next frame
+    requestAnimationFrame(function(){ initRadar(); });
+    return;
+  }
+  var dpr=window.devicePixelRatio||1;
+  canvas.width=sz*dpr;canvas.height=sz*dpr;
+  var ctx=canvas.getContext('2d');ctx.scale(dpr,dpr);
+  var cx=sz/2,cy=sz/2,R=sz/2-7,angle=0,t=0;
+  var blips=[];
+  gA(allSignals()).forEach(function(s){
+    var a=Math.random()*Math.PI*2,r=(0.15+Math.random()*0.78)*R;
+    var col={critical:'#f87171',important:'#fbbf24',opportunity:'#34d399',ai:'#c084fc',scam:'#fb7185',info:'#60a5fa'}[s.type]||'#60a5fa';
+    blips.push({x:cx+Math.cos(a)*r,y:cy+Math.sin(a)*r,a:a,color:col,alpha:0,pulse:Math.random()*Math.PI*2,id:s.id});
+  });
+  function draw(){
+    ctx.clearRect(0,0,sz,sz);t++;
+    ctx.fillStyle='rgba(2,4,8,0.97)';ctx.beginPath();ctx.arc(cx,cy,R,0,Math.PI*2);ctx.fill();
+    [0.25,0.5,0.75,1].forEach(function(f){ctx.beginPath();ctx.arc(cx,cy,R*f,0,Math.PI*2);ctx.strokeStyle='rgba(34,211,238,'+(f===1?0.14:0.055)+')';ctx.lineWidth=f===1?1:0.5;ctx.stroke();});
+    ctx.strokeStyle='rgba(34,211,238,0.045)';ctx.lineWidth=0.5;
+    ctx.beginPath();ctx.moveTo(cx-R,cy);ctx.lineTo(cx+R,cy);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(cx,cy-R);ctx.lineTo(cx,cy+R);ctx.stroke();
+    angle=(angle+0.025)%(Math.PI*2);
+    for(var i=0;i<Math.PI*0.55;i+=0.04){var aa=angle-i,fade=1-i/(Math.PI*0.55);ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,R,aa,aa+0.04);ctx.closePath();ctx.fillStyle='rgba(34,211,238,'+(fade*0.09)+')';ctx.fill();}
+    ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+Math.cos(angle)*R,cy+Math.sin(angle)*R);
+    ctx.strokeStyle='rgba(34,211,238,0.52)';ctx.lineWidth=1.5;ctx.shadowBlur=7;ctx.shadowColor='rgba(34,211,238,0.28)';ctx.stroke();ctx.shadowBlur=0;
+    ctx.beginPath();ctx.arc(cx,cy,3,0,Math.PI*2);ctx.fillStyle='rgba(34,211,238,0.88)';ctx.shadowBlur=10;ctx.shadowColor='rgba(34,211,238,0.65)';ctx.fill();ctx.shadowBlur=0;
+    blips.forEach(function(b){
+      var diff=(angle-b.a)%(Math.PI*2);if(diff<0)diff+=Math.PI*2;
+      if(diff<0.12)b.alpha=1;b.alpha=Math.max(0,b.alpha-0.006);b.pulse+=0.06;
+      if(b.alpha>0.04){
+        ctx.beginPath();ctx.arc(b.x,b.y,2.5,0,Math.PI*2);ctx.fillStyle=b.color;ctx.globalAlpha=b.alpha;ctx.shadowBlur=b.alpha>0.5?9:3;ctx.shadowColor=b.color;ctx.fill();ctx.shadowBlur=0;ctx.globalAlpha=1;
+        if(b.alpha>0.2){var pr=2.5+Math.sin(b.pulse)*3;ctx.beginPath();ctx.arc(b.x,b.y,pr,0,Math.PI*2);ctx.strokeStyle=b.color;ctx.globalAlpha=b.alpha*0.2;ctx.lineWidth=0.8;ctx.stroke();ctx.globalAlpha=1;}
+      }
+    });
+    radarAnimId=requestAnimationFrame(draw);
+  }
+  draw();
+}
 /* ─── NAVIGATION ─── */
 function showPage(name, skipHistory){
   var prev=_curPage;_curPage=name;
@@ -1044,12 +1040,14 @@ function showPage(name, skipHistory){
   document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
   var pg=document.getElementById('page-'+name);
   if(pg){pg.classList.add('active');document.getElementById('scroll-content').scrollTop=0;}
-  var navIds=['dashboard','briefing','opportunities','saved'];
+  var navIds=['dashboard','news','briefing','opportunities','saved'];
   document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');});
   if(navIds.includes(name)){var ni=document.getElementById('nav-'+name);if(ni)ni.classList.add('active');}
   if(name==='search')setTimeout(function(){var inp=document.getElementById('search-input');if(inp)inp.focus();},300);
   if(name==='sources')renderSources();
   if(name==='regions')renderRegions();
+  if(name==='news')renderNews('today');
+  if(name==='readtab')renderReadTab();
   if(name==='settings')applyTheme(localStorage.getItem('sp_theme')||'system');
   lucide.createIcons();
 }
@@ -1066,7 +1064,7 @@ function filterEcom(f,el){
   else if(f==='tiktok')sigs=sigs.filter(function(s){return s.title.toLowerCase().includes('tiktok')||s.summary.toLowerCase().includes('tiktok');});
   else if(f==='etsy')sigs=sigs.filter(function(s){return s.title.toLowerCase().includes('etsy')||s.summary.toLowerCase().includes('etsy');});
   else if(f==='walmart')sigs=sigs.filter(function(s){return s.title.toLowerCase().includes('walmart')||s.summary.toLowerCase().includes('walmart');});
-  renderPageGrouped('ecom-cards-full',sigs);lucide.createIcons();
+  renderPage('ecom-cards-full',sigs);lucide.createIcons();
 }
 function filterBiz(f,el){
   document.querySelectorAll('#page-business .pill').forEach(function(p){p.classList.remove('active');});
@@ -1078,14 +1076,60 @@ function filterBiz(f,el){
   else if(f==='payments')sigs=sigs.filter(function(s){return (s.category==='payments'||s.cat==='payments');});
   else if(f==='ecommerce')sigs=sigs.filter(function(s){return (s.category==='ecommerce'||s.cat==='ecommerce');});
   else if(f==='seo')sigs=sigs.filter(function(s){return (s.category==='seo'||s.cat==='seo');});
-  renderPageGrouped('biz-cards-full',sigs);lucide.createIcons();
+  renderPage('biz-cards-full',sigs);lucide.createIcons();
 }
-/* ─── SOURCES ─── */
-function renderSources(){
+/* ─── SOURCES (tabbed + URL tap-to-open) ─── */
+var RSS_FEEDS_META = {
+  fbr:{url:'https://fbr.gov.pk',tab:'pakistan'},
+  sbp:{url:'https://sbp.org.pk',tab:'pakistan'},
+  secp:{url:'https://secp.gov.pk',tab:'pakistan'},
+  pta:{url:'https://pta.gov.pk',tab:'pakistan'},
+  dawn:{url:'https://dawn.com/business',tab:'pakistan'},
+  brecorder:{url:'https://brecorder.com',tab:'pakistan'},
+  reuters:{url:'https://reuters.com',tab:'global'},
+  cnbc:{url:'https://cnbc.com',tab:'global'},
+  techcrunch:{url:'https://techcrunch.com',tab:'ai'},
+  openai:{url:'https://openai.com/blog',tab:'ai'},
+  anthropic:{url:'https://anthropic.com/news',tab:'ai'},
+  google:{url:'https://blog.google/technology/ai/',tab:'ai'},
+  microsoft:{url:'https://blogs.microsoft.com/ai/',tab:'ai'},
+  github:{url:'https://github.blog',tab:'ai'},
+  cloudflare:{url:'https://blog.cloudflare.com',tab:'ai'},
+  amazon:{url:'https://sellercentral.amazon.com',tab:'ecommerce'},
+  shopify:{url:'https://shopify.com/blog',tab:'ecommerce'},
+  etsy:{url:'https://etsy.com/sell',tab:'ecommerce'},
+  tiktok:{url:'https://seller.tiktok.com',tab:'ecommerce'},
+  walmart:{url:'https://marketplace.walmart.com',tab:'ecommerce'},
+  stripe:{url:'https://stripe.com/blog',tab:'payments'},
+  wise:{url:'https://wise.com/gb/blog/',tab:'payments'},
+  payoneer:{url:'https://payoneer.com/blog',tab:'payments'},
+  skrill:{url:'https://skrill.com',tab:'payments'},
+  upwork:{url:'https://upwork.com/blog',tab:'freelancing'},
+  fiverr:{url:'https://fiverr.com',tab:'freelancing'},
+  freelancercom:{url:'https://freelancer.com/blog',tab:'freelancing'},
+  meta:{url:'https://business.facebook.com',tab:'seo'},
+  linkedin:{url:'https://linkedin.com',tab:'seo'},
+};
+function _sourceTab(s){
+  var m=RSS_FEEDS_META[s.id];
+  return m?m.tab:(s.c.toLowerCase().includes('pakistan')?'pakistan':s.c.toLowerCase().includes('ai')?'ai':s.c.toLowerCase().includes('freelanc')?'freelancing':s.c.toLowerCase().includes('e-commerce')||s.c.toLowerCase().includes('ecommerce')?'ecommerce':s.c.toLowerCase().includes('payment')?'payments':s.c.toLowerCase().includes('seo')||s.c.toLowerCase().includes('marketing')?'seo':'global');
+}
+function _sourceUrl(s){var m=RSS_FEEDS_META[s.id];return m?m.url:null;}
+function renderSources(tab){
+  tab=tab||'all';
   var el=document.getElementById('sources-list');if(!el)return;
-  el.innerHTML=SOURCES.map(function(s){
-    return'<div class="source-item"><div class="source-item-icon">'+s.i+'</div><div style="flex:1"><div class="source-item-name">'+s.n+'</div><div class="source-item-cat">'+s.c.toUpperCase()+'</div></div><div class="toggle '+(sourcesEnabled[s.id]?'on':'')+'" onclick="toggleSource(\''+s.id+'\',this)"></div></div>';
+  var list=tab==='all'?SOURCES:SOURCES.filter(function(s){return _sourceTab(s)===tab;});
+  el.innerHTML=list.map(function(s){
+    var url=_sourceUrl(s);
+    var clickAttr=url?'onclick="window.open(\''+url+'\',\'_blank\')" style="cursor:pointer"':'';
+    var urlHint=url?'<div style="font-family:var(--fm);font-size:8px;color:var(--cyan2);margin-top:1px;letter-spacing:0.04em">↗ tap to visit</div>':'';
+    return'<div class="source-item" '+clickAttr+'><div class="source-item-icon">'+s.i+'</div><div style="flex:1"><div class="source-item-name">'+s.n+'</div><div class="source-item-cat">'+s.c.toUpperCase()+'</div>'+urlHint+'</div><div onclick="event.stopPropagation();toggleSource(\''+s.id+'\',this)" class="toggle '+(sourcesEnabled[s.id]?'on':'')+'" style="flex-shrink:0"></div></div>';
   }).join('');
+}
+function filterSources(tab,el){
+  document.querySelectorAll('#sources-tabs .pill').forEach(function(p){p.classList.remove('active');});
+  el.classList.add('active');
+  renderSources(tab);
 }
 function toggleSource(id,el){
   sourcesEnabled[id]=!sourcesEnabled[id];el.classList.toggle('on',sourcesEnabled[id]);
@@ -1169,6 +1213,101 @@ function handleSearch(q){
   lucide.createIcons();
 }
 function quickSearch(q){document.getElementById('search-input').value=q;handleSearch(q);}
+/* ─── NEWS DATE TABS ─── */
+var _readIds=JSON.parse(localStorage.getItem('sp_read')||'[]');
+function _newsGroup(s){
+  if(!s.ts||!s.live) return null; // pinned static signals don't go in news
+  var diff=Date.now()-s.ts;
+  var day=86400000;
+  if(diff<day) return 'today';
+  if(diff<2*day) return 'yesterday';
+  if(diff<3*day) return 'earlier';
+  return 'missed';
+}
+function renderNews(tab){
+  tab=tab||'today';
+  var el=document.getElementById('news-list');if(!el)return;
+  var sigs=allSignals().filter(function(s){
+    if(_readIds.includes(String(s.id))) return false; // already read
+    return _newsGroup(s)===tab;
+  });
+  // missed = older than 3 days unread
+  if(!sigs.length){
+    el.innerHTML='<div class="cat-empty" style="padding:40px 20px;text-align:center"><div style="font-size:28px;margin-bottom:10px">'+(tab==='missed'?'✅':'📭')+'</div><div class="empty-title">'+(tab==='missed'?'Nothing missed':'No '+tab+' news')+'</div><div class="empty-sub" style="margin-top:5px">'+(tab==='missed'?'All caught up':'CHECK BACK LATER')+'</div></div>';
+    return;
+  }
+  el.innerHTML=sigs.map(function(s,i){
+    var ago=s.ts?_timeAgo(s.ts):'';
+    return'<div class="card" style="animation-delay:'+(Math.min(i*0.05,0.4))+'s" onclick="openModal(\''+s.id+'\')">'
+      +'<div class="card-header"><span class="card-badge badge-'+(s.type==='critical'?'critical':s.type==='opportunity'?'opportunity':s.type==='ai'?'ai':'important')+'">'+s.type+'</span>'
+      +'<div style="text-align:right"><div class="card-source-label">'+s.source+'</div>'+(ago?'<div class="card-source-sub">'+ago+'</div>':'')+'</div></div>'
+      +'<div class="card-title">'+s.title+'</div>'
+      +'<div class="card-summary">'+s.summary.slice(0,110)+'…</div>'
+      +'<div class="card-actions" onclick="event.stopPropagation()">'
+      +'<div class="card-action-btn" onclick="markRead(\''+s.id+'\',this)"><i data-lucide="check-circle" style="width:9px;height:9px"></i>Read</div>'
+      +'<div class="card-action-btn" onclick="toggleSaveId(\''+s.id+'\',this)"><i data-lucide="bookmark" style="width:9px;height:9px"></i>Save</div>'
+      +'<div class="card-action-btn" onclick="openModal(\''+s.id+'\')"><i data-lucide="arrow-right" style="width:9px;height:9px"></i>Full</div>'
+      +'</div></div>';
+  }).join('');
+  lucide.createIcons();
+}
+function filterNews(tab,el){
+  document.querySelectorAll('#page-news .pill').forEach(function(p){p.classList.remove('active');});
+  el.classList.add('active');
+  renderNews(tab);
+}
+function _timeAgo(ts){
+  var diff=Date.now()-ts;
+  var m=Math.floor(diff/60000);
+  if(m<1) return 'Just now';
+  if(m<60) return m+'m ago';
+  var h=Math.floor(m/60);
+  if(h<24) return h+'h ago';
+  return Math.floor(h/24)+'d ago';
+}
+/* ─── READ TAB ─── */
+function markRead(id,btn){
+  id=String(id);
+  if(_readIds.includes(id)) return;
+  _readIds.push(id);
+  localStorage.setItem('sp_read',JSON.stringify(_readIds));
+  var card=btn?btn.closest('.card'):null;
+  if(card){card.style.opacity='0';card.style.transform='scale(0.95)';card.style.transition='all 0.3s ease';setTimeout(function(){card.remove();},300);}
+  showToast('Moved to Read tab');
+  var sub=document.getElementById('read-settings-sub');
+  if(sub) sub.textContent=_readIds.length+' article'+ (_readIds.length===1?'':'s')+' read';
+}
+function renderReadTab(){
+  var el=document.getElementById('read-list');if(!el)return;
+  var read=allSignals().filter(function(s){return _readIds.includes(String(s.id));});
+  var sub=document.getElementById('read-count-sub');if(sub)sub.textContent=read.length+' ARTICLES READ';
+  var rsub=document.getElementById('read-settings-sub');if(rsub)rsub.textContent=read.length+' article'+(read.length===1?'':'s')+' read';
+  if(!read.length){
+    el.innerHTML='<div class="cat-empty" style="padding:48px 20px;text-align:center"><div style="font-size:32px;margin-bottom:10px">📖</div><div class="empty-title">No read articles</div><div class="empty-sub" style="margin-top:5px">TAP "READ" ON ANY ARTICLE TO MOVE IT HERE</div></div>';
+    return;
+  }
+  el.innerHTML='<div class="cards-grid">'+read.map(function(s){
+    return'<div class="card" style="opacity:0.6;cursor:default">'
+      +'<div class="card-header"><span class="card-badge badge-info">READ</span><div class="card-source-label">'+s.source+'</div></div>'
+      +'<div class="card-title">'+s.title+'</div>'
+      +'<div class="card-actions" onclick="event.stopPropagation()">'
+      +'<div class="card-action-btn" onclick="unmarkRead(\''+s.id+'\',this)"><i data-lucide="rotate-ccw" style="width:9px;height:9px"></i>Unread</div>'
+      +'<div class="card-action-btn modal-btn-primary" onclick="window.open(\''+s.url+'\',\'_blank\')" style="background:var(--glass2)"><i data-lucide="external-link" style="width:9px;height:9px"></i>Source</div>'
+      +'</div></div>';
+  }).join('')+'</div>';
+  lucide.createIcons();
+}
+function unmarkRead(id,btn){
+  id=String(id);
+  _readIds=_readIds.filter(function(x){return x!==id;});
+  localStorage.setItem('sp_read',JSON.stringify(_readIds));
+  renderReadTab();showToast('Moved back to unread');
+}
+function clearRead(){
+  if(!_readIds.length){showToast('Nothing to clear');return;}
+  _readIds=[];localStorage.setItem('sp_read','[]');
+  renderReadTab();showToast('Read list cleared');
+}
 /* ─── TOAST ─── */
 var toastTimer;
 function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(function(){t.classList.remove('show');},2400);}
@@ -1179,8 +1318,8 @@ function showToast(msg){var t=document.getElementById('toast');t.textContent=msg
 ═══════════════════════════════════════════════════════════ */
 
 /* ── CONFIG ── */
-var RSS_PROXY = 'https://corsproxy.io/?url=';
-var RSS_PROXY_FALLBACK = 'https://api.allorigins.win/get?url=';
+var RSS_PROXY = 'https://api.allorigins.win/get?url=';
+var RSS_PROXY_FALLBACK = 'https://corsproxy.io/?url=';
 var RSS_REFRESH_MS = 30 * 60 * 1000; // 30 minutes
 var RSS_CACHE_KEY = 'signal_rss_v2';
 var RSS_TS_KEY    = 'signal_rss_ts';
@@ -1319,29 +1458,32 @@ function hashStr(s) {
 }
 
 /* ── FETCH ONE FEED THROUGH CORS PROXY ── */
-/* corsproxy.io (primary) returns raw XML text directly.
-   allorigins.win (fallback) wraps XML inside JSON { contents: "...xml..." } */
-function fetchViaProxy(proxyUrl, feed, isAllorigins) {
+/* Try the primary CORS proxy (allorigins). On any failure — network error,
+   timeout, bad JSON, rate limit — fall back to a second proxy (corsproxy.io)
+   before giving up on the feed entirely. */
+function fetchViaProxy(proxyUrl, feed, isFallback) {
   var ctrl = new AbortController();
   var tid  = setTimeout(function(){ctrl.abort();}, 12000);
   return fetch(proxyUrl, { signal: ctrl.signal })
     .then(function(r){
       clearTimeout(tid);
       if (!r.ok) throw new Error('HTTP ' + r.status);
-      return isAllorigins ? r.json() : r.text();
+      return isFallback ? r.text() : r.json();
     })
     .then(function(data) {
-      var xml = isAllorigins ? (data.contents || '') : data;
+      // allorigins.win wraps the feed XML inside { contents: "...xml..." }
+      // corsproxy.io returns the raw XML body directly as text
+      var xml = isFallback ? data : (data.contents || '');
       return parseRSS(xml, feed);
     });
 }
 function fetchFeed(feed) {
   var primaryUrl  = RSS_PROXY + encodeURIComponent(feed.url);
   var fallbackUrl = RSS_PROXY_FALLBACK + encodeURIComponent(feed.url);
-  return fetchViaProxy(primaryUrl, feed, false)   // corsproxy.io = raw text
+  return fetchViaProxy(primaryUrl, feed, false)
     .catch(function() {
-      return fetchViaProxy(fallbackUrl, feed, true) // allorigins = JSON wrapped
-        .catch(function() { return []; });
+      // Primary proxy failed — retry once via the fallback proxy
+      return fetchViaProxy(fallbackUrl, feed, true).catch(function() { return []; });
     });
 }
 
@@ -1468,7 +1610,134 @@ function initRSS() {
 }
 
 /* ─── BOOT ─── */
-window.addEventListener('load',function(){initTheme();lucide.createIcons();initMesh();initStartup();});
+window.addEventListener('load',function(){
+  initTheme();lucide.createIcons();initMesh();initStartup();
+  if('serviceWorker' in navigator){
+    navigator.serviceWorker.register('sw.js').catch(function(){});
+  }
+});
+var _deferredInstall=null;
+window.addEventListener('beforeinstallprompt',function(e){
+  e.preventDefault();_deferredInstall=e;
+  var btn=document.getElementById('pwa-install-btn');
+  if(btn)btn.style.display='flex';
+});
+function triggerInstall(){
+  if(_deferredInstall){_deferredInstall.prompt();_deferredInstall.userChoice.then(function(){_deferredInstall=null;var btn=document.getElementById('pwa-install-btn');if(btn)btn.style.display='none';});}
+}
+
+/* ═══════════════════════════════════════════
+   FIREBASE CLOUD MESSAGING — Project Signal
+   Push notifications for critical signals.
+   VAPID key + config from Firebase Console.
+═══════════════════════════════════════════ */
+
+var FB_CONFIG = {
+  apiKey: "AIzaSyAivu2qiy2ixfmtVCh-TE1qUcJq1O4rSI0",
+  authDomain: "project-signal-a8bf8.firebaseapp.com",
+  projectId: "project-signal-a8bf8",
+  storageBucket: "project-signal-a8bf8.firebasestorage.app",
+  messagingSenderId: "106245402557",
+  appId: "1:106245402557:web:8b82062adfeb79dca0acd4",
+  measurementId: "G-JXS7B07S0M"
+};
+var FB_VAPID = "BJJGesg9Nx6oRdg8CakP7uMf6RJUO5t5266UYTnLaxkxsmU89YCmXO3Dhpjj6-Ldz9xC9wRE3z_8GfybQGi-WMcGrhaDfkuw0lOojMlF8yL1h8jitCRp270tzr47FrLkmM";
+
+var _fbMessaging = null;
+var _notifEnabled = localStorage.getItem('signal_notif') === '1';
+
+/* Load Firebase SDKs then initialise */
+function loadFirebase(cb) {
+  if (window.firebase && window.firebase.messaging) { cb(); return; }
+  var s1 = document.createElement('script');
+  s1.src = 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js';
+  s1.onload = function() {
+    var s2 = document.createElement('script');
+    s2.src = 'https://www.gstatic.com/firebasejs/10.12.0/firebase-messaging-compat.js';
+    s2.onload = cb;
+    document.head.appendChild(s2);
+  };
+  document.head.appendChild(s1);
+}
+
+function initFirebase() {
+  loadFirebase(function() {
+    if (!firebase.apps.length) firebase.initializeApp(FB_CONFIG);
+    _fbMessaging = firebase.messaging();
+
+    /* Register service worker */
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/firebase-messaging-sw.js')
+        .then(function(reg) {
+          return _fbMessaging.getToken({ vapidKey: FB_VAPID, serviceWorkerRegistration: reg });
+        })
+        .then(function(token) {
+          localStorage.setItem('fcm_token', token);
+          console.log('FCM ready. Token:', token);
+          updateNotifUI(true);
+        })
+        .catch(function(err) {
+          console.warn('FCM token error:', err);
+          updateNotifUI(false);
+        });
+    }
+
+    /* Foreground notification — show as in-app toast */
+    _fbMessaging.onMessage(function(payload) {
+      var title = (payload.notification && payload.notification.title) || 'Signal Alert';
+      var body  = (payload.notification && payload.notification.body)  || '';
+      showToast('⚠️ ' + title + (body ? ' — ' + body : ''));
+    });
+  });
+}
+
+/* Request permission then set up FCM */
+function requestNotificationPermission() {
+  if (!('Notification' in window)) {
+    showToast('Notifications not supported on this browser');
+    return;
+  }
+  Notification.requestPermission().then(function(permission) {
+    if (permission === 'granted') {
+      _notifEnabled = true;
+      localStorage.setItem('signal_notif', '1');
+      initFirebase();
+      showToast('Notifications enabled');
+    } else {
+      showToast('Permission denied — enable in browser settings');
+      updateNotifUI(false);
+    }
+  });
+}
+
+/* Disable notifications */
+function disableNotifications() {
+  _notifEnabled = false;
+  localStorage.setItem('signal_notif', '0');
+  if (_fbMessaging) {
+    _fbMessaging.deleteToken().catch(function(){});
+    _fbMessaging = null;
+  }
+  updateNotifUI(false);
+  showToast('Notifications disabled');
+}
+
+/* Update the toggle in Settings */
+function updateNotifUI(enabled) {
+  var toggle = document.getElementById('notif-toggle');
+  if (toggle) toggle.classList.toggle('on', enabled);
+  var sub = document.getElementById('notif-sub');
+  if (sub) sub.textContent = enabled ? 'Active — tap to disable' : 'Tap to enable push alerts';
+}
+
+/* Auto-init if previously granted */
+window.addEventListener('load', function() {
+  if (_notifEnabled && Notification.permission === 'granted') {
+    initFirebase();
+  }
+  updateNotifUI(_notifEnabled && Notification.permission === 'granted');
+});
+
 </script>
 </body>
 </html>
