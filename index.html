@@ -30,6 +30,53 @@
   --nav-h:76px;--safe-b:env(safe-area-inset-bottom,0px);--safe-t:env(safe-area-inset-top,0px);
   --r:16px;--r2:12px;--r3:24px;
 }
+[data-theme="light"]{
+  --bg:#f0f4f8;--bg1:#ffffff;--bg2:#e4eaf0;
+  --glass:rgba(15,25,40,0.04);--glass2:rgba(15,25,40,0.07);--glass3:rgba(15,25,40,0.11);
+  --border:rgba(15,25,40,0.1);--border2:rgba(15,25,40,0.18);
+  --purple:#7c3aed;--purple2:#9333ea;--blue2:#2563eb;
+  --cyan:#0e7490;--cyan2:#0891b2;--cyan3:#0369a1;
+  --text:#0d1117;--text2:#334155;--text3:#4b5563;
+  --red2:#dc2626;--amber2:#b45309;--green2:#059669;
+}
+[data-theme="light"] #lockscreen{background:linear-gradient(160deg,#e4eaf0 0%,#f0f4f8 50%,#eaf0f6 100%)}
+[data-theme="light"] .lock-brand-name{color:rgba(13,17,23,0.4)}
+[data-theme="light"] .lock-brand-script{color:rgba(13,17,23,0.3)}
+[data-theme="light"] .lock-dot{background:rgba(0,0,0,0.1);border-color:rgba(0,0,0,0.16)}
+[data-theme="light"] .lock-dot.filled{background:var(--cyan2);border-color:var(--cyan2);box-shadow:0 0 9px rgba(8,145,178,0.4)}
+[data-theme="light"] .key{background:rgba(255,255,255,0.7);border-color:rgba(0,0,0,0.1);box-shadow:0 3px 10px rgba(0,0,0,0.08),inset 0 1px 0 rgba(255,255,255,0.9)}
+[data-theme="light"] .key-num{color:#0d1117;text-shadow:none}
+[data-theme="light"] .key:active,[data-theme="light"] .key.pressed{background:rgba(8,145,178,0.12);border-color:rgba(8,145,178,0.3)}
+[data-theme="light"] .key.key-del{background:transparent;border-color:transparent;box-shadow:none}
+[data-theme="light"] .key.key-del svg{color:#4b5563}
+[data-theme="light"] .nav-inner{background:rgba(255,255,255,0.88);border-color:rgba(0,0,0,0.1)}
+[data-theme="light"] .topbar{background:rgba(240,244,248,0.88)}
+[data-theme="light"] #startup{background:#e8edf3}
+[data-theme="light"] .startup-name{background:linear-gradient(135deg,#1a2535 0%,#0891b2 50%,#7c3aed 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+[data-theme="light"] .startup-by{color:rgba(13,17,23,0.45)}
+[data-theme="light"] .startup-tag{color:rgba(13,17,23,0.28)}
+[data-theme="light"] .modal-sheet{background:var(--bg1)}
+@media(prefers-color-scheme:light){
+  :root:not([data-theme="dark"]){
+    --bg:#f0f4f8;--bg1:#ffffff;--bg2:#e4eaf0;
+    --glass:rgba(15,25,40,0.04);--glass2:rgba(15,25,40,0.07);--glass3:rgba(15,25,40,0.11);
+    --border:rgba(15,25,40,0.1);--border2:rgba(15,25,40,0.18);
+    --purple:#7c3aed;--purple2:#9333ea;--blue2:#2563eb;
+    --cyan:#0e7490;--cyan2:#0891b2;--cyan3:#0369a1;
+    --text:#0d1117;--text2:#334155;--text3:#4b5563;
+    --red2:#dc2626;--amber2:#b45309;--green2:#059669;
+  }
+  :root:not([data-theme="dark"]) #lockscreen{background:linear-gradient(160deg,#e4eaf0 0%,#f0f4f8 50%,#eaf0f6 100%)}
+  :root:not([data-theme="dark"]) .lock-dot{background:rgba(0,0,0,0.1);border-color:rgba(0,0,0,0.16)}
+  :root:not([data-theme="dark"]) .key{background:rgba(255,255,255,0.7);border-color:rgba(0,0,0,0.1);box-shadow:0 3px 10px rgba(0,0,0,0.08),inset 0 1px 0 rgba(255,255,255,0.9)}
+  :root:not([data-theme="dark"]) .key-num{color:#0d1117;text-shadow:none}
+  :root:not([data-theme="dark"]) .key.key-empty{background:transparent!important;border:none!important;box-shadow:none!important}
+  :root:not([data-theme="dark"]) .nav-inner{background:rgba(255,255,255,0.88);border-color:rgba(0,0,0,0.1)}
+  :root:not([data-theme="dark"]) .topbar{background:rgba(240,244,248,0.88)}
+  :root:not([data-theme="dark"]) #startup{background:#e8edf3}
+  :root:not([data-theme="dark"]) .startup-by{color:rgba(13,17,23,0.45)}
+  :root:not([data-theme="dark"]) .startup-tag{color:rgba(13,17,23,0.28)}
+}
 html{height:100%;overflow:hidden}
 body{height:100%;background:var(--bg);color:var(--text);font-family:var(--fb);font-size:15px;line-height:1.6;overflow:hidden;-webkit-font-smoothing:antialiased;user-select:none;-webkit-user-select:none}
 #mesh-bg{position:fixed;inset:0;z-index:0;pointer-events:none}
@@ -61,6 +108,7 @@ body{height:100%;background:var(--bg);color:var(--text);font-family:var(--fb);fo
 .key-num{font-family:var(--fh);font-size:21px;font-weight:400;color:#fff}
 .key.key-del{background:transparent;border-color:rgba(255,255,255,0.05)}
 .key.key-del svg{opacity:0.38}
+.key.key-empty{background:transparent!important;border:none!important;box-shadow:none!important;pointer-events:none!important}
 @keyframes shake{0%,100%{transform:translateX(0)}15%{transform:translateX(-8px)}30%{transform:translateX(8px)}45%{transform:translateX(-5px)}60%{transform:translateX(5px)}75%{transform:translateX(-3px)}90%{transform:translateX(3px)}}
 .shake{animation:shake 0.44s ease}
 #app{z-index:20;flex-direction:column;overflow:hidden}
@@ -271,6 +319,7 @@ body{height:100%;background:var(--bg);color:var(--text);font-family:var(--fb);fo
 .empty-title{font-family:var(--fh);font-size:13px;font-weight:600;color:var(--text2);margin-bottom:4px}
 .empty-sub{font-family:var(--fm);font-size:9px;color:var(--text3);letter-spacing:0.08em}
 .toast{position:fixed;top:calc(58px + var(--safe-t));left:50%;transform:translateX(-50%) translateY(-14px);background:var(--bg2);border:1px solid var(--border2);border-radius:9px;padding:8px 13px;font-family:var(--fm);font-size:10px;font-weight:600;color:var(--text);z-index:300;opacity:0;transition:all 0.26s ease;white-space:nowrap;backdrop-filter:blur(20px);box-shadow:0 4px 18px rgba(0,0,0,0.5);letter-spacing:0.05em}
+.theme-opt.active{background:var(--glass2);color:var(--text)!important;border-radius:6px}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 @media(min-width:768px){
   #app .app-inner{max-width:520px;margin:0 auto;border-left:1px solid var(--border);border-right:1px solid var(--border)}
@@ -575,6 +624,20 @@ body{height:100%;background:var(--bg);color:var(--text);font-family:var(--fb);fo
           <div id="pwa-install-btn" onclick="triggerInstall()" style="display:none;margin:12px auto 0;max-width:200px;padding:10px 16px;background:linear-gradient(135deg,var(--cyan2),var(--purple2));border-radius:10px;font-family:var(--fm);font-size:10px;font-weight:700;color:#fff;letter-spacing:0.08em;cursor:pointer;align-items:center;justify-content:center;gap:6px"><i data-lucide="download" style="width:13px;height:13px"></i>INSTALL APP</div>
         </div>
         <div class="settings-section">
+          <div class="settings-section-title">Appearance</div>
+          <div class="settings-list">
+            <div class="settings-item" style="cursor:default">
+              <div class="settings-item-icon" style="background:rgba(34,211,238,0.07);color:var(--cyan2)"><i data-lucide="sun-moon" style="width:14px;height:14px"></i></div>
+              <div class="settings-item-body"><div class="settings-item-title">Theme</div><div class="settings-item-sub">Light, dark, or follow system</div></div>
+              <div style="display:flex;gap:3px;background:var(--glass);border:1px solid var(--border);border-radius:9px;padding:3px">
+                <div class="theme-opt" data-theme-opt="light" onclick="setThemeMode('light')" style="padding:5px 10px;border-radius:6px;font-family:var(--fm);font-size:9px;font-weight:600;cursor:pointer;color:var(--text3);transition:all 0.18s ease">Light</div>
+                <div class="theme-opt" data-theme-opt="dark" onclick="setThemeMode('dark')" style="padding:5px 10px;border-radius:6px;font-family:var(--fm);font-size:9px;font-weight:600;cursor:pointer;color:var(--text3);transition:all 0.18s ease">Dark</div>
+                <div class="theme-opt" data-theme-opt="system" onclick="setThemeMode('system')" style="padding:5px 10px;border-radius:6px;font-family:var(--fm);font-size:9px;font-weight:600;cursor:pointer;color:var(--text3);transition:all 0.18s ease">Auto</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="settings-section">
           <div class="settings-section-title">Intelligence</div>
           <div class="settings-list">
             <div class="settings-item" onclick="showPage('sources')">
@@ -727,6 +790,7 @@ body{height:100%;background:var(--bg);color:var(--text);font-family:var(--fb);fo
 </div>
 <div class="toast" id="toast"></div>
 <script>
+(function(){var t=localStorage.getItem('sp_theme');if(t==='light')document.documentElement.setAttribute('data-theme','light');else if(t==='dark')document.documentElement.setAttribute('data-theme','dark');})();
 var CURRENT_PIN=localStorage.getItem('sp')||'1410';
 var savedIds=JSON.parse(localStorage.getItem('ss')||'[]');
 var reviewedIds=JSON.parse(localStorage.getItem('sr')||'[]');
@@ -755,6 +819,7 @@ var SOURCES=[
   {id:'etsy',n:'Etsy',c:'E-commerce · Marketplace',i:'🎨'},
   {id:'tiktok',n:'TikTok Shop',c:'E-commerce · Social',i:'📱'},
   {id:'walmart',n:'Walmart Marketplace',c:'E-commerce · Marketplace',i:'🔵'},
+  {id:'faire',n:'Faire',c:'E-commerce · Wholesale',i:'🏪'},
   {id:'stripe',n:'Stripe',c:'Payments · FinTech',i:'💳'},
   {id:'wise',n:'Wise',c:'Payments · FinTech',i:'💸'},
   {id:'payoneer',n:'Payoneer',c:'Payments · FinTech',i:'💰'},
@@ -871,7 +936,17 @@ document.querySelectorAll('.key').forEach(function(k){
 });
 function updateLockDots(){document.querySelectorAll('#lock-dots .lock-dot').forEach(function(d,i){d.classList.toggle('filled',i<lockPin.length);d.classList.remove('error');});}
 /* ─── APP INIT ─── */
-function initApp(){updateGreeting();renderAll();renderSources();renderRegions();lucide.createIcons();setTimeout(initRadar,100);setTimeout(initRSS,400);}
+/* ─── THEME ─── */
+function setThemeMode(mode){localStorage.setItem('sp_theme',mode);applyTheme(mode);}
+function applyTheme(mode){
+  var root=document.documentElement;
+  if(mode==='light')root.setAttribute('data-theme','light');
+  else if(mode==='dark')root.setAttribute('data-theme','dark');
+  else root.removeAttribute('data-theme');
+  document.querySelectorAll('.theme-opt').forEach(function(o){o.classList.toggle('active',o.dataset.themeOpt===mode);});
+}
+function initTheme(){applyTheme(localStorage.getItem('sp_theme')||'system');}
+function initApp(){updateGreeting();renderAll();renderSources();renderRegions();lucide.createIcons();setTimeout(initRSS,400);}
 function updateGreeting(){
   var h=new Date().getHours();
   var ey=h<5?'NIGHT OPS':h<12?'MORNING BRIEF':h<17?'AFTERNOON INTEL':'EVENING DEBRIEF';
@@ -1100,6 +1175,7 @@ var RSS_FEEDS_META = {
   etsy:{url:'https://etsy.com/sell',tab:'ecommerce'},
   tiktok:{url:'https://seller.tiktok.com',tab:'ecommerce'},
   walmart:{url:'https://marketplace.walmart.com',tab:'ecommerce'},
+  faire:{url:'https://www.faire.com/blog',tab:'ecommerce'},
   stripe:{url:'https://stripe.com/blog',tab:'payments'},
   wise:{url:'https://wise.com/gb/blog/',tab:'payments'},
   payoneer:{url:'https://payoneer.com/blog',tab:'payments'},
@@ -1335,6 +1411,9 @@ var RSS_FEEDS = [
   { url:'https://feeds.feedburner.com/shopify/blog',                        cat:'ecommerce', label:'Shopify'            },
   { url:'https://sellercentral.amazon.com/forums/rss/allposts',             cat:'ecommerce', label:'Amazon'             },
   { url:'https://www.etsy.com/blog/en/feed/',                               cat:'ecommerce', label:'Etsy'               },
+  { url:'https://newsroom.tiktok.com/rss/',                                 cat:'ecommerce', label:'TikTok Shop'        },
+  { url:'https://corporate.walmart.com/feeds/news-releases.rss',           cat:'ecommerce', label:'Walmart'            },
+  { url:'https://www.faire.com/blog/feed/',                                 cat:'ecommerce', label:'Faire'              },
   /* AI & Tech */
   { url:'https://openai.com/blog/rss.xml',                                  cat:'ai',        label:'OpenAI'             },
   { url:'https://www.anthropic.com/rss.xml',                                cat:'ai',        label:'Anthropic'          },
@@ -1613,7 +1692,7 @@ function initRSS() {
 window.addEventListener('load',function(){
   initTheme();lucide.createIcons();initMesh();initStartup();
   if('serviceWorker' in navigator){
-    navigator.serviceWorker.register('sw.js').catch(function(){});
+    /* firebase-messaging-sw.js handles all service worker needs */
   }
 });
 var _deferredInstall=null;
