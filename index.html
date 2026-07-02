@@ -19,13 +19,13 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#020408;--bg1:#060c12;--bg2:#0a1520;
-  --glass:rgba(255,255,255,0.035);--glass2:rgba(255,255,255,0.065);--glass3:rgba(255,255,255,0.1);
-  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.12);
-  --purple:#6d28d9;--purple2:#a855f7;--blue2:#3b82f6;
+  --bg:#0a1220;--bg1:#0f1a28;--bg2:#142835;
+  --glass:rgba(255,255,255,0.08);--glass2:rgba(255,255,255,0.12);--glass3:rgba(255,255,255,0.18);
+  --border:rgba(255,255,255,0.15);--border2:rgba(255,255,255,0.22);
+  --purple:#6d28d9;--purple2:#c084fc;--blue2:#60a5fa;
   --cyan:#0891b2;--cyan2:#22d3ee;--cyan3:#67e8f9;
-  --text:#f0f4f8;--text2:#94a8bb;--text3:#5a7080;
-  --red2:#f87171;--amber2:#fbbf24;--green2:#34d399;
+  --text:#e8eef7;--text2:#a8bbc9;--text3:#6d8fa3;
+  --red2:#ff6b6b;--amber2:#fcd34d;--green2:#4ade80;
   --fh:'Space Grotesk',sans-serif;--fb:'Manrope',sans-serif;--fm:'JetBrains Mono',monospace;
   --nav-h:76px;--safe-b:env(safe-area-inset-bottom,0px);--safe-t:env(safe-area-inset-top,0px);
   --r:16px;--r2:12px;--r3:24px;
@@ -680,15 +680,13 @@ body{height:100%;background:var(--bg);color:var(--text);font-family:var(--fb);fo
           <div class="settings-brand-name">PROJECT SIGNAL</div>
           <div class="settings-brand-script">by Zain Akram</div>
           <div class="settings-brand-ver" style="font-family:var(--fm);font-size:8px;letter-spacing:0.14em;color:var(--text3);margin-top:6px">VERSION 3.0 · PERSONAL INTELLIGENCE SYSTEM</div>
-          <div class="settings-brand-about" style="font-size:12px;color:var(--text2);margin-top:12px;line-height:1.75;max-width:300px;margin-left:auto;margin-right:auto;text-align:center">
-            Most people consume information.<br>You built a system to filter it.<br><br>
-            Project Signal runs 24 hours a day, scanning sources across 8 categories, so that by the time you open this app — the noise is already gone.<br><br>
-            This is not a product. There is no team. No investors. No roadmap. Just one person who decided their time and attention deserved better than scrolling.
+          <div class="settings-brand-about" style="font-size:12px;color:var(--text2);margin-top:16px;line-height:1.8;max-width:320px;margin-left:auto;margin-right:auto;text-align:center">
+            Most people consume information.<br>I have built a system to filter it.
           </div>
-          <div style="margin:16px auto 0;max-width:280px;padding:14px 16px;background:var(--glass);border:1px solid var(--border2);border-radius:var(--r2);text-align:center">
-            <div style="font-family:var(--fm);font-size:9px;letter-spacing:0.14em;color:var(--text3);margin-bottom:6px">✦ CONCEIVED, DESIGNED & OBSESSED OVER BY ✦</div>
-            <div style="font-family:'Dancing Script',cursive;font-size:26px;color:var(--cyan2);letter-spacing:0.02em">Zain Akram</div>
-            <div style="font-family:var(--fm);font-size:8px;color:var(--text3);margin-top:5px;letter-spacing:0.1em">Because no existing app was good enough.</div>
+          <div style="margin:28px auto 0;max-width:300px;text-align:center;line-height:2.2">
+            <div style="font-family:var(--fm);font-size:7.5px;letter-spacing:0.16em;color:var(--text3);text-transform:uppercase;font-weight:500">Conceived, Designed & Obsessed Over By</div>
+            <div style="font-family:'Dancing Script',cursive;font-size:20px;color:var(--cyan2);letter-spacing:0.02em;margin:8px 0">Zain Akram</div>
+            <div style="font-family:var(--fm);font-size:9px;color:var(--text3);letter-spacing:0.06em">Because no existing app was good enough.</div>
           </div>
           <div id="pwa-install-btn" onclick="triggerInstall()" style="display:none;margin:12px auto 0;max-width:200px;padding:10px 16px;background:linear-gradient(135deg,var(--cyan2),var(--purple2));border-radius:10px;font-family:var(--fm);font-size:10px;font-weight:700;color:#fff;letter-spacing:0.08em;cursor:pointer;align-items:center;justify-content:center;gap:6px"><i data-lucide="download" style="width:13px;height:13px"></i>INSTALL APP</div>
         </div>
@@ -714,6 +712,15 @@ body{height:100%;background:var(--bg);color:var(--text);font-family:var(--fb);fo
               <div class="settings-item-icon" style="background:rgba(168,85,247,0.07);color:var(--purple2)"><i data-lucide="bell" style="width:14px;height:14px"></i></div>
               <div class="settings-item-body"><div class="settings-item-title">Critical Alerts</div><div class="settings-item-sub">High-priority signal notifications</div></div>
               <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+            </div>
+          </div>
+        </div>
+        <div class="settings-section">
+          <div class="settings-section-title">Appearance</div>
+          <div class="settings-list">
+            <div class="settings-item" onclick="toggleTheme()">
+              <div class="settings-item-icon" style="background:rgba(245,158,11,0.07);color:var(--amber2)"><i data-lucide="sun" style="width:14px;height:14px"></i></div>
+              <div class="settings-item-body"><div class="settings-item-title">Theme</div><div class="settings-item-sub" id="theme-toggle-sub">Currently dark</div></div>
             </div>
           </div>
         </div>
@@ -1077,7 +1084,7 @@ function cardHTML(s){
   var bc={critical:'badge-critical',important:'badge-important',opportunity:'badge-opportunity',ai:'badge-ai',scam:'badge-scam',info:'badge-info'}[s.type]||'badge-info';
   var cc={critical:'critical',important:'important',opportunity:'opportunity',ai:'ai-card',scam:'scam-card'}[s.type]||'';
   var sv=savedIds.includes(s.id);
-  return'<div class="card '+cc+'" data-id="'+s.id+'" onclick="openModal('+s.id+')"><div class="card-header"><span class="card-badge '+bc+'">'+s.type+'</span><div><div class="card-source-label">'+s.source+'</div><div class="card-source-sub">'+(s.live?'&#9679; LIVE FEED':'DETECTED FROM')+'</div></div></div><div class="card-title">'+s.title+'</div><div class="card-summary">'+s.summary.slice(0,105)+'…</div><div class="card-impact"><div class="card-impact-label">Business Impact</div>'+s.impact.slice(0,90)+'</div><div class="card-meta"><div class="card-meta-item"><i data-lucide="clock" style="width:9px;height:9px"></i>'+s.readTime+' read</div></div><div class="card-actions" onclick="event.stopPropagation()"><div class="card-action-btn" onclick="openModal('+s.id+')"><i data-lucide="search" style="width:9px;height:9px"></i>Analyze</div><div class="card-action-btn" onclick="toggleSaveId('+s.id+',this)"><i data-lucide="'+(sv?'bookmark-check':'bookmark')+'" style="width:9px;height:9px"></i>'+(sv?'Saved':'Save')+'</div><div class="card-action-btn rev-btn" onclick="markReviewed('+s.id+',this)"><i data-lucide="check" style="width:9px;height:9px"></i>Reviewed</div></div></div>';
+  return'<div class="card '+cc+'" data-id="'+s.id+'" onclick="openModal('+s.id+')"><div class="card-header"><span class="card-badge '+bc+'">'+s.type+'</span><div><div class="card-source-label">'+s.source+'</div><div class="card-source-sub">'+(s.live?'&#9679; LIVE FEED':'DETECTED FROM')+'</div></div></div><div class="card-title">'+s.title+'</div><div class="card-summary">'+s.summary.slice(0,105)+'…</div><div class="card-impact"><div class="card-impact-label">Business Impact</div>'+s.impact.slice(0,90)+'</div><div class="card-meta"><div class="card-meta-item"><i data-lucide="clock" style="width:9px;height:9px"></i>'+s.readTime+' read</div></div><div class="card-actions" onclick="event.stopPropagation()"><div class="card-action-btn" onclick="openModal('+s.id+')"><i data-lucide="search" style="width:9px;height:9px"></i>Analyze</div><div class="card-action-btn" onclick="toggleSaveId('+s.id+',this)"><i data-lucide="'+(sv?'bookmark-check':'bookmark')+'" style="width:9px;height:9px"></i>'+(sv?'Saved':'Save')+'</div><div class="card-action-btn rev-btn" onclick="markReviewed('+s.id+',this)"><i data-lucide="check" style="width:9px;height:9px"></i>Done</div></div></div>';
 }
 /* ─── WORKFLOW ─── */
 function markReviewed(id,btn){
