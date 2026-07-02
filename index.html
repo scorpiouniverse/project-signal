@@ -44,22 +44,23 @@ body{height:100%;background:var(--bg);color:var(--text);font-family:var(--fb);fo
 .startup-by{font-family:'Dancing Script',cursive;font-size:clamp(11px,1.8vw,16px);color:rgba(255,255,255,0.3);margin-top:10px}
 .startup-rule{width:1px;height:0;background:linear-gradient(180deg,transparent,rgba(34,211,238,0.35),transparent);margin:16px auto;transition:height 1s ease 0.3s}
 .startup-logo.show .startup-rule{height:32px}
-.startup-tag{font-family:var(--fm);font-size:9px;letter-spacing:0.28em;color:rgba(255,255,255,0.12);margin-top:16px;text-transform:uppercase}
+.startup-tag{font-family:var(--fm);font-size:9px;letter-spacing:0.28em;color:rgba(255,255,255,0.65);margin-top:16px;text-transform:uppercase}
 #lockscreen{z-index:90;background:linear-gradient(135deg,#020408 0%,#080f18 50%,#020810 100%)}
-.lock-glow{position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 50% 20%,rgba(109,40,217,0.12) 0%,transparent 70%),radial-gradient(ellipse 50% 40% at 80% 75%,rgba(6,182,212,0.07) 0%,transparent 60%)}
+.lock-glow{position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 50% 20%,rgba(109,40,217,0.25) 0%,transparent 70%),radial-gradient(ellipse 50% 40% at 80% 75%,rgba(6,182,212,0.2) 0%,transparent 60%)}
 .lock-content{position:relative;z-index:2;width:100%;max-width:300px;padding:0 20px;display:flex;flex-direction:column;align-items:center;gap:38px}
-.lock-brand-name{font-family:var(--fh);font-size:11px;font-weight:500;letter-spacing:0.48em;text-transform:uppercase;color:rgba(255,255,255,0.27);text-align:center}
-.lock-brand-script{font-family:'Dancing Script',cursive;font-size:13px;color:rgba(255,255,255,0.15);margin-top:4px;text-align:center}
+.lock-brand-name{font-family:var(--fh);font-size:11px;font-weight:500;letter-spacing:0.48em;text-transform:uppercase;color:rgba(255,255,255,0.7);text-align:center}
+.lock-brand-script{font-family:'Dancing Script',cursive;font-size:13px;color:rgba(255,255,255,0.5);margin-top:4px;text-align:center}
 .lock-dots{display:flex;gap:13px}
 .lock-dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.18);transition:all 0.18s ease}
 .lock-dot.filled{background:var(--cyan2);border-color:var(--cyan2);box-shadow:0 0 9px rgba(34,211,238,0.45)}
 .lock-dot.error{background:var(--red2);border-color:var(--red2);box-shadow:0 0 9px rgba(248,113,113,0.45)}
 .lock-msg{font-family:var(--fm);font-size:9px;letter-spacing:0.1em;color:var(--red2);min-height:14px;text-align:center}
 .keypad{display:grid;grid-template-columns:repeat(3,68px);gap:12px}
-.key{width:68px;height:68px;border-radius:50%;background:rgba(255,255,255,0.045);border:1px solid rgba(255,255,255,0.09);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.12s ease}
+.key{width:68px;height:68px;border-radius:50%;background:rgba(255,255,255,0.18);border:1.5px solid rgba(255,255,255,0.35);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.12s ease;box-shadow:0 4px 15px rgba(255,255,255,0.1)}
+.key-empty{background:transparent;border:none;box-shadow:none;cursor:default}
 .key:active,.key.pressed{background:rgba(34,211,238,0.1);border-color:rgba(34,211,238,0.28);transform:scale(0.93)}
 .key-num{font-family:var(--fh);font-size:21px;font-weight:400;color:#fff}
-.key.key-del{background:transparent;border-color:rgba(255,255,255,0.05)}
+.key.key-del{background:rgba(255,255,255,0.18);border-color:rgba(255,255,255,0.35);box-shadow:0 4px 15px rgba(255,255,255,0.1)}
 .key.key-del svg{opacity:0.38}
 @keyframes shake{0%,100%{transform:translateX(0)}15%{transform:translateX(-8px)}30%{transform:translateX(8px)}45%{transform:translateX(-5px)}60%{transform:translateX(5px)}75%{transform:translateX(-3px)}90%{transform:translateX(3px)}}
 .shake{animation:shake 0.44s ease}
@@ -307,6 +308,7 @@ body{height:100%;background:var(--bg);color:var(--text);font-family:var(--fb);fo
 [data-theme="light"] .key-num{color:#0d1117}
 [data-theme="light"] .key:active,[data-theme="light"] .key.pressed{background:rgba(8,145,178,0.12);border-color:rgba(8,145,178,0.3)}
 [data-theme="light"] .key.key-del{background:transparent;border-color:transparent;box-shadow:none}
+[data-theme="light"] .key.key-empty{background:transparent;border-color:transparent;box-shadow:none}
 [data-theme="light"] .nav-inner{background:rgba(255,255,255,0.92);border-color:rgba(0,0,0,0.12)}
 [data-theme="light"] .nav-item{color:#6b7280}
 [data-theme="light"] .topbar{background:rgba(240,244,248,0.92)}
@@ -422,7 +424,7 @@ body{height:100%;background:var(--bg);color:var(--text);font-family:var(--fb);fo
       <div class="key" data-key="9"><span class="key-num">9</span></div>
       <div class="key key-empty"></div>
       <div class="key" data-key="0"><span class="key-num">0</span></div>
-      <div class="key key-del" data-key="del"><i data-lucide="delete" style="width:17px;height:17px"></i></div>
+      <div class="key key-del" data-key="del" style="font-size:22px;color:#fff;font-weight:500">⌫</div>
     </div>
     <div class="lock-msg" id="lock-msg"></div>
   </div>
@@ -1914,7 +1916,12 @@ function toggleTheme(){
 
 /* ── BOOT ── */
 window.addEventListener('load',function(){
-  initTheme();lucide.createIcons();initMesh();initStartup();
+  initTheme();
+  setTimeout(function(){
+    if(typeof lucide!=='undefined') lucide.createIcons();
+  },500);
+  initMesh();
+  initStartup();
   if('serviceWorker' in navigator){
     navigator.serviceWorker.register('sw.js').catch(function(){});
   }
