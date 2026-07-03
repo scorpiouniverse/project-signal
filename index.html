@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;600;700&family=Dancing+Script:wght@400;500;600;700&display=swap" rel="stylesheet">
-<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js" onerror="this.onerror=null;var f=document.createElement('script');f.src='https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.js';f.onload=function(){window._lucideReady=true;if(typeof safeIcons==='function')safeIcons();};document.head.appendChild(f);"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -977,6 +977,32 @@ body.error-shake #app{animation:shake 0.5s cubic-bezier(0.36,0,0.66,-0.56) 1}
 </div>
 <div class="toast" id="toast-simple"></div>
 <script>
+/* ── SAFE LUCIDE ICON RENDERING ──
+   On slow/blocked connections the lucide CDN script can still be loading
+   (or fail entirely) when the app tries to render icons, which used to
+   throw "lucide is not defined" and spam the console. safeIcons() never
+   throws; if lucide isn't ready yet it queues a retry and catches up once
+   the library becomes available. */
+var _iconRetryTimer=null;
+function safeIcons(){
+  try{
+    if(typeof lucide!=='undefined'&&lucide.createIcons){
+      lucide.createIcons();
+      if(_iconRetryTimer){clearInterval(_iconRetryTimer);_iconRetryTimer=null;}
+    } else if(!_iconRetryTimer){
+      var tries=0;
+      _iconRetryTimer=setInterval(function(){
+        tries++;
+        if(typeof lucide!=='undefined'&&lucide.createIcons){
+          lucide.createIcons();
+          clearInterval(_iconRetryTimer);_iconRetryTimer=null;
+        } else if(tries>40){ // ~20s of retrying, then give up quietly
+          clearInterval(_iconRetryTimer);_iconRetryTimer=null;
+        }
+      },500);
+    }
+  }catch(e){/* never let icon rendering break the app */}
+}
 var CURRENT_PIN=localStorage.getItem('sp')||'1410';
 var savedIds=JSON.parse(localStorage.getItem('ss')||'[]');
 var reviewedIds=JSON.parse(localStorage.getItem('sr')||'[]');
@@ -1159,7 +1185,7 @@ function notifyFetchResults(result){
 }
 
 /* ─── APP INIT ─── */
-function initApp(){updateGreeting();renderAll();renderNews("all");updateCategoryCounts();renderSources();renderRegions();lucide.createIcons();setTimeout(initRSS,400);}
+function initApp(){updateGreeting();renderAll();renderNews("all");updateCategoryCounts();renderSources();renderRegions();safeIcons();setTimeout(initRSS,400);}
 function updateGreeting(){
   var h=new Date().getHours();
   var name='Zain';
@@ -1232,19 +1258,19 @@ function renderAll(){
   renderPage('global-cards-full',active);
   renderPage('opp-cards-full',active.filter(function(s){return s.type==='opportunity';}));
   var alList=active.filter(function(s){return['critical','important'].includes(s.type);});
-  document.getElementById('alert-list').innerHTML=alList.map(function(s){var col=s.type==='critical'?'#f87171':s.type==='scam'?'#fb7185':'#fbbf24';return'<div class="alert-item" onclick="openModal('+s.id+')"><div class="alert-item-dot" style="background:'+col+'"></div><div class="alert-item-body"><div class="alert-item-title">'+s.title+'</div><div class="alert-item-desc">'+s.summary.slice(0,90)+'…</div><div class="alert-item-time">DETECTED FROM: '+s.source.toUpperCase()+'</div></div></div>';}).join('')||'<div class="cat-empty"><div class="empty-title">No active alerts</div><div class="empty-sub">ALL SYSTEMS CLEAR</div></div>';
+  document.getElementById('alert-list').innerHTML=alList.map(function(s){var col=s.type==='critical'?'#f87171':s.type==='scam'?'#fb7185':'#fbbf24';return'<div class="alert-item" onclick="openModal(\''+s.id+'\')"><div class="alert-item-dot" style="background:'+col+'"></div><div class="alert-item-body"><div class="alert-item-title">'+s.title+'</div><div class="alert-item-desc">'+s.summary.slice(0,90)+'…</div><div class="alert-item-time">DETECTED FROM: '+s.source.toUpperCase()+'</div></div></div>';}).join('')||'<div class="cat-empty"><div class="empty-title">No active alerts</div><div class="empty-sub">ALL SYSTEMS CLEAR</div></div>';
   var crit=active.filter(function(s){return s.type==='critical';}).length;
   var _sc=active.filter(function(s){return s.cat==='scams'||s.category==='scams';}).length;
   document.getElementById('alert-count-badge').textContent=crit+' CRITICAL'+(_sc?' · '+_sc+' SCAM':'');
   var _prio={critical:0,important:1,ai:2,opportunity:3};
   var _briefSorted=active.slice().sort(function(a,b){return(_prio[a.type]!=null?_prio[a.type]:9)-(_prio[b.type]!=null?_prio[b.type]:9)||b.ts-a.ts;});
-  document.getElementById('briefing-list').innerHTML=_briefSorted.slice(0,12).map(function(s,i){return'<div class="briefing-card" onclick="openModal('+s.id+')"><div class="briefing-num">SIGNAL '+String(i+1).padStart(2,'0')+' · '+s.source.toUpperCase()+'</div><div class="briefing-card-title">'+s.title+'</div><div class="briefing-summary">'+s.summary.slice(0,125)+'…</div><div class="briefing-why">'+s.why+'</div><div class="briefing-action"><i data-lucide="arrow-right"></i><span>ANALYZE SIGNAL</span></div></div>';}).join('');
+  document.getElementById('briefing-list').innerHTML=_briefSorted.slice(0,12).map(function(s,i){return'<div class="briefing-card" onclick="openModal(\''+s.id+'\')"><div class="briefing-num">SIGNAL '+String(i+1).padStart(2,'0')+' · '+s.source.toUpperCase()+'</div><div class="briefing-card-title">'+s.title+'</div><div class="briefing-summary">'+s.summary.slice(0,125)+'…</div><div class="briefing-why">'+s.why+'</div><div class="briefing-action"><i data-lucide="arrow-right"></i><span>ANALYZE SIGNAL</span></div></div>';}).join('');
   var _radarEl=document.getElementById('radar-signals');
-  if(_radarEl)_radarEl.innerHTML=active.filter(function(s){return['critical','important','scam'].includes(s.type);}).slice(0,5).map(function(s){var bg=s.type==='critical'?'rgba(220,38,38,0.09)':s.type==='scam'?'rgba(225,29,72,0.09)':'rgba(217,119,6,0.09)';var cl=s.type==='critical'?'#f87171':s.type==='scam'?'#fb7185':'#fbbf24';var rc=s.type==='critical'?'220,38,38':s.type==='scam'?'225,29,72':'217,119,6';var ic=s.type==='scam'?'shield-alert':'alert-triangle';return'<div class="signal-row" onclick="openModal('+s.id+')"><div class="signal-icon" style="background:'+bg+'"><i data-lucide="'+ic+'" style="width:13px;height:13px;color:'+cl+'"></i></div><div class="signal-body"><div class="signal-title">'+s.title+'</div><div class="signal-meta">DETECTED FROM: '+s.source.toUpperCase()+'</div></div><div class="signal-badge" style="background:rgba('+rc+',0.1);color:'+cl+';border:1px solid rgba('+rc+',0.22)">'+s.type.toUpperCase()+'</div></div>';}).join('');
+  if(_radarEl)_radarEl.innerHTML=active.filter(function(s){return['critical','important','scam'].includes(s.type);}).slice(0,5).map(function(s){var bg=s.type==='critical'?'rgba(220,38,38,0.09)':s.type==='scam'?'rgba(225,29,72,0.09)':'rgba(217,119,6,0.09)';var cl=s.type==='critical'?'#f87171':s.type==='scam'?'#fb7185':'#fbbf24';var rc=s.type==='critical'?'220,38,38':s.type==='scam'?'225,29,72':'217,119,6';var ic=s.type==='scam'?'shield-alert':'alert-triangle';return'<div class="signal-row" onclick="openModal(\''+s.id+'\')"><div class="signal-icon" style="background:'+bg+'"><i data-lucide="'+ic+'" style="width:13px;height:13px;color:'+cl+'"></i></div><div class="signal-body"><div class="signal-title">'+s.title+'</div><div class="signal-meta">DETECTED FROM: '+s.source.toUpperCase()+'</div></div><div class="signal-badge" style="background:rgba('+rc+',0.1);color:'+cl+';border:1px solid rgba('+rc+',0.22)">'+s.type.toUpperCase()+'</div></div>';}).join('');
   renderPage('scam-cards-full',gA(allSignals().filter(function(s){return s.cat==='scams'||s.category==='scams';})));
   renderPage('seo-cards-full',gA(allSignals().filter(function(s){return (s.category==='seo'||s.cat==='seo');})));
   // Scam alerts always shown in critical-cards at top (mixed with other criticals)
-  renderSaved();renderArchive();updateCounters();lucide.createIcons();
+  renderSaved();renderArchive();updateCounters();safeIcons();
 }
 function emptyHTML(title,sub){return'<div class="cat-empty"><div class="empty-icon"><i data-lucide="check-circle" style="width:30px;height:30px;color:var(--green2)"></i></div><div class="empty-title">'+title+'</div><div class="empty-sub">'+sub+'</div></div>';}
 function renderPage(id,sigs){var el=document.getElementById(id);if(el)el.innerHTML=sigs.length?sigs.map(cardHTML).join(''):emptyHTML('No signals in this category','CHECK BACK SOON');}
@@ -1252,7 +1278,9 @@ function cardHTML(s){
   var bc={critical:'badge-critical',important:'badge-important',opportunity:'badge-opportunity',ai:'badge-ai',scam:'badge-scam',info:'badge-info'}[s.type]||'badge-info';
   var cc={critical:'critical',important:'important',opportunity:'opportunity',ai:'ai-card',scam:'scam-card'}[s.type]||'';
   var sv=savedIds.includes(s.id);
-  return'<div class="card '+cc+'" data-id="'+s.id+'" onclick="openModal('+s.id+')"><div class="card-header"><span class="card-badge '+bc+'">'+s.type+'</span><div><div class="card-source-label">'+s.source+'</div><div class="card-source-sub">'+(s.live?'&#9679; LIVE FEED':'DETECTED FROM')+'</div></div></div><div class="card-title">'+s.title+'</div><div class="card-summary">'+s.summary.slice(0,105)+'…</div><div class="card-impact"><div class="card-impact-label">Business Impact</div>'+s.impact.slice(0,90)+'</div><div class="card-meta"><div class="card-meta-item"><i data-lucide="clock" style="width:9px;height:9px"></i>'+s.readTime+' read</div></div><div class="card-actions" onclick="event.stopPropagation()"><div class="card-action-btn" onclick="openModal('+s.id+')"><i data-lucide="search" style="width:9px;height:9px"></i>Analyze</div><div class="card-action-btn" onclick="toggleSaveId('+s.id+',this)"><i data-lucide="'+(sv?'bookmark-check':'bookmark')+'" style="width:9px;height:9px"></i>'+(sv?'Saved':'Save')+'</div><div class="card-action-btn rev-btn" onclick="markReviewed('+s.id+',this)"><i data-lucide="check" style="width:9px;height:9px"></i>Done</div></div></div>';
+  var hasUrl=!!(s.url&&s.url!=='#');
+  var srcBtn=hasUrl?'<div class="card-action-btn modal-btn-primary" onclick="window.open(\''+s.url+'\',\'_blank\')" style="background:var(--glass2)"><i data-lucide="external-link" style="width:9px;height:9px"></i>Source</div>':'';
+  return'<div class="card '+cc+'" data-id="'+s.id+'" onclick="openModal(\''+s.id+'\')"><div class="card-header"><span class="card-badge '+bc+'">'+s.type+'</span><div><div class="card-source-label">'+s.source+'</div><div class="card-source-sub">'+(s.live?'&#9679; LIVE FEED':'DETECTED FROM')+'</div></div></div><div class="card-title">'+s.title+'</div><div class="card-summary">'+s.summary.slice(0,105)+'…</div><div class="card-impact"><div class="card-impact-label">Business Impact</div>'+s.impact.slice(0,90)+'</div><div class="card-meta"><div class="card-meta-item"><i data-lucide="clock" style="width:9px;height:9px"></i>'+s.readTime+' read</div></div><div class="card-actions" onclick="event.stopPropagation()"><div class="card-action-btn" onclick="openModal(\''+s.id+'\')"><i data-lucide="search" style="width:9px;height:9px"></i>Analyze</div><div class="card-action-btn" onclick="toggleSaveId(\''+s.id+'\',this)"><i data-lucide="'+(sv?'bookmark-check':'bookmark')+'" style="width:9px;height:9px"></i>'+(sv?'Saved':'Save')+'</div><div class="card-action-btn rev-btn" onclick="markReviewed(\''+s.id+'\',this)"><i data-lucide="check" style="width:9px;height:9px"></i>Done</div>'+srcBtn+'</div></div>';
 }
 /* ─── WORKFLOW ─── */
 function markReviewed(id,btn){
@@ -1276,15 +1304,15 @@ function renderArchive(){
   var as=document.getElementById('archive-settings-sub');if(as)as.textContent=archived.length+' reviewed signals';
   var el=document.getElementById('archive-list');if(!el)return;
   if(!archived.length){el.innerHTML='<div class="archive-empty"><div class="empty-icon"><i data-lucide="archive" style="width:32px;height:32px;color:var(--text3)"></i></div><div class="empty-title">No reviewed signals</div><div class="empty-sub">Archive is empty</div></div>';}
-  else{el.innerHTML='<div class="cards-grid">'+archived.map(function(s){return'<div class="card" style="opacity:0.65;position:relative;"><div class="card-header"><span class="card-badge badge-info">REVIEWED</span><div class="card-source-label">'+s.source+'</div></div><div class="card-title">'+s.title+'</div><div class="card-meta"><div class="card-meta-item" onclick="restoreFromArchive('+s.id+')" style="cursor:pointer;color:var(--cyan2);"><i data-lucide="undo" style="width:9px;height:9px;"></i>Restore</div></div></div>';}).join('')+'</div>';}
-  lucide.createIcons();
+  else{el.innerHTML='<div class="cards-grid">'+archived.map(function(s){return'<div class="card" style="opacity:0.65;position:relative;"><div class="card-header"><span class="card-badge badge-info">REVIEWED</span><div class="card-source-label">'+s.source+'</div></div><div class="card-title">'+s.title+'</div><div class="card-meta"><div class="card-meta-item" onclick="restoreFromArchive(\''+s.id+'\')" style="cursor:pointer;color:var(--cyan2);"><i data-lucide="undo" style="width:9px;height:9px;"></i>Restore</div></div></div>';}).join('')+'</div>';}
+  safeIcons();
 }
 /* ─── SAVE ─── */
 function toggleSaveId(id,btn){
   if(savedIds.includes(id)){savedIds=savedIds.filter(function(x){return x!==id;});showToast('Removed from saved signals');}
   else{savedIds.push(id);showToast('Signal saved');}
   localStorage.setItem('ss',JSON.stringify(savedIds));renderSaved();
-  if(btn){var sv=savedIds.includes(id);btn.innerHTML='<i data-lucide="'+(sv?'bookmark-check':'bookmark')+'" style="width:9px;height:9px"></i>'+(sv?'Saved':'Save');lucide.createIcons();}
+  if(btn){var sv=savedIds.includes(id);btn.innerHTML='<i data-lucide="'+(sv?'bookmark-check':'bookmark')+'" style="width:9px;height:9px"></i>'+(sv?'Saved':'Save');safeIcons();}
 }
 function renderSaved(){
   var saved=allSignals().filter(function(s){return savedIds.includes(s.id);});
@@ -1292,7 +1320,7 @@ function renderSaved(){
   var el=document.getElementById('saved-list');if(!el)return;
   if(!saved.length){el.innerHTML='<div class="saved-empty"><div class="saved-empty-icon"><i data-lucide="bookmark" style="width:34px;height:34px"></i></div><div class="saved-empty-text">No saved signals</div><div class="saved-empty-sub">TAP SAVE ON ANY SIGNAL</div></div>';}
   else{el.innerHTML='<div class="cards-grid">'+saved.map(cardHTML).join('')+'</div>';}
-  lucide.createIcons();
+  safeIcons();
 }
 /* ─── MODAL ─── */
 function openModal(id){
@@ -1300,14 +1328,14 @@ function openModal(id){
   var sv=savedIds.includes(s.id);var rv=reviewedIds.includes(s.id);
   var bc={critical:'badge-critical',important:'badge-important',opportunity:'badge-opportunity',ai:'badge-ai',scam:'badge-scam'}[s.type]||'badge-info';
   document.getElementById('modal-content').innerHTML='<div class="modal-badge-row"><span class="card-badge '+bc+'">'+s.type+'</span><span style="font-family:var(--fm);font-size:8px;color:var(--text3);letter-spacing:0.09em">'+s.source.toUpperCase()+' · '+s.readTime.toUpperCase()+' READ</span></div><div class="modal-title">'+s.title+'</div><div class="modal-section"><div class="modal-section-label">Summary</div><div class="modal-section-text">'+s.summary+'</div></div><div class="modal-section"><div class="modal-section-label">Why This Matters</div><div class="modal-section-text">'+s.why+'</div></div><div class="modal-impact-box"><div class="modal-section-label" style="color:var(--cyan2)">Business Impact</div><div class="modal-section-text">'+s.impact+'</div></div><div class="modal-action-box"><div class="modal-action-label">Recommended Action</div><div class="modal-action-text">'+s.action+'</div></div><div style="font-family:var(--fm);font-size:8px;color:var(--text3);letter-spacing:0.09em;margin-bottom:5px">DETECTED FROM: '+s.source.toUpperCase()+'</div>';
-  document.getElementById('modal-footer').innerHTML='<div class="modal-btn modal-btn-secondary" onclick="toggleSaveModal()"><i data-lucide="'+(sv?'bookmark-check':'bookmark')+'" style="width:12px;height:12px"></i>'+(sv?'SAVED':'SAVE')+'</div>'+(rv?'':'<div class="modal-btn modal-btn-reviewed" onclick="markReviewed('+s.id+',null)"><i data-lucide="check" style="width:12px;height:12px"></i>REVIEWED</div>')+'<div class="modal-btn modal-btn-primary" onclick="window.open(\''+s.url+'\',\'_blank\')"><i data-lucide="external-link" style="width:12px;height:12px"></i>SOURCE</div>';
+  document.getElementById('modal-footer').innerHTML='<div class="modal-btn modal-btn-secondary" onclick="toggleSaveModal()"><i data-lucide="'+(sv?'bookmark-check':'bookmark')+'" style="width:12px;height:12px"></i>'+(sv?'SAVED':'SAVE')+'</div>'+(rv?'':'<div class="modal-btn modal-btn-reviewed" onclick="markReviewed(\''+s.id+'\',null)"><i data-lucide="check" style="width:12px;height:12px"></i>REVIEWED</div>')+'<div class="modal-btn modal-btn-primary" onclick="window.open(\''+s.url+'\',\'_blank\')"><i data-lucide="external-link" style="width:12px;height:12px"></i>SOURCE</div>';
   var sheet=document.getElementById('modal-sheet');sheet.scrollTop=0;
   document.getElementById('modal-overlay').classList.add('open');
   document.getElementById('modal-sheet').scrollTop=0;
-  lucide.createIcons();
+  safeIcons();
 }
 function closeModal(e){if(e.target===document.getElementById('modal-overlay')){document.getElementById('modal-overlay').classList.remove('open');currentModal=null;}}
-function toggleSaveModal(){if(!currentModal)return;toggleSaveId(currentModal.id,null);var sv=savedIds.includes(currentModal.id);var b=document.querySelector('#modal-footer .modal-btn-secondary');if(b){b.innerHTML='<i data-lucide="'+(sv?'bookmark-check':'bookmark')+'" style="width:12px;height:12px"></i>'+(sv?'SAVED':'SAVE');lucide.createIcons();}}
+function toggleSaveModal(){if(!currentModal)return;toggleSaveId(currentModal.id,null);var sv=savedIds.includes(currentModal.id);var b=document.querySelector('#modal-footer .modal-btn-secondary');if(b){b.innerHTML='<i data-lucide="'+(sv?'bookmark-check':'bookmark')+'" style="width:12px;height:12px"></i>'+(sv?'SAVED':'SAVE');safeIcons();}}
 /* ─── RADAR ─── */
 
 /* ─── NAVIGATION ─── */
@@ -1332,7 +1360,7 @@ function showPage(name, skipHistory){
   if(name==='news')renderNews('today');
   if(name==='readtab')renderReadTab();
   if(name==='settings')applyTheme(localStorage.getItem('sp_theme')||'system');
-  lucide.createIcons();
+  safeIcons();
 }
 var _curPage='dashboard';
 var _pageHistory=[];
@@ -1348,7 +1376,7 @@ function filterEcom(f,el){
   else if(f==='walmart')sigs=sigs.filter(function(s){return s.title.toLowerCase().includes('walmart')||s.summary.toLowerCase().includes('walmart');});
   else if(f==='faire')sigs=sigs.filter(function(s){return s.title.toLowerCase().includes('faire')||s.summary.toLowerCase().includes('faire');});
   else if(f==='etsy')sigs=sigs.filter(function(s){return s.title.toLowerCase().includes('etsy')||s.summary.toLowerCase().includes('etsy');});
-  renderPage('ecom-cards-full',sigs);lucide.createIcons();
+  renderPage('ecom-cards-full',sigs);safeIcons();
 }
 function filterBiz(f,el){
   document.querySelectorAll('#page-business .pill').forEach(function(p){p.classList.remove('active');});
@@ -1360,7 +1388,7 @@ function filterBiz(f,el){
   else if(f==='payments')sigs=sigs.filter(function(s){return (s.category==='payments'||s.cat==='payments');});
   else if(f==='ecommerce')sigs=sigs.filter(function(s){return (s.category==='ecommerce'||s.cat==='ecommerce');});
   else if(f==='seo')sigs=sigs.filter(function(s){return (s.category==='seo'||s.cat==='seo');});
-  renderPage('biz-cards-full',sigs);lucide.createIcons();
+  renderPage('biz-cards-full',sigs);safeIcons();
 }
 /* ─── SOURCES (tabbed + URL tap-to-open) ─── */
 var RSS_FEEDS_META = {
@@ -1494,7 +1522,7 @@ function handleSearch(q){
   var ql=q.toLowerCase();
   var found=allSignals().filter(function(s){return s.title.toLowerCase().includes(ql)||s.summary.toLowerCase().includes(ql)||s.source.toLowerCase().includes(ql)||s.category.toLowerCase().includes(ql)||(s.cat&&s.cat.toLowerCase().includes(ql));});
   el.innerHTML=found.length?found.map(cardHTML).join(''):'<div style="padding:36px 0;text-align:center;font-family:var(--fm);font-size:10px;color:var(--text3);letter-spacing:0.08em">NO SIGNALS FOUND FOR &quot;'+q.toUpperCase()+'&quot;</div>';
-  lucide.createIcons();
+  safeIcons();
 }
 function quickSearch(q){document.getElementById('search-input').value=q;handleSearch(q);}
 /* ─── NEWS DATE TABS ─── */
@@ -1546,21 +1574,24 @@ function renderNews(tab){
     html+=groups[grp].map(function(s){
       var ago=s.ts?_timeAgo(s.ts):'';
       var btype=s.type==='critical'?'critical':s.type==='opportunity'?'opportunity':s.type==='ai'?'ai':'important';
-      return '<div class="card '+s.type+'" onclick="openModal('+s.id+')">'
+      var hasUrl=!!(s.url&&s.url!=='#');
+      var srcBtn=hasUrl?'<div class="card-action-btn modal-btn-primary" onclick="window.open(\''+s.url+'\',\'_blank\')" style="background:var(--glass2)"><i data-lucide="external-link" style="width:9px;height:9px"></i>Source</div>':'';
+      return '<div class="card '+s.type+'" onclick="openModal(\''+s.id+'\')">'
         +'<div class="card-header"><span class="card-badge badge-'+btype+'">'+s.type+'</span>'
         +'<div style="text-align:right"><div class="card-source-label">'+s.source+'</div>'+(ago?'<div class="card-source-sub">'+ago+'</div>':'')+'</div></div>'
         +'<div class="card-title">'+s.title+'</div>'
         +'<div class="card-summary">'+s.summary.slice(0,100)+'&#8230;</div>'
         +'<div class="card-actions" onclick="event.stopPropagation()">'
-        +'<div class="card-action-btn" onclick="openModal('+s.id+')"><i data-lucide="search" style="width:9px;height:9px"></i>Analyze</div>'
-        +'<div class="card-action-btn" onclick="toggleSaveId('+s.id+',this)"><i data-lucide="bookmark" style="width:9px;height:9px"></i>Save</div>'
-        +'<div class="card-action-btn rev-btn" onclick="markReviewed('+s.id+',this)"><i data-lucide="check" style="width:9px;height:9px"></i>Done</div>'
+        +'<div class="card-action-btn" onclick="openModal(\''+s.id+'\')"><i data-lucide="search" style="width:9px;height:9px"></i>Analyze</div>'
+        +'<div class="card-action-btn" onclick="toggleSaveId(\''+s.id+'\',this)"><i data-lucide="bookmark" style="width:9px;height:9px"></i>Save</div>'
+        +'<div class="card-action-btn rev-btn" onclick="markReviewed(\''+s.id+'\',this)"><i data-lucide="check" style="width:9px;height:9px"></i>Done</div>'
+        +srcBtn
         +'</div></div>';
     }).join('');
     html+='</div>';
   });
   el.innerHTML=html;
-  lucide.createIcons();
+  safeIcons();
 }
 
 function updateCategoryCounts(){
@@ -1622,7 +1653,7 @@ function renderReadTab(){
       +'<div class="card-action-btn modal-btn-primary" onclick="window.open(\''+s.url+'\',\'_blank\')" style="background:var(--glass2)"><i data-lucide="external-link" style="width:9px;height:9px"></i>Source</div>'
       +'</div></div>';
   }).join('')+'</div>';
-  lucide.createIcons();
+  safeIcons();
 }
 function unmarkRead(id,btn){
   id=String(id);
@@ -2268,7 +2299,7 @@ window.addEventListener('load',function(){
   var btn=document.getElementById('theme-toggle-sub');
   if(btn)btn.textContent=names[theme]||'Currently '+theme;
   setTimeout(function(){
-    if(typeof lucide!=='undefined') lucide.createIcons();
+    safeIcons();
   },500);
   initMesh();
   initSwipe();
