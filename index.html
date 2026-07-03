@@ -308,6 +308,15 @@ body.error-shake #app{animation:shake 0.5s cubic-bezier(0.36,0,0.66,-0.56) 1}
 .empty-sub{font-family:var(--fm);font-size:9px;color:var(--text3);letter-spacing:0.08em}
 .toast{position:fixed;top:calc(58px + var(--safe-t));left:50%;transform:translateX(-50%) translateY(-14px);background:var(--bg2);border:1px solid var(--border2);border-radius:9px;padding:8px 13px;font-family:var(--fm);font-size:10px;font-weight:600;color:var(--text);z-index:300;opacity:0;transition:all 0.26s ease;white-space:nowrap;backdrop-filter:blur(20px);box-shadow:0 4px 18px rgba(0,0,0,0.5);letter-spacing:0.05em}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+/* ── PULL-TO-REFRESH ── */
+.ptr-indicator{position:fixed;top:calc(46px + var(--safe-t));left:0;right:0;display:flex;justify-content:center;z-index:120;pointer-events:none;opacity:0;transform:translateY(-26px) scale(0.7);transition:opacity 0.2s ease,transform 0.2s ease}
+.ptr-indicator.visible{opacity:1}
+.ptr-indicator.snap{transition:opacity 0.25s ease,transform 0.25s cubic-bezier(.34,1.56,.64,1)}
+.ptr-ring{width:30px;height:30px;border-radius:50%;background:var(--bg2);border:1px solid var(--border2);box-shadow:0 6px 20px rgba(0,0,0,0.45);display:flex;align-items:center;justify-content:center}
+.ptr-ring::before{content:'';width:20px;height:20px;border-radius:50%;border:2.5px solid rgba(255,255,255,0.12);border-top-color:var(--cyan2);border-right-color:var(--purple2)}
+.ptr-ring.ready::before{border-top-color:var(--green2);border-right-color:var(--cyan2)}
+.ptr-ring.spinning::before{animation:ptrSpin 0.7s linear infinite}
+@keyframes ptrSpin{to{transform:rotate(360deg)}}
 @media(min-width:768px){
   #app .app-inner{max-width:520px;margin:0 auto;border-left:1px solid var(--border);border-right:1px solid var(--border)}
   .nav{max-width:520px;left:50%;transform:translateX(-50%)}
@@ -558,6 +567,7 @@ body.error-shake #app{animation:shake 0.5s cubic-bezier(0.36,0,0.66,-0.56) 1}
         <div class="topbar-icon" onclick="showPage('settings')"><i data-lucide="settings" style="width:14px;height:14px"></i></div>
       </div>
     </div>
+    <div id="ptr-indicator" class="ptr-indicator"><div id="ptr-ring" class="ptr-ring"></div></div>
     <div class="scroll-content" id="scroll-content">
       <!-- DASHBOARD -->
       <div class="page active" id="page-dashboard">
@@ -1687,19 +1697,22 @@ var _liveSignals = []; // live RSS signals, merged with SIGNALS on render
    cat maps to the same category strings used throughout the app.
 ─────────────────────────────────────────────────────────── */
 var RSS_FEEDS = [
-  /* E-commerce — Amazon, Shopify, Etsy, Walmart, eBay, WooCommerce */
+  /* E-commerce — Amazon, Shopify, Etsy, Walmart, eBay, TikTok Shop, Faire, WooCommerce */
   { url:'https://feeds.feedburner.com/shopify/blog',                        cat:'ecommerce', label:'Shopify'            },
   { url:'https://sellercentral.amazon.com/forums/rss/allposts',             cat:'ecommerce', label:'Amazon'             },
   { url:'https://www.etsy.com/blog/en/feed/',                               cat:'ecommerce', label:'Etsy'               },
   { url:'https://feeds.feedburner.com/ecommercetimes',                      cat:'ecommerce', label:'eCommerce Times'    },
   { url:'https://www.practical-ecommerce.com/feed',                         cat:'ecommerce', label:'Practical Ecommerce'},
+  { url:'https://www.ebayinc.com/stories/news/rss/',                        cat:'ecommerce', label:'eBay'               },
+  { url:'https://news.google.com/rss/search?q=%22TikTok+Shop%22&hl=en-US&gl=US&ceid=US:en', cat:'ecommerce', label:'TikTok Shop'  },
+  { url:'https://marketplace.walmart.com/feed',                             cat:'ecommerce', label:'Walmart Marketplace'},
+  { url:'https://news.google.com/rss/search?q=Faire+wholesale&hl=en-US&gl=US&ceid=US:en',   cat:'ecommerce', label:'Faire'         },
   /* AI & Tech */
   { url:'https://openai.com/blog/rss.xml',                                  cat:'ai',        label:'OpenAI'             },
   { url:'https://www.anthropic.com/rss.xml',                                cat:'ai',        label:'Anthropic'          },
   { url:'https://blog.google/technology/ai/rss/',                           cat:'ai',        label:'Google AI'          },
   { url:'https://github.blog/category/product/feed/',                       cat:'ai',        label:'GitHub'             },
   { url:'https://feeds.feedburner.com/TechCrunch/',                         cat:'ai',        label:'TechCrunch'         },
-  { url:'https://www.theverge.com/rss/index.xml',                           cat:'ai',        label:'The Verge'          },
   /* SEO & Marketing */
   { url:'https://www.searchenginejournal.com/feed/',                        cat:'seo',       label:'SE Journal'         },
   { url:'https://feeds.feedburner.com/searchengineland',                    cat:'seo',       label:'Search Engine Land' },
@@ -1714,10 +1727,8 @@ var RSS_FEEDS = [
   /* Pakistan */
   { url:'https://www.dawn.com/feeds/business-finance',                      cat:'pakistan',  label:'Dawn Business'      },
   { url:'https://brecorder.com/feed',                                       cat:'pakistan',  label:'Business Recorder'  },
-  { url:'https://arynews.tv/feed/',                                         cat:'pakistan',  label:'ARY News'           },
   /* Business & Opportunities */
   { url:'https://feeds.feedburner.com/entrepreneur/latest',                 cat:'business',  label:'Entrepreneur'       },
-  { url:'https://hnrss.org/frontpage',                                      cat:'business',  label:'Hacker News'        },
   { url:'https://www.inc.com/rss/',                                         cat:'business',  label:'Inc Magazine'       },
   /* Scam Alerts */
   { url:'https://www.consumer.ftc.gov/rss/scam-alerts.xml',                cat:'scams',     label:'FTC Scam Alerts'    },
@@ -1865,11 +1876,11 @@ function fetchAllFeeds(force) {
   var age    = Date.now() - lastTs;
   if (!force && age < 5 * 60 * 1000) {
     loadFromCache();
-    return;
+    return Promise.resolve();
   }
   setRSSStatus('loading');
   var promises = RSS_FEEDS.map(function(feed) { return fetchFeed(feed); });
-  Promise.allSettled(promises).then(function(results) {
+  return Promise.allSettled(promises).then(function(results) {
     var all = [];
     var failedCount = 0;
     results.forEach(function(r) {
@@ -2290,6 +2301,68 @@ function initSwipe(){
   },false);
 }
 
+/* ── PULL-TO-REFRESH ──
+   Swipe down from the top of the scroll area reveals a cute spinning
+   loader; releasing past the threshold refetches every RSS feed and
+   re-renders the whole app once fresh signals are in. */
+var _ptr={startY:0,dist:0,pulling:false,refreshing:false};
+var PTR_THRESHOLD=68,PTR_MAX=104;
+function initPullToRefresh(){
+  var sc=document.getElementById('scroll-content');
+  var ind=document.getElementById('ptr-indicator');
+  var ring=document.getElementById('ptr-ring');
+  if(!sc||!ind||!ring)return;
+  sc.addEventListener('touchstart',function(e){
+    _ptr.pulling=(sc.scrollTop<=0&&!_ptr.refreshing);
+    _ptr.startY=e.touches[0].clientY;
+    _ptr.dist=0;
+    ind.classList.remove('snap');
+  },{passive:true});
+  sc.addEventListener('touchmove',function(e){
+    if(!_ptr.pulling||_ptr.refreshing)return;
+    var dy=e.touches[0].clientY-_ptr.startY;
+    if(dy<=0||sc.scrollTop>0){_ptr.pulling=false;ind.classList.add('snap');ind.classList.remove('visible');ring.classList.remove('ready');ring.style.transform='';return;}
+    e.preventDefault();
+    var dist=Math.min(dy*0.5,PTR_MAX);
+    _ptr.dist=dist;
+    ind.classList.add('visible');
+    ind.style.transform='translateY('+(dist-26)+'px) scale('+(0.7+Math.min(dist/PTR_THRESHOLD,1)*0.3)+')';
+    ring.style.transform='rotate('+Math.min((dist/PTR_THRESHOLD)*360,360)+'deg)';
+    ring.classList.toggle('ready',dist>=PTR_THRESHOLD);
+  },{passive:false});
+  sc.addEventListener('touchend',function(){
+    if(!_ptr.pulling||_ptr.refreshing){_ptr.pulling=false;return;}
+    _ptr.pulling=false;
+    ind.classList.add('snap');
+    if(_ptr.dist>=PTR_THRESHOLD)triggerPullRefresh();
+    else resetPTR();
+  },false);
+}
+function resetPTR(){
+  var ind=document.getElementById('ptr-indicator');
+  var ring=document.getElementById('ptr-ring');
+  if(ind){ind.classList.remove('visible');ind.style.transform='';}
+  if(ring){ring.classList.remove('spinning','ready');ring.style.transform='';}
+  _ptr.dist=0;
+}
+function triggerPullRefresh(){
+  var ind=document.getElementById('ptr-indicator');
+  var ring=document.getElementById('ptr-ring');
+  _ptr.refreshing=true;
+  if(navigator.vibrate)navigator.vibrate(12);
+  if(ind){ind.classList.add('visible');ind.style.transform='translateY(28px) scale(1)';}
+  if(ring){ring.style.transform='';ring.classList.add('spinning');}
+  showToast('Refreshing signals…');
+  fetchAllFeeds(true).then(function(){
+    showToast('Signals updated');
+  }).catch(function(){
+    showToast('Refresh failed — check connection');
+  }).then(function(){
+    _ptr.refreshing=false;
+    setTimeout(resetPTR,350);
+  });
+}
+
 /* ── BOOT ── */
 window.addEventListener('load',function(){
   initTheme();
@@ -2303,6 +2376,7 @@ window.addEventListener('load',function(){
   },500);
   initMesh();
   initSwipe();
+  initPullToRefresh();
   initStartup();
   if('serviceWorker' in navigator){
     navigator.serviceWorker.register('sw.js').catch(function(){});
