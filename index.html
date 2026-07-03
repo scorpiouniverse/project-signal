@@ -1134,7 +1134,7 @@ function notifyFetchResults(result){
 }
 
 /* ─── APP INIT ─── */
-function initApp(){updateGreeting();renderAll();renderNews("all");updateCategoryCounts();renderSources();renderRegions();lucide.createIcons();setTimeout(initRSS,400);}
+function initApp(){updateGreeting();renderAll();renderNews("all");updateCategoryCounts();renderSources();renderRegions();if(typeof lucide!=='undefined')lucide.createIcons();setTimeout(initRSS,400);}
 function updateGreeting(){
   var h=new Date().getHours();
   var name='Zain';
@@ -1220,7 +1220,7 @@ function renderAll(){
   renderPage('scam-cards-full',gA(allSignals().filter(function(s){return s.cat==='scams'||s.category==='scams';})));
   renderPage('seo-cards-full',gA(allSignals().filter(function(s){return (s.category==='seo'||s.cat==='seo');})));
   // Scam alerts always shown in critical-cards at top (mixed with other criticals)
-  renderSaved();renderArchive();updateCounters();lucide.createIcons();
+  renderSaved();renderArchive();updateCounters();if(typeof lucide!=='undefined')lucide.createIcons();
 }
 function emptyHTML(title,sub){return'<div class="cat-empty"><div class="empty-icon"><i data-lucide="check-circle" style="width:30px;height:30px;color:var(--green2)"></i></div><div class="empty-title">'+title+'</div><div class="empty-sub">'+sub+'</div></div>';}
 function renderPage(id,sigs){var el=document.getElementById(id);if(el)el.innerHTML=sigs.length?sigs.map(cardHTML).join(''):emptyHTML('No signals in this category','CHECK BACK SOON');}
@@ -1253,14 +1253,14 @@ function renderArchive(){
   var el=document.getElementById('archive-list');if(!el)return;
   if(!archived.length){el.innerHTML='<div class="archive-empty"><div class="empty-icon"><i data-lucide="archive" style="width:32px;height:32px;color:var(--text3)"></i></div><div class="empty-title">No reviewed signals</div><div class="empty-sub">Archive is empty</div></div>';}
   else{el.innerHTML='<div class="cards-grid">'+archived.map(function(s){return'<div class="card" style="opacity:0.65;position:relative;"><div class="card-header"><span class="card-badge badge-info">REVIEWED</span><div class="card-source-label">'+s.source+'</div></div><div class="card-title">'+s.title+'</div><div class="card-meta"><div class="card-meta-item" onclick="restoreFromArchive(\''+s.id+'\')" style="cursor:pointer;color:var(--cyan2);"><i data-lucide="undo" style="width:9px;height:9px;"></i>Restore</div></div></div>';}).join('')+'</div>';}
-  lucide.createIcons();
+  if(typeof lucide!=='undefined')lucide.createIcons();
 }
 /* ─── SAVE ─── */
 function toggleSaveId(id,btn){
   if(_idIn(savedIds,id)){savedIds=savedIds.filter(function(x){return String(x)!==String(id);});showToast('Removed from saved signals');}
   else{savedIds.push(id);showToast('Signal saved');}
   localStorage.setItem('ss',JSON.stringify(savedIds));renderSaved();
-  if(btn){var sv=_idIn(savedIds,id);btn.innerHTML='<i data-lucide="'+(sv?'bookmark-check':'bookmark')+'" style="width:9px;height:9px"></i>'+(sv?'Saved':'Save');lucide.createIcons();}
+  if(btn){var sv=_idIn(savedIds,id);btn.innerHTML='<i data-lucide="'+(sv?'bookmark-check':'bookmark')+'" style="width:9px;height:9px"></i>'+(sv?'Saved':'Save');if(typeof lucide!=='undefined')lucide.createIcons();}
 }
 function renderSaved(){
   var saved=allSignals().filter(function(s){return _idIn(savedIds,s.id);});
@@ -1268,7 +1268,7 @@ function renderSaved(){
   var el=document.getElementById('saved-list');if(!el)return;
   if(!saved.length){el.innerHTML='<div class="saved-empty"><div class="saved-empty-icon"><i data-lucide="bookmark" style="width:34px;height:34px"></i></div><div class="saved-empty-text">No saved signals</div><div class="saved-empty-sub">TAP SAVE ON ANY SIGNAL</div></div>';}
   else{el.innerHTML='<div class="cards-grid">'+saved.map(cardHTML).join('')+'</div>';}
-  lucide.createIcons();
+  if(typeof lucide!=='undefined')lucide.createIcons();
 }
 /* ─── MODAL ─── */
 function openModal(id){
@@ -1280,10 +1280,10 @@ function openModal(id){
   var sheet=document.getElementById('modal-sheet');sheet.scrollTop=0;
   document.getElementById('modal-overlay').classList.add('open');
   document.getElementById('modal-sheet').scrollTop=0;
-  lucide.createIcons();
+  if(typeof lucide!=='undefined')lucide.createIcons();
 }
 function closeModal(e){if(e.target===document.getElementById('modal-overlay')){document.getElementById('modal-overlay').classList.remove('open');currentModal=null;}}
-function toggleSaveModal(){if(!currentModal)return;toggleSaveId(currentModal.id,null);var sv=_idIn(savedIds,currentModal.id);var b=document.querySelector('#modal-footer .modal-btn-secondary');if(b){b.innerHTML='<i data-lucide="'+(sv?'bookmark-check':'bookmark')+'" style="width:12px;height:12px"></i>'+(sv?'SAVED':'SAVE');lucide.createIcons();}}
+function toggleSaveModal(){if(!currentModal)return;toggleSaveId(currentModal.id,null);var sv=_idIn(savedIds,currentModal.id);var b=document.querySelector('#modal-footer .modal-btn-secondary');if(b){b.innerHTML='<i data-lucide="'+(sv?'bookmark-check':'bookmark')+'" style="width:12px;height:12px"></i>'+(sv?'SAVED':'SAVE');if(typeof lucide!=='undefined')lucide.createIcons();}}
 /* ─── RADAR ─── */
 
 /* ─── NAVIGATION ─── */
@@ -1308,7 +1308,7 @@ function showPage(name, skipHistory){
   if(name==='news')renderNews('today');
   if(name==='readtab')renderReadTab();
   if(name==='settings')applyTheme(localStorage.getItem('sp_theme')||'system');
-  lucide.createIcons();
+  if(typeof lucide!=='undefined')lucide.createIcons();
 }
 var _curPage='dashboard';
 var _pageHistory=[];
@@ -1324,7 +1324,7 @@ function filterEcom(f,el){
   else if(f==='walmart')sigs=sigs.filter(function(s){return s.title.toLowerCase().includes('walmart')||s.summary.toLowerCase().includes('walmart');});
   else if(f==='faire')sigs=sigs.filter(function(s){return s.title.toLowerCase().includes('faire')||s.summary.toLowerCase().includes('faire');});
   else if(f==='etsy')sigs=sigs.filter(function(s){return s.title.toLowerCase().includes('etsy')||s.summary.toLowerCase().includes('etsy');});
-  renderPage('ecom-cards-full',sigs);lucide.createIcons();
+  renderPage('ecom-cards-full',sigs);if(typeof lucide!=='undefined')lucide.createIcons();
 }
 function filterBiz(f,el){
   document.querySelectorAll('#page-business .pill').forEach(function(p){p.classList.remove('active');});
@@ -1336,7 +1336,7 @@ function filterBiz(f,el){
   else if(f==='payments')sigs=sigs.filter(function(s){return (s.category==='payments'||s.cat==='payments');});
   else if(f==='ecommerce')sigs=sigs.filter(function(s){return (s.category==='ecommerce'||s.cat==='ecommerce');});
   else if(f==='seo')sigs=sigs.filter(function(s){return (s.category==='seo'||s.cat==='seo');});
-  renderPage('biz-cards-full',sigs);lucide.createIcons();
+  renderPage('biz-cards-full',sigs);if(typeof lucide!=='undefined')lucide.createIcons();
 }
 /* ─── SOURCES (tabbed + URL tap-to-open) ─── */
 var RSS_FEEDS_META = {
@@ -1470,7 +1470,7 @@ function handleSearch(q){
   var ql=q.toLowerCase();
   var found=allSignals().filter(function(s){return s.title.toLowerCase().includes(ql)||s.summary.toLowerCase().includes(ql)||s.source.toLowerCase().includes(ql)||s.category.toLowerCase().includes(ql)||(s.cat&&s.cat.toLowerCase().includes(ql));});
   el.innerHTML=found.length?found.map(cardHTML).join(''):'<div style="padding:36px 0;text-align:center;font-family:var(--fm);font-size:10px;color:var(--text3);letter-spacing:0.08em">NO SIGNALS FOUND FOR &quot;'+q.toUpperCase()+'&quot;</div>';
-  lucide.createIcons();
+  if(typeof lucide!=='undefined')lucide.createIcons();
 }
 function quickSearch(q){document.getElementById('search-input').value=q;handleSearch(q);}
 /* ─── NEWS DATE TABS ─── */
@@ -1536,7 +1536,7 @@ function renderNews(tab){
     html+='</div>';
   });
   el.innerHTML=html;
-  lucide.createIcons();
+  if(typeof lucide!=='undefined')lucide.createIcons();
 }
 
 function updateCategoryCounts(){
@@ -1598,7 +1598,7 @@ function renderReadTab(){
       +'<div class="card-action-btn modal-btn-primary" onclick="window.open(\''+s.url+'\',\'_blank\')" style="background:var(--glass2)"><i data-lucide="external-link" style="width:9px;height:9px"></i>Source</div>'
       +'</div></div>';
   }).join('')+'</div>';
-  lucide.createIcons();
+  if(typeof lucide!=='undefined')lucide.createIcons();
 }
 function unmarkRead(id,btn){
   id=String(id);
