@@ -1214,7 +1214,8 @@ function renderAll(){
   var _prio={critical:0,important:1,ai:2,opportunity:3};
   var _briefSorted=active.slice().sort(function(a,b){return(_prio[a.type]!=null?_prio[a.type]:9)-(_prio[b.type]!=null?_prio[b.type]:9)||b.ts-a.ts;});
   document.getElementById('briefing-list').innerHTML=_briefSorted.slice(0,12).map(function(s,i){return'<div class="briefing-card" onclick="openModal('+s.id+')"><div class="briefing-num">SIGNAL '+String(i+1).padStart(2,'0')+' · '+s.source.toUpperCase()+'</div><div class="briefing-card-title">'+s.title+'</div><div class="briefing-summary">'+s.summary.slice(0,125)+'…</div><div class="briefing-why">'+s.why+'</div><div class="briefing-action"><i data-lucide="arrow-right"></i><span>ANALYZE SIGNAL</span></div></div>';}).join('');
-  document.getElementById('radar-signals').innerHTML=active.filter(function(s){return['critical','important','scam'].includes(s.type);}).slice(0,5).map(function(s){var bg=s.type==='critical'?'rgba(220,38,38,0.09)':s.type==='scam'?'rgba(225,29,72,0.09)':'rgba(217,119,6,0.09)';var cl=s.type==='critical'?'#f87171':s.type==='scam'?'#fb7185':'#fbbf24';var rc=s.type==='critical'?'220,38,38':s.type==='scam'?'225,29,72':'217,119,6';var ic=s.type==='scam'?'shield-alert':'alert-triangle';return'<div class="signal-row" onclick="openModal('+s.id+')"><div class="signal-icon" style="background:'+bg+'"><i data-lucide="'+ic+'" style="width:13px;height:13px;color:'+cl+'"></i></div><div class="signal-body"><div class="signal-title">'+s.title+'</div><div class="signal-meta">DETECTED FROM: '+s.source.toUpperCase()+'</div></div><div class="signal-badge" style="background:rgba('+rc+',0.1);color:'+cl+';border:1px solid rgba('+rc+',0.22)">'+s.type.toUpperCase()+'</div></div>';}).join('');
+  var _radarEl=document.getElementById('radar-signals');
+  if(_radarEl){_radarEl.innerHTML=active.filter(function(s){return['critical','important','scam'].includes(s.type);}).slice(0,5).map(function(s){var bg=s.type==='critical'?'rgba(220,38,38,0.09)':s.type==='scam'?'rgba(225,29,72,0.09)':'rgba(217,119,6,0.09)';var cl=s.type==='critical'?'#f87171':s.type==='scam'?'#fb7185':'#fbbf24';var rc=s.type==='critical'?'220,38,38':s.type==='scam'?'225,29,72':'217,119,6';var ic=s.type==='scam'?'shield-alert':'alert-triangle';return'<div class="signal-row" onclick="openModal('+s.id+')"><div class="signal-icon" style="background:'+bg+'"><i data-lucide="'+ic+'" style="width:13px;height:13px;color:'+cl+'"></i></div><div class="signal-body"><div class="signal-title">'+s.title+'</div><div class="signal-meta">DETECTED FROM: '+s.source.toUpperCase()+'</div></div><div class="signal-badge" style="background:rgba('+rc+',0.1);color:'+cl+';border:1px solid rgba('+rc+',0.22)">'+s.type.toUpperCase()+'</div></div>';}).join('');}
   renderPage('scam-cards-full',gA(allSignals().filter(function(s){return s.cat==='scams'||s.category==='scams';})));
   renderPage('seo-cards-full',gA(allSignals().filter(function(s){return (s.category==='seo'||s.cat==='seo');})));
   // Scam alerts always shown in critical-cards at top (mixed with other criticals)
@@ -1671,18 +1672,19 @@ var RSS_FEEDS = [
    overriding the feed-level category when more specific.
 ─────────────────────────────────────────────────────────── */
 var CAT_RULES = [
-  { cat:'scams',      kw:['scam','fraud','phishing','hack','breach','stolen','fake','malware','ransomware'] },
-  { cat:'pakistan',   kw:['pakistan','pkr','fbr','sbp','karachi','lahore','islamabad','rupee','pta','secp'] },
+  { cat:'scams',      kw:['scam','fraud','phishing','hack','breach','stolen','fake','malware','ransomware','cyberattack','cybersecurity','data breach','vulnerability','exploit','ddos','credential theft','identity theft'] },
+  { cat:'pakistan',   kw:['pakistan','pkr','fbr','sbp','karachi','lahore','islamabad','rupee','pta','secp','nadra','ntn filing'] },
   { cat:'ai',         kw:['openai','anthropic','gpt','claude','gemini','llm','artificial intelligence','machine learning','chatgpt','copilot','ai model','large language'] },
   { cat:'ecommerce',  kw:['amazon','shopify','etsy','ebay','walmart','temu','tiktok shop','woocommerce','fba','seller central','product listing','marketplace seller'] },
-  { cat:'freelancing',kw:['upwork','fiverr','freelancer','toptal','remote work','gig economy','contractor','freelance','independent contractor','digital nomad'] },
-  { cat:'payments',   kw:['payoneer','wise','stripe','paypal','skrill','payment gateway','withdrawal','iban','swift','crypto payment','invoice','billing'] },
+  { cat:'freelancing',kw:['upwork','fiverr','freelancer','toptal','remote work','remote job','gig economy','contractor','freelance','independent contractor','digital nomad','client contract','side hustle'] },
+  { cat:'payments',   kw:['payoneer','wise','stripe','paypal','skrill','payment gateway','withdrawal','iban','swift','crypto payment','invoice','billing','tax filing','income tax','sales tax','tax deadline','tax return','withholding tax'] },
   { cat:'seo',        kw:['seo','google algorithm','search ranking','core update','backlink','serp','meta ads','google ads','analytics','digital marketing','ppc'] },
   { cat:'usa',        kw:['congress','irs','ftc','sec','federal','us senate','us house','tariff','customs','trade policy'] },
 ];
 
-/* Exclude these keywords to filter out unrelated content */
-var EXCLUDE_KW = ['sports','football','basketball','soccer','baseball','tennis','championship','game score','celebrity','gossip','entertainment','movie','actor','music','hollywood','trending twitter','viral','weather','recipe','cooking','fashion','luxury','real estate','cruise','vacation'];
+/* Exclude these keywords to filter out unrelated content — keeps the feed
+   focused on freelancer/business intelligence per user preference. */
+var EXCLUDE_KW = ['sports','football','basketball','soccer','baseball','tennis','cricket match','golf','olympics','world cup','super bowl','premier league','nba','nfl','championship','game score','celebrity','gossip','red carpet','box office','tv series','tv show','streaming series','reality tv','grammy','oscar award','album release','concert tour','royal family','kardashian','dating rumor','celebrity couple','entertainment','movie review','film review','actor','actress','music video','hollywood','bollywood','trending twitter','viral video','weather forecast','recipe','cooking tips','fashion week','luxury travel','real estate listing','cruise vacation','horoscope','astrology','gambling','casino','lottery'];
 
 
 function categorize(item, feedCat) {
@@ -1849,10 +1851,18 @@ function fetchAllFeeds(force) {
     }
     // Notify on new signals
     _notifyNewSignals(all);
-    // Merge and re-render the visible page
-    renderAll();
-    renderNews('all');
-    updateCategoryCounts();
+    // Merge and re-render the visible page. Wrapped in try/catch + finally so that
+    // a rendering error in one section (e.g. a missing DOM element) can never again
+    // silently prevent the dashboard stat counters from updating.
+    try {
+      renderAll();
+      renderNews('all');
+      updateCategoryCounts();
+    } catch(e) {
+      console.error('renderAll failed:', e);
+    } finally {
+      updateCounters();
+    }
   });
 }
 
@@ -1872,7 +1882,7 @@ function loadFromCache() {
     _liveSignals = [];
     setRSSStatus('empty');
   }
-  renderAll();
+  try { renderAll(); } catch(e) { console.error('renderAll failed:', e); } finally { updateCounters(); }
 }
 
 /* ── STATUS INDICATOR ── */
