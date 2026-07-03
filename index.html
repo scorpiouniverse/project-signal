@@ -1185,7 +1185,8 @@ function updateCounters(){
   var as=document.getElementById('archive-settings-sub');if(as)as.textContent=ac+' reviewed signal'+(ac===1?'':'s');
 }
 function animN(id,to){var el=document.getElementById(id);if(!el)return;var cur=0;function step(){cur=Math.min(to,cur+Math.max(1,Math.ceil((to-cur)*0.2)));el.textContent=cur;if(cur<to)requestAnimationFrame(step);}requestAnimationFrame(step);}
-function gA(arr){return arr.filter(function(s){return!reviewedIds.includes(s.id);});}
+function _idIn(arr,id){for(var i=0;i<arr.length;i++){if(String(arr[i])===String(id))return true;}return false;}
+function gA(arr){return arr.filter(function(s){return!_idIn(reviewedIds,s.id);});}
 /* ─── RENDER ALL ─── */
 function renderAll(){
   var active=gA(allSignals()).filter(function(s){return s.category!=='unrelated'&&s.cat!=='unrelated';});
@@ -1207,15 +1208,15 @@ function renderAll(){
   renderPage('global-cards-full',active);
   renderPage('opp-cards-full',active.filter(function(s){return s.type==='opportunity';}));
   var alList=active.filter(function(s){return['critical','important'].includes(s.type);});
-  document.getElementById('alert-list').innerHTML=alList.map(function(s){var col=s.type==='critical'?'#f87171':s.type==='scam'?'#fb7185':'#fbbf24';return'<div class="alert-item" onclick="openModal('+s.id+')"><div class="alert-item-dot" style="background:'+col+'"></div><div class="alert-item-body"><div class="alert-item-title">'+s.title+'</div><div class="alert-item-desc">'+s.summary.slice(0,90)+'…</div><div class="alert-item-time">DETECTED FROM: '+s.source.toUpperCase()+'</div></div></div>';}).join('')||'<div class="cat-empty"><div class="empty-title">No active alerts</div><div class="empty-sub">ALL SYSTEMS CLEAR</div></div>';
+  document.getElementById('alert-list').innerHTML=alList.map(function(s){var col=s.type==='critical'?'#f87171':s.type==='scam'?'#fb7185':'#fbbf24';return'<div class="alert-item" onclick="openModal(\''+s.id+'\')"><div class="alert-item-dot" style="background:'+col+'"></div><div class="alert-item-body"><div class="alert-item-title">'+s.title+'</div><div class="alert-item-desc">'+s.summary.slice(0,90)+'…</div><div class="alert-item-time">DETECTED FROM: '+s.source.toUpperCase()+'</div></div></div>';}).join('')||'<div class="cat-empty"><div class="empty-title">No active alerts</div><div class="empty-sub">ALL SYSTEMS CLEAR</div></div>';
   var crit=active.filter(function(s){return s.type==='critical';}).length;
   var _sc=active.filter(function(s){return s.cat==='scams'||s.category==='scams';}).length;
   document.getElementById('alert-count-badge').textContent=crit+' CRITICAL'+(_sc?' · '+_sc+' SCAM':'');
   var _prio={critical:0,important:1,ai:2,opportunity:3};
   var _briefSorted=active.slice().sort(function(a,b){return(_prio[a.type]!=null?_prio[a.type]:9)-(_prio[b.type]!=null?_prio[b.type]:9)||b.ts-a.ts;});
-  document.getElementById('briefing-list').innerHTML=_briefSorted.slice(0,12).map(function(s,i){return'<div class="briefing-card" onclick="openModal('+s.id+')"><div class="briefing-num">SIGNAL '+String(i+1).padStart(2,'0')+' · '+s.source.toUpperCase()+'</div><div class="briefing-card-title">'+s.title+'</div><div class="briefing-summary">'+s.summary.slice(0,125)+'…</div><div class="briefing-why">'+s.why+'</div><div class="briefing-action"><i data-lucide="arrow-right"></i><span>ANALYZE SIGNAL</span></div></div>';}).join('');
+  document.getElementById('briefing-list').innerHTML=_briefSorted.slice(0,12).map(function(s,i){return'<div class="briefing-card" onclick="openModal(\''+s.id+'\')"><div class="briefing-num">SIGNAL '+String(i+1).padStart(2,'0')+' · '+s.source.toUpperCase()+'</div><div class="briefing-card-title">'+s.title+'</div><div class="briefing-summary">'+s.summary.slice(0,125)+'…</div><div class="briefing-why">'+s.why+'</div><div class="briefing-action"><i data-lucide="arrow-right"></i><span>ANALYZE SIGNAL</span></div></div>';}).join('');
   var _radarEl=document.getElementById('radar-signals');
-  if(_radarEl){_radarEl.innerHTML=active.filter(function(s){return['critical','important','scam'].includes(s.type);}).slice(0,5).map(function(s){var bg=s.type==='critical'?'rgba(220,38,38,0.09)':s.type==='scam'?'rgba(225,29,72,0.09)':'rgba(217,119,6,0.09)';var cl=s.type==='critical'?'#f87171':s.type==='scam'?'#fb7185':'#fbbf24';var rc=s.type==='critical'?'220,38,38':s.type==='scam'?'225,29,72':'217,119,6';var ic=s.type==='scam'?'shield-alert':'alert-triangle';return'<div class="signal-row" onclick="openModal('+s.id+')"><div class="signal-icon" style="background:'+bg+'"><i data-lucide="'+ic+'" style="width:13px;height:13px;color:'+cl+'"></i></div><div class="signal-body"><div class="signal-title">'+s.title+'</div><div class="signal-meta">DETECTED FROM: '+s.source.toUpperCase()+'</div></div><div class="signal-badge" style="background:rgba('+rc+',0.1);color:'+cl+';border:1px solid rgba('+rc+',0.22)">'+s.type.toUpperCase()+'</div></div>';}).join('');}
+  if(_radarEl){_radarEl.innerHTML=active.filter(function(s){return['critical','important','scam'].includes(s.type);}).slice(0,5).map(function(s){var bg=s.type==='critical'?'rgba(220,38,38,0.09)':s.type==='scam'?'rgba(225,29,72,0.09)':'rgba(217,119,6,0.09)';var cl=s.type==='critical'?'#f87171':s.type==='scam'?'#fb7185':'#fbbf24';var rc=s.type==='critical'?'220,38,38':s.type==='scam'?'225,29,72':'217,119,6';var ic=s.type==='scam'?'shield-alert':'alert-triangle';return'<div class="signal-row" onclick="openModal(\''+s.id+'\')"><div class="signal-icon" style="background:'+bg+'"><i data-lucide="'+ic+'" style="width:13px;height:13px;color:'+cl+'"></i></div><div class="signal-body"><div class="signal-title">'+s.title+'</div><div class="signal-meta">DETECTED FROM: '+s.source.toUpperCase()+'</div></div><div class="signal-badge" style="background:rgba('+rc+',0.1);color:'+cl+';border:1px solid rgba('+rc+',0.22)">'+s.type.toUpperCase()+'</div></div>';}).join('');}
   renderPage('scam-cards-full',gA(allSignals().filter(function(s){return s.cat==='scams'||s.category==='scams';})));
   renderPage('seo-cards-full',gA(allSignals().filter(function(s){return (s.category==='seo'||s.cat==='seo');})));
   // Scam alerts always shown in critical-cards at top (mixed with other criticals)
@@ -1226,12 +1227,12 @@ function renderPage(id,sigs){var el=document.getElementById(id);if(el)el.innerHT
 function cardHTML(s){
   var bc={critical:'badge-critical',important:'badge-important',opportunity:'badge-opportunity',ai:'badge-ai',scam:'badge-scam',info:'badge-info'}[s.type]||'badge-info';
   var cc={critical:'critical',important:'important',opportunity:'opportunity',ai:'ai-card',scam:'scam-card'}[s.type]||'';
-  var sv=savedIds.includes(s.id);
-  return'<div class="card '+cc+'" data-id="'+s.id+'" onclick="openModal('+s.id+')"><div class="card-header"><span class="card-badge '+bc+'">'+s.type+'</span><div><div class="card-source-label">'+s.source+'</div><div class="card-source-sub">'+(s.live?'&#9679; LIVE FEED':'DETECTED FROM')+'</div></div></div><div class="card-title">'+s.title+'</div><div class="card-summary">'+s.summary.slice(0,105)+'…</div><div class="card-impact"><div class="card-impact-label">Business Impact</div>'+s.impact.slice(0,90)+'</div><div class="card-meta"><div class="card-meta-item"><i data-lucide="clock" style="width:9px;height:9px"></i>'+s.readTime+' read</div></div><div class="card-actions" onclick="event.stopPropagation()"><div class="card-action-btn" onclick="openModal('+s.id+')"><i data-lucide="search" style="width:9px;height:9px"></i>Analyze</div><div class="card-action-btn" onclick="toggleSaveId('+s.id+',this)"><i data-lucide="'+(sv?'bookmark-check':'bookmark')+'" style="width:9px;height:9px"></i>'+(sv?'Saved':'Save')+'</div><div class="card-action-btn rev-btn" onclick="markReviewed('+s.id+',this)"><i data-lucide="check" style="width:9px;height:9px"></i>Done</div></div></div>';
+  var sv=_idIn(savedIds,s.id);
+  return'<div class="card '+cc+'" data-id="'+s.id+'" onclick="openModal(\''+s.id+'\')"><div class="card-header"><span class="card-badge '+bc+'">'+s.type+'</span><div><div class="card-source-label">'+s.source+'</div><div class="card-source-sub">'+(s.live?'&#9679; LIVE FEED':'DETECTED FROM')+'</div></div></div><div class="card-title">'+s.title+'</div><div class="card-summary">'+s.summary.slice(0,105)+'…</div><div class="card-impact"><div class="card-impact-label">Business Impact</div>'+s.impact.slice(0,90)+'</div><div class="card-meta"><div class="card-meta-item"><i data-lucide="clock" style="width:9px;height:9px"></i>'+s.readTime+' read</div></div><div class="card-actions" onclick="event.stopPropagation()"><div class="card-action-btn" onclick="openModal(\''+s.id+'\')"><i data-lucide="search" style="width:9px;height:9px"></i>Analyze</div><div class="card-action-btn" onclick="toggleSaveId(\''+s.id+'\',this)"><i data-lucide="'+(sv?'bookmark-check':'bookmark')+'" style="width:9px;height:9px"></i>'+(sv?'Saved':'Save')+'</div><div class="card-action-btn rev-btn" onclick="markReviewed(\''+s.id+'\',this)"><i data-lucide="check" style="width:9px;height:9px"></i>Done</div></div></div>';
 }
 /* ─── WORKFLOW ─── */
 function markReviewed(id,btn){
-  if(reviewedIds.includes(id))return;
+  if(_idIn(reviewedIds,id))return;
   reviewedIds.push(id);localStorage.setItem('sr',JSON.stringify(reviewedIds));
   var card=btn?btn.closest('.card'):document.querySelector('[data-id="'+id+'"]');
   if(card){card.classList.add('reviewing');setTimeout(function(){card.remove();updateCounters();renderArchive();},460);}
@@ -1240,29 +1241,29 @@ function markReviewed(id,btn){
 }
 function clearArchive(){if(!reviewedIds.length){showToast('Archive is already empty');return;}reviewedIds=[];localStorage.setItem('sr','[]');renderAll();showToast('Archive cleared · signals restored');}
 function restoreFromArchive(id){
-  reviewedIds=reviewedIds.filter(function(x){return x!==id;});
+  reviewedIds=reviewedIds.filter(function(x){return String(x)!==String(id);});
   localStorage.setItem('sr',JSON.stringify(reviewedIds));
   renderArchive();updateCounters();
   showToast('Signal restored to inbox');
 }
 function renderArchive(){
-  var archived=allSignals().filter(function(s){return reviewedIds.includes(s.id);});
+  var archived=allSignals().filter(function(s){return _idIn(reviewedIds,s.id);});
   var sub=document.getElementById('archive-count-sub');if(sub)sub.textContent=archived.length+' REVIEWED';
   var as=document.getElementById('archive-settings-sub');if(as)as.textContent=archived.length+' reviewed signals';
   var el=document.getElementById('archive-list');if(!el)return;
   if(!archived.length){el.innerHTML='<div class="archive-empty"><div class="empty-icon"><i data-lucide="archive" style="width:32px;height:32px;color:var(--text3)"></i></div><div class="empty-title">No reviewed signals</div><div class="empty-sub">Archive is empty</div></div>';}
-  else{el.innerHTML='<div class="cards-grid">'+archived.map(function(s){return'<div class="card" style="opacity:0.65;position:relative;"><div class="card-header"><span class="card-badge badge-info">REVIEWED</span><div class="card-source-label">'+s.source+'</div></div><div class="card-title">'+s.title+'</div><div class="card-meta"><div class="card-meta-item" onclick="restoreFromArchive('+s.id+')" style="cursor:pointer;color:var(--cyan2);"><i data-lucide="undo" style="width:9px;height:9px;"></i>Restore</div></div></div>';}).join('')+'</div>';}
+  else{el.innerHTML='<div class="cards-grid">'+archived.map(function(s){return'<div class="card" style="opacity:0.65;position:relative;"><div class="card-header"><span class="card-badge badge-info">REVIEWED</span><div class="card-source-label">'+s.source+'</div></div><div class="card-title">'+s.title+'</div><div class="card-meta"><div class="card-meta-item" onclick="restoreFromArchive(\''+s.id+'\')" style="cursor:pointer;color:var(--cyan2);"><i data-lucide="undo" style="width:9px;height:9px;"></i>Restore</div></div></div>';}).join('')+'</div>';}
   lucide.createIcons();
 }
 /* ─── SAVE ─── */
 function toggleSaveId(id,btn){
-  if(savedIds.includes(id)){savedIds=savedIds.filter(function(x){return x!==id;});showToast('Removed from saved signals');}
+  if(_idIn(savedIds,id)){savedIds=savedIds.filter(function(x){return String(x)!==String(id);});showToast('Removed from saved signals');}
   else{savedIds.push(id);showToast('Signal saved');}
   localStorage.setItem('ss',JSON.stringify(savedIds));renderSaved();
-  if(btn){var sv=savedIds.includes(id);btn.innerHTML='<i data-lucide="'+(sv?'bookmark-check':'bookmark')+'" style="width:9px;height:9px"></i>'+(sv?'Saved':'Save');lucide.createIcons();}
+  if(btn){var sv=_idIn(savedIds,id);btn.innerHTML='<i data-lucide="'+(sv?'bookmark-check':'bookmark')+'" style="width:9px;height:9px"></i>'+(sv?'Saved':'Save');lucide.createIcons();}
 }
 function renderSaved(){
-  var saved=allSignals().filter(function(s){return savedIds.includes(s.id);});
+  var saved=allSignals().filter(function(s){return _idIn(savedIds,s.id);});
   var sub=document.getElementById('saved-count-sub');if(sub)sub.textContent=saved.length+' SIGNALS SAVED';
   var el=document.getElementById('saved-list');if(!el)return;
   if(!saved.length){el.innerHTML='<div class="saved-empty"><div class="saved-empty-icon"><i data-lucide="bookmark" style="width:34px;height:34px"></i></div><div class="saved-empty-text">No saved signals</div><div class="saved-empty-sub">TAP SAVE ON ANY SIGNAL</div></div>';}
@@ -1272,17 +1273,17 @@ function renderSaved(){
 /* ─── MODAL ─── */
 function openModal(id){
   var s=allSignals().find(function(x){return String(x.id)===String(id);});if(!s)return;currentModal=s;
-  var sv=savedIds.includes(s.id);var rv=reviewedIds.includes(s.id);
+  var sv=_idIn(savedIds,s.id);var rv=_idIn(reviewedIds,s.id);
   var bc={critical:'badge-critical',important:'badge-important',opportunity:'badge-opportunity',ai:'badge-ai',scam:'badge-scam'}[s.type]||'badge-info';
   document.getElementById('modal-content').innerHTML='<div class="modal-badge-row"><span class="card-badge '+bc+'">'+s.type+'</span><span style="font-family:var(--fm);font-size:8px;color:var(--text3);letter-spacing:0.09em">'+s.source.toUpperCase()+' · '+s.readTime.toUpperCase()+' READ</span></div><div class="modal-title">'+s.title+'</div><div class="modal-section"><div class="modal-section-label">Summary</div><div class="modal-section-text">'+s.summary+'</div></div><div class="modal-section"><div class="modal-section-label">Why This Matters</div><div class="modal-section-text">'+s.why+'</div></div><div class="modal-impact-box"><div class="modal-section-label" style="color:var(--cyan2)">Business Impact</div><div class="modal-section-text">'+s.impact+'</div></div><div class="modal-action-box"><div class="modal-action-label">Recommended Action</div><div class="modal-action-text">'+s.action+'</div></div><div style="font-family:var(--fm);font-size:8px;color:var(--text3);letter-spacing:0.09em;margin-bottom:5px">DETECTED FROM: '+s.source.toUpperCase()+'</div>';
-  document.getElementById('modal-footer').innerHTML='<div class="modal-btn modal-btn-secondary" onclick="toggleSaveModal()"><i data-lucide="'+(sv?'bookmark-check':'bookmark')+'" style="width:12px;height:12px"></i>'+(sv?'SAVED':'SAVE')+'</div>'+(rv?'':'<div class="modal-btn modal-btn-reviewed" onclick="markReviewed('+s.id+',null)"><i data-lucide="check" style="width:12px;height:12px"></i>REVIEWED</div>')+'<div class="modal-btn modal-btn-primary" onclick="window.open(\''+s.url+'\',\'_blank\')"><i data-lucide="external-link" style="width:12px;height:12px"></i>SOURCE</div>';
+  document.getElementById('modal-footer').innerHTML='<div class="modal-btn modal-btn-secondary" onclick="toggleSaveModal()"><i data-lucide="'+(sv?'bookmark-check':'bookmark')+'" style="width:12px;height:12px"></i>'+(sv?'SAVED':'SAVE')+'</div>'+(rv?'':'<div class="modal-btn modal-btn-reviewed" onclick="markReviewed(\''+s.id+'\',null)"><i data-lucide="check" style="width:12px;height:12px"></i>REVIEWED</div>')+'<div class="modal-btn modal-btn-primary" onclick="window.open(\''+s.url+'\',\'_blank\')"><i data-lucide="external-link" style="width:12px;height:12px"></i>SOURCE</div>';
   var sheet=document.getElementById('modal-sheet');sheet.scrollTop=0;
   document.getElementById('modal-overlay').classList.add('open');
   document.getElementById('modal-sheet').scrollTop=0;
   lucide.createIcons();
 }
 function closeModal(e){if(e.target===document.getElementById('modal-overlay')){document.getElementById('modal-overlay').classList.remove('open');currentModal=null;}}
-function toggleSaveModal(){if(!currentModal)return;toggleSaveId(currentModal.id,null);var sv=savedIds.includes(currentModal.id);var b=document.querySelector('#modal-footer .modal-btn-secondary');if(b){b.innerHTML='<i data-lucide="'+(sv?'bookmark-check':'bookmark')+'" style="width:12px;height:12px"></i>'+(sv?'SAVED':'SAVE');lucide.createIcons();}}
+function toggleSaveModal(){if(!currentModal)return;toggleSaveId(currentModal.id,null);var sv=_idIn(savedIds,currentModal.id);var b=document.querySelector('#modal-footer .modal-btn-secondary');if(b){b.innerHTML='<i data-lucide="'+(sv?'bookmark-check':'bookmark')+'" style="width:12px;height:12px"></i>'+(sv?'SAVED':'SAVE');lucide.createIcons();}}
 /* ─── RADAR ─── */
 
 /* ─── NAVIGATION ─── */
@@ -1521,15 +1522,15 @@ function renderNews(tab){
     html+=groups[grp].map(function(s){
       var ago=s.ts?_timeAgo(s.ts):'';
       var btype=s.type==='critical'?'critical':s.type==='opportunity'?'opportunity':s.type==='ai'?'ai':'important';
-      return '<div class="card '+s.type+'" onclick="openModal('+s.id+')">'
+      return '<div class="card '+s.type+'" onclick="openModal(\''+s.id+'\')">'
         +'<div class="card-header"><span class="card-badge badge-'+btype+'">'+s.type+'</span>'
         +'<div style="text-align:right"><div class="card-source-label">'+s.source+'</div>'+(ago?'<div class="card-source-sub">'+ago+'</div>':'')+'</div></div>'
         +'<div class="card-title">'+s.title+'</div>'
         +'<div class="card-summary">'+s.summary.slice(0,100)+'&#8230;</div>'
         +'<div class="card-actions" onclick="event.stopPropagation()">'
-        +'<div class="card-action-btn" onclick="openModal('+s.id+')"><i data-lucide="search" style="width:9px;height:9px"></i>Analyze</div>'
-        +'<div class="card-action-btn" onclick="toggleSaveId('+s.id+',this)"><i data-lucide="bookmark" style="width:9px;height:9px"></i>Save</div>'
-        +'<div class="card-action-btn rev-btn" onclick="markReviewed('+s.id+',this)"><i data-lucide="check" style="width:9px;height:9px"></i>Done</div>'
+        +'<div class="card-action-btn" onclick="openModal(\''+s.id+'\')"><i data-lucide="search" style="width:9px;height:9px"></i>Analyze</div>'
+        +'<div class="card-action-btn" onclick="toggleSaveId(\''+s.id+'\',this)"><i data-lucide="bookmark" style="width:9px;height:9px"></i>Save</div>'
+        +'<div class="card-action-btn rev-btn" onclick="markReviewed(\''+s.id+'\',this)"><i data-lucide="check" style="width:9px;height:9px"></i>Done</div>'
         +'</div></div>';
     }).join('');
     html+='</div>';
@@ -1658,7 +1659,6 @@ var RSS_FEEDS = [
   /* Pakistan */
   { url:'https://www.dawn.com/feeds/business-finance',                      cat:'pakistan',  label:'Dawn Business'      },
   { url:'https://brecorder.com/feed',                                       cat:'pakistan',  label:'Business Recorder'  },
-  { url:'https://arynews.tv/feed/',                                         cat:'pakistan',  label:'ARY News'           },
   /* Business & Opportunities */
   { url:'https://feeds.feedburner.com/entrepreneur/latest',                 cat:'business',  label:'Entrepreneur'       },
   { url:'https://hnrss.org/frontpage',                                      cat:'business',  label:'Hacker News'        },
