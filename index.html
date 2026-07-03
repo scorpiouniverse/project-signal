@@ -11,10 +11,12 @@
 <meta name="application-name" content="Project Signal">
 <meta name="description" content="Personal business intelligence by Zain Akram">
 <link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
 <title>PROJECT SIGNAL</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;600;700&family=Dancing+Script:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;600;700&family=Dancing+Script:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -26,7 +28,7 @@
   --cyan:#0891b2;--cyan2:#22d3ee;--cyan3:#67e8f9;
   --text:#e8eef7;--text2:#a8bbc9;--text3:#6d8fa3;
   --red2:#ff6b6b;--amber2:#fcd34d;--green2:#4ade80;
-  --fh:'Space Grotesk',sans-serif;--fb:'Manrope',sans-serif;--fm:'JetBrains Mono',monospace;
+  --fh:'Space Grotesk',sans-serif;--fb:'Poppins',sans-serif;--fm:'JetBrains Mono',monospace;
   --nav-h:76px;--safe-b:env(safe-area-inset-bottom,0px);--safe-t:env(safe-area-inset-top,0px);
   --r:16px;--r2:12px;--r3:24px;
 }
@@ -39,6 +41,7 @@ body{height:100%;background:var(--bg);color:var(--text);font-family:var(--fb);fo
 #startup{background:#000;z-index:100}
 #startup-canvas{position:absolute;inset:0}
 .startup-logo{position:relative;z-index:2;text-align:center;opacity:0;transition:opacity 1.4s ease,transform 1.4s ease;transform:translateY(10px)}
+.startup-logo img{width:80px;height:80px;margin:0 auto 20px;opacity:0.9;display:block;filter:drop-shadow(0 0 12px rgba(196,167,71,0.3))}
 .startup-logo.show{opacity:1;transform:translateY(0)}
 .startup-name{font-family:var(--fh);font-size:clamp(15px,3vw,26px);font-weight:500;letter-spacing:0.45em;background:linear-gradient(135deg,rgba(255,255,255,0.88) 0%,var(--cyan3) 50%,var(--purple2) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .startup-by{font-family:'Dancing Script',cursive;font-size:clamp(11px,1.8vw,16px);color:rgba(255,255,255,0.3);margin-top:10px}
@@ -94,6 +97,9 @@ body{height:100%;background:var(--bg);color:var(--text);font-family:var(--fb);fo
 .page-dots{display:none;gap:5px;justify-content:center;align-items:center;padding:0;margin:0;z-index:55}
 .page-dot{width:5px;height:5px;border-radius:50%;background:var(--border);cursor:pointer;transition:all 0.3s ease}
 .page-dot.active{background:var(--cyan2);box-shadow:0 0 6px rgba(34,211,238,0.5);transform:scale(1.2)}
+.theme-option{padding:12px 10px;border-radius:12px;background:var(--glass);border:1.5px solid var(--border);cursor:pointer;transition:all 0.2s ease;font-size:12px;font-weight:500;text-align:center;display:flex;align-items:center;justify-content:center;gap:4px}
+.theme-option:hover{background:var(--glass2);border-color:var(--border2);transform:translateY(-2px)}
+.theme-option.active{background:linear-gradient(135deg,var(--purple),var(--cyan2));border-color:var(--cyan2);color:#fff;box-shadow:0 0 12px rgba(34,211,238,0.4)}
 .hero{padding:20px 20px 4px}
 .hero-eyebrow{font-family:var(--fm);font-size:9px;letter-spacing:0.22em;color:var(--cyan2);font-weight:500;margin-bottom:7px;display:flex;align-items:center;gap:7px}
 .hero-eyebrow::before{content:'';width:16px;height:1px;background:var(--cyan2);opacity:0.45}
@@ -296,13 +302,57 @@ body{height:100%;background:var(--bg);color:var(--text);font-family:var(--fb);fo
 
 /* ── LIGHT MODE ── */
 [data-theme="light"]{
-  --bg:#f8fafc;--bg1:#ffffff;--bg2:#f1f5f9;
-  --glass:rgba(15,25,40,0.08);--glass2:rgba(15,25,40,0.12);--glass3:rgba(15,25,40,0.16);
-  --border:rgba(15,25,40,0.12);--border2:rgba(15,25,40,0.2);
-  --purple:#7c3aed;--purple2:#9333ea;--blue2:#2563eb;
-  --cyan:#0e7490;--cyan2:#0891b2;--cyan3:#0369a1;
-  --text:#1a202c;--text2:#475569;--text3:#64748b;
+  --bg:#f5f7fa;--bg1:#ffffff;--bg2:#eef2f7;
+  --glass:rgba(30,41,59,0.06);--glass2:rgba(30,41,59,0.11);--glass3:rgba(30,41,59,0.16);
+  --border:rgba(30,41,59,0.14);--border2:rgba(30,41,59,0.24);
+  --purple:#6d28d9;--purple2:#7c3aed;--blue2:#2563eb;
+  --cyan:#0369a1;--cyan2:#0891b2;--cyan3:#0284c7;
+  --text:#0f172a;--text2:#334155;--text3:#57667b;
   --red2:#dc2626;--amber2:#b45309;--green2:#059669;
+}
+
+/* ── SCORPIO UNIVERSE THEME ── */
+[data-theme="scorpio"]{
+  --bg:#0a0515;--bg1:#1a0f2e;--bg2:#2d1b47;
+  --glass:rgba(168,85,247,0.08);--glass2:rgba(168,85,247,0.14);--glass3:rgba(168,85,247,0.22);
+  --border:rgba(168,85,247,0.18);--border2:rgba(168,85,247,0.32);
+  --purple:#a855f7;--purple2:#d946ef;--blue2:#3b82f6;
+  --cyan:#06b6d4;--cyan2:#0ea5e9;--cyan3:#0284c7;
+  --text:#f3e8ff;--text2:#d8b4fe;--text3:#9d7fe0;
+  --red2:#ec4899;--amber2:#f59e0b;--green2:#4ade80;
+}
+
+/* ── AURORA THEME ── */
+[data-theme="aurora"]{
+  --bg:#0d0d1f;--bg1:#1a1a3f;--bg2:#2d1b4e;
+  --glass:rgba(59,130,246,0.08);--glass2:rgba(59,130,246,0.14);--glass3:rgba(59,130,246,0.22);
+  --border:rgba(59,130,246,0.18);--border2:rgba(59,130,246,0.32);
+  --purple:#60a5fa;--purple2:#3b82f6;--blue2:#1d4ed8;
+  --cyan:#06b6d4;--cyan2:#0ea5e9;--cyan3:#00d9ff;
+  --text:#e0e7ff;--text2:#c7d2fe;--text3:#818cf8;
+  --red2:#f87171;--amber2:#fbbf24;--green2:#4ade80;
+}
+
+/* ── MIDNIGHT THEME ── */
+[data-theme="midnight"]{
+  --bg:#0a0e27;--bg1:#131d3c;--bg2:#1e2847;
+  --glass:rgba(15,23,42,0.08);--glass2:rgba(15,23,42,0.14);--glass3:rgba(15,23,42,0.22);
+  --border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.16);
+  --purple:#7c3aed;--purple2:#8b5cf6;--blue2:#60a5fa;
+  --cyan:#0891b2;--cyan2:#22d3ee;--cyan3:#67e8f9;
+  --text:#f8fafc;--text2:#cbd5e1;--text3:#94a3b8;
+  --red2:#ff6b6b;--amber2:#fcd34d;--green2:#51cf66;
+}
+
+/* ── COSMIC THEME ── */
+[data-theme="cosmic"]{
+  --bg:#0f0a1a;--bg1:#1a1028;--bg2:#2a1f3d;
+  --glass:rgba(236,72,153,0.08);--glass2:rgba(236,72,153,0.14);--glass3:rgba(236,72,153,0.22);
+  --border:rgba(236,72,153,0.18);--border2:rgba(236,72,153,0.32);
+  --purple:#ec4899;--purple2:#f472b6;--blue2:#7c3aed;
+  --cyan:#a78bfa;--cyan2:#c084fc;--cyan3:#d8b4fe;
+  --text:#fae8ff;--text2:#f3e8ff;--text3:#d8b4fe;
+  --red2:#ff4757;--amber2:#ffa502;--green2:#2ecc71;
 }
 [data-theme="light"] #lockscreen{background:linear-gradient(160deg,#e4eaf0 0%,#f0f4f8 50%,#eaf0f6 100%)}
 [data-theme="light"] .lock-brand-name{color:rgba(13,17,23,0.4)}
@@ -404,6 +454,7 @@ body{height:100%;background:var(--bg);color:var(--text);font-family:var(--fb);fo
 <div id="startup" class="screen">
   <canvas id="startup-canvas"></canvas>
   <div class="startup-logo" id="startup-logo">
+    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200' style='width:80px;height:80px;margin:0 auto 20px;opacity:0.9'%3E%3Ctext x='50' y='120' font-family='Space Grotesk' font-size='60' font-weight='500' fill='%23c4a747' text-anchor='middle'%3Em%3C/text%3E%3Ccircle cx='100' cy='100' r='95' fill='none' stroke='%23c4a747' stroke-width='2' opacity='0.5'/%3E%3C/svg%3E" alt="Project Signal Logo">
     <div class="startup-name">PROJECT SIGNAL</div>
     <div class="startup-by">by Zain Akram</div>
     <div class="startup-rule"></div>
@@ -728,9 +779,20 @@ body{height:100%;background:var(--bg);color:var(--text);font-family:var(--fb);fo
         <div class="settings-section">
           <div class="settings-section-title">Appearance</div>
           <div class="settings-list">
-            <div class="settings-item" onclick="toggleTheme()">
-              <div class="settings-item-icon" style="background:rgba(245,158,11,0.07);color:var(--amber2)"><i data-lucide="sun" style="width:14px;height:14px"></i></div>
+            <div class="settings-item" onclick="showThemeSelector()">
+              <div class="settings-item-icon" style="background:rgba(245,158,11,0.07);color:var(--amber2)"><i data-lucide="palette" style="width:14px;height:14px"></i></div>
               <div class="settings-item-body"><div class="settings-item-title">Theme</div><div class="settings-item-sub" id="theme-toggle-sub">Currently dark</div></div>
+              <i data-lucide="chevron-right" style="width:16px;height:16px;color:var(--text3)"></i>
+            </div>
+          </div>
+          <div id="theme-selector" style="display:none;padding:12px;border-top:1px solid var(--border);margin-top:8px">
+            <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px">
+              <div class="theme-option" onclick="setTheme('dark')" data-theme-name="dark">🌙 Dark</div>
+              <div class="theme-option" onclick="setTheme('light')" data-theme-name="light">☀️ Light</div>
+              <div class="theme-option" onclick="setTheme('scorpio')" data-theme-name="scorpio">♏ Scorpio</div>
+              <div class="theme-option" onclick="setTheme('aurora')" data-theme-name="aurora">🌌 Aurora</div>
+              <div class="theme-option" onclick="setTheme('midnight')" data-theme-name="midnight">🌃 Midnight</div>
+              <div class="theme-option" onclick="setTheme('cosmic')" data-theme-name="cosmic">✨ Cosmic</div>
             </div>
           </div>
         </div>
@@ -740,7 +802,7 @@ body{height:100%;background:var(--bg);color:var(--text);font-family:var(--fb);fo
             <div class="settings-item" onclick="toggleNotifications()">
               <div class="settings-item-icon" style="background:rgba(168,85,247,0.1);color:var(--purple2)"><i data-lucide="bell-ring" style="width:14px;height:14px"></i></div>
               <div class="settings-item-body"><div class="settings-item-title">Push Notifications</div><div class="settings-item-sub" id="notif-sub">Tap to enable critical alerts</div></div>
-              <div class="toggle" id="notif-toggle" style="pointer-events:none"></div>
+              <div class="toggle" id="notif-toggle"></div>
             </div>
           </div>
           <div class="settings-section-title">Security</div>
@@ -1942,13 +2004,30 @@ function initTheme(){
   var theme=saved||(prefersDark?'dark':'light');
   document.documentElement.setAttribute('data-theme',theme);
 }
+function showThemeSelector(){
+  var selector=document.getElementById('theme-selector');
+  if(selector)selector.style.display=selector.style.display==='none'?'block':'none';
+  updateThemeOptions();
+}
+function setTheme(name){
+  document.documentElement.setAttribute('data-theme',name);
+  localStorage.setItem('signal_theme',name);
+  var names={dark:'Currently dark',light:'Currently light',scorpio:'♏ Scorpio Universe',aurora:'🌌 Aurora',midnight:'🌃 Midnight',cosmic:'✨ Cosmic'};
+  var btn=document.getElementById('theme-toggle-sub');
+  if(btn)btn.textContent=names[name]||'Currently '+name;
+  updateThemeOptions();
+}
+function updateThemeOptions(){
+  var cur=document.documentElement.getAttribute('data-theme')||'dark';
+  document.querySelectorAll('.theme-option').forEach(function(opt){
+    var themeName=opt.getAttribute('data-theme-name');
+    opt.classList.toggle('active',themeName===cur);
+  });
+}
 function toggleTheme(){
   var cur=document.documentElement.getAttribute('data-theme')||'dark';
   var next=cur==='dark'?'light':'dark';
-  document.documentElement.setAttribute('data-theme',next);
-  localStorage.setItem('signal_theme',next);
-  var btn=document.getElementById('theme-toggle-sub');
-  if(btn)btn.textContent=next==='dark'?'Currently dark':'Currently light';
+  setTheme(next);
 }
 
 /* ── SWIPE NAVIGATION ── */
@@ -1980,6 +2059,11 @@ function initSwipe(){
 /* ── BOOT ── */
 window.addEventListener('load',function(){
   initTheme();
+  updateThemeOptions();
+  var theme=document.documentElement.getAttribute('data-theme')||'dark';
+  var names={dark:'Currently dark',light:'Currently light',scorpio:'♏ Scorpio Universe',aurora:'🌌 Aurora',midnight:'🌃 Midnight',cosmic:'✨ Cosmic'};
+  var btn=document.getElementById('theme-toggle-sub');
+  if(btn)btn.textContent=names[theme]||'Currently '+theme;
   setTimeout(function(){
     if(typeof lucide!=='undefined') lucide.createIcons();
   },500);
