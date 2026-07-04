@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#020408" media="(prefers-color-scheme: dark)">
-<meta name="theme-color" content="#f4f6f9" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#faf6ec" media="(prefers-color-scheme: light)">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Signal">
@@ -151,7 +151,7 @@ body.error-shake #app{animation:shake 0.5s cubic-bezier(0.36,0,0.66,-0.56) 1}
 .section-sub{font-size:9px;color:var(--text3);margin-top:2px;font-family:var(--fm);letter-spacing:0.06em}
 .section-link{font-family:var(--fm);font-size:9px;font-weight:600;letter-spacing:0.1em;color:var(--cyan2);cursor:pointer;text-transform:uppercase}
 .cards-grid{padding:11px 20px;display:flex;flex-direction:column;gap:11px}
-.card{background:linear-gradient(135deg,var(--glass2) 0%,var(--glass) 100%);backdrop-filter:blur(16px) saturate(160%);-webkit-backdrop-filter:blur(16px) saturate(160%);border:1px solid var(--border);border-radius:22px;padding:15px;cursor:pointer;transition:all 0.35s cubic-bezier(0.23,1,0.320,1);position:relative;overflow:hidden;box-shadow:0 0 1px rgba(255,255,255,0.15),0 8px 24px rgba(0,0,0,0.25),inset 0 1px 0 rgba(255,255,255,0.06)}
+.card{background:linear-gradient(135deg,var(--glass2) 0%,var(--glass) 100%);backdrop-filter:blur(6px) saturate(120%);-webkit-backdrop-filter:blur(6px) saturate(120%);border:1px solid var(--border);border-radius:22px;padding:15px;cursor:pointer;transition:all 0.35s cubic-bezier(0.23,1,0.320,1);position:relative;overflow:hidden;box-shadow:0 0 1px rgba(255,255,255,0.15),0 8px 24px rgba(0,0,0,0.25),inset 0 1px 0 rgba(255,255,255,0.06)}
 .card::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.05),transparent);pointer-events:none}
 .card:hover{transform:translateY(-5px);background:linear-gradient(135deg,var(--glass3) 0%,var(--glass2) 100%);border-color:var(--border2);box-shadow:0 0 2px var(--border2),0 20px 56px 0 rgba(255,215,0,0.1),inset 0 1px 0 rgba(255,255,255,0.2)}
 .card:active{transform:scale(0.985)}
@@ -245,6 +245,11 @@ body.error-shake #app{animation:shake 0.5s cubic-bezier(0.36,0,0.66,-0.56) 1}
 .toggle::after{content:'';position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;transition:transform 0.2s ease;box-shadow:0 1px 4px rgba(0,0,0,0.3)}
 .toggle.on::after{transform:translateX(16px)}
 .search-wrap{padding:13px 20px}
+/* ── THEME SEGMENTED CONTROL ── */
+.theme-segmented{display:flex;background:var(--glass);border:1px solid var(--border);border-radius:11px;padding:3px;gap:2px;flex-shrink:0}
+.theme-seg-opt{display:flex;align-items:center;gap:5px;padding:6px 12px;border-radius:8px;font-family:var(--fm);font-size:10px;font-weight:700;letter-spacing:0.03em;color:var(--text3);cursor:pointer;transition:all 0.2s ease;white-space:nowrap}
+.theme-seg-opt.active{background:linear-gradient(135deg,var(--purple2),var(--cyan2));color:#000;box-shadow:0 2px 8px rgba(255,215,0,0.3)}
+[data-theme="light"] .theme-seg-opt.active{color:#fff}
 .search-iw{display:flex;align-items:center;gap:8px;background:var(--glass2);border:1px solid var(--border2);border-radius:var(--r2);padding:10px 13px}
 .search-inp{flex:1;background:transparent;border:none;outline:none;color:var(--text);font-size:14px;font-family:var(--fb)}
 .search-inp::placeholder{color:var(--text3)}
@@ -787,16 +792,13 @@ body.error-shake #app{animation:shake 0.5s cubic-bezier(0.36,0,0.66,-0.56) 1}
         <div class="settings-section">
           <div class="settings-section-title">Appearance</div>
           <div class="settings-list">
-            <div class="settings-item" onclick="showThemeSelector()">
+            <div class="settings-item" style="cursor:default">
               <div class="settings-item-icon" style="background:rgba(245,158,11,0.07);color:var(--amber2)"><i data-lucide="palette" style="width:14px;height:14px"></i></div>
-              <div class="settings-item-body"><div class="settings-item-title">Theme</div><div class="settings-item-sub" id="theme-toggle-sub">⭐ Gold Cosmic — Dark</div></div>
-              <i data-lucide="chevron-right" style="width:16px;height:16px;color:var(--text3)"></i>
-            </div>
-          </div>
-          <div id="theme-selector" style="display:none;padding:12px;border-top:1px solid var(--border);margin-top:8px">
-            <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px">
-              <div class="theme-option" onclick="setTheme('dark')" data-theme-name="dark">🌙 Dark</div>
-              <div class="theme-option" onclick="setTheme('light')" data-theme-name="light">☀️ Light</div>
+              <div class="settings-item-body"><div class="settings-item-title">⭐ Gold Cosmic</div><div class="settings-item-sub">One theme, two modes</div></div>
+              <div class="theme-segmented" id="theme-segmented">
+                <div class="theme-seg-opt" id="theme-seg-dark" onclick="setTheme('dark')"><i data-lucide="moon" style="width:12px;height:12px"></i>Dark</div>
+                <div class="theme-seg-opt" id="theme-seg-light" onclick="setTheme('light')"><i data-lucide="sun" style="width:12px;height:12px"></i>Light</div>
+              </div>
             </div>
           </div>
         </div>
@@ -805,7 +807,7 @@ body.error-shake #app{animation:shake 0.5s cubic-bezier(0.36,0,0.66,-0.56) 1}
           <div class="settings-list">
             <div class="settings-item" onclick="toggleNotifications()">
               <div class="settings-item-icon" style="background:rgba(168,85,247,0.1);color:var(--purple2)"><i data-lucide="bell-ring" style="width:14px;height:14px"></i></div>
-              <div class="settings-item-body"><div class="settings-item-title">Push Notifications</div><div class="settings-item-sub" id="notif-sub">Tap to enable critical alerts</div></div>
+              <div class="settings-item-body"><div class="settings-item-title">Push Notifications</div><div class="settings-item-sub" id="notif-sub">Tap to enable alerts for new signals</div></div>
               <div class="toggle" id="notif-toggle"></div>
             </div>
           </div>
@@ -1870,13 +1872,15 @@ function fetchAllFeeds(force) {
       localStorage.setItem(RSS_TS_KEY, Date.now().toString());
     } catch(e) {}
     var fetchedCount = all.length;
-    setRSSStatus('ok', fetchedCount);
+    // Track which of these are genuinely new vs already seen before showing status —
+    // the total is capped at 200 for memory, so it read "200 signals" forever once
+    // the cache filled up, which wasn't a meaningful "just fetched" number.
+    var result = trackFetchedSignals(all);
+    setRSSStatus('ok', fetchedCount, null, result.count);
     // Handle errors or success
     if (failedCount > 0) {
       notifyFetchResults({error: 'timeout', successCount: RSS_FEEDS.length - failedCount, totalFeeds: RSS_FEEDS.length});
     } else {
-      // Track new signals and notify
-      var result = trackFetchedSignals(all);
       notifyFetchResults(result);
     }
     // Notify on new signals
@@ -1908,7 +1912,7 @@ function loadFromCache() {
 }
 
 /* ── STATUS INDICATOR ── */
-function setRSSStatus(state, count, ts) {
+function setRSSStatus(state, count, ts, newCount) {
   var dot   = document.getElementById('rss-dot');
   var label = document.getElementById('rss-label');
   if (!dot || !label) return;
@@ -1918,7 +1922,13 @@ function setRSSStatus(state, count, ts) {
   } else if (state === 'ok') {
     dot.style.background = 'var(--green2)';
     dot.style.boxShadow  = '0 0 6px rgba(52,211,153,0.6)';
-    label.textContent    = (count || 0) + ' LIVE SIGNALS · JUST NOW';
+    if (typeof newCount === 'number') {
+      label.textContent = newCount > 0
+        ? newCount + ' NEW SIGNAL' + (newCount !== 1 ? 'S' : '') + ' · JUST NOW'
+        : 'UP TO DATE · JUST NOW';
+    } else {
+      label.textContent = (count || 0) + ' LIVE SIGNALS · JUST NOW';
+    }
   } else if (state === 'cached') {
     dot.style.background = 'var(--cyan2)';
     var mins = ts ? Math.round((Date.now() - ts) / 60000) : '?';
@@ -2100,7 +2110,22 @@ function initFirebase(){
   });
 }
 function requestNotifPermission(){
-  if(!('Notification' in window)){showToast('Notifications not supported');return;}
+  var isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream;
+  var isStandalone=window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone===true;
+  if(!('Notification' in window)){
+    if(isIOS&&!isStandalone){
+      showToast('iOS needs this installed first',null,['Open in Safari → Share → Add to Home Screen, then reopen it from there']);
+    }else if(isIOS){
+      showToast('Update iOS to 16.4+ for notifications');
+    }else{
+      showToast('Notifications not supported in this browser');
+    }
+    return;
+  }
+  if(Notification.permission==='denied'){
+    showToast('Blocked in browser settings',null,['Android: tap the lock icon next to the address bar → Permissions → Notifications → Allow, then retry']);
+    return;
+  }
   Notification.requestPermission().then(function(p){
     if(p==='granted'){_notifOn=true;localStorage.setItem('signal_notif','1');initFirebase();}
     else{showToast('Permission denied — check browser settings');_updateNotifUI(false);}
@@ -2121,7 +2146,7 @@ function _updateNotifUI(on){
     if(on) tg.classList.add('on');
   }
   var sub=document.getElementById('notif-sub');
-  if(sub)sub.textContent=on?'Active — tap to disable':'Tap to enable critical alerts';
+  if(sub)sub.textContent=on?'Active — tap to disable':'Tap to enable alerts for new signals';
 }
 /* Auto-init if previously granted */
 setTimeout(function(){
@@ -2146,7 +2171,7 @@ function showThemeSelector(){
   updateThemeOptions();
 }
 /* ─── GOLD COSMIC STARFIELD (theme: gold) ─── */
-var _goldStarsStarted=false,_goldStars=[],_goldShooting=[],_goldCanvas=null,_goldCtx=null;
+var _goldStarsStarted=false,_goldStars=[],_goldShooting=[],_goldCanvas=null,_goldCtx=null,_goldPaused=false,_goldScrolling=false;
 function _goldCreateGlowSprite(size){
   var sprite=document.createElement('canvas');sprite.width=size;sprite.height=size;
   var sctx=sprite.getContext('2d'),r=size/2;
@@ -2175,8 +2200,9 @@ _GoldStar.prototype.update=function(){
 _GoldStar.prototype.draw=function(ctx){
   var twinkle=Math.pow(Math.sin(this.twinklePhase)*0.5+0.5,1.6);
   var opacity=this.baseOpacity*(0.35+twinkle*0.65);
-  if(this.tier===0){ctx.fillStyle='rgba(255,225,140,'+opacity+')';ctx.fillRect(this.x,this.y,this.size,this.size);return;}
-  ctx.fillStyle='rgba(255,225,140,'+opacity+')';
+  var rgb=document.documentElement.getAttribute('data-theme')==='light'?'150,110,10':'255,225,140';
+  if(this.tier===0){ctx.fillStyle='rgba('+rgb+','+opacity+')';ctx.fillRect(this.x,this.y,this.size,this.size);return;}
+  ctx.fillStyle='rgba('+rgb+','+opacity+')';
   ctx.beginPath();ctx.arc(this.x,this.y,this.size*0.55,0,Math.PI*2);ctx.fill();
 };
 function _GoldShootingStar(W,H){this.W=W;this.H=H;this.reset();this.delay=Math.random()*400;}
@@ -2195,15 +2221,17 @@ _GoldShootingStar.prototype.update=function(){
 };
 _GoldShootingStar.prototype.draw=function(ctx){
   if(!this.active||this.life<=0)return;
+  var isLight=document.documentElement.getAttribute('data-theme')==='light';
+  var c1=isLight?'150,110,10':'255,225,140', c2=isLight?'120,85,5':'255,245,200', c3=isLight?'150,110,10':'255,230,150';
   var tailX=this.x-Math.cos(this.angle)*this.length,tailY=this.y-Math.sin(this.angle)*this.length;
   var grad=ctx.createLinearGradient(tailX,tailY,this.x,this.y);
-  grad.addColorStop(0,'rgba(255,220,120,0)');grad.addColorStop(0.6,'rgba(255,225,140,'+(this.life*0.4)+')');grad.addColorStop(1,'rgba(255,245,200,'+this.life+')');
+  grad.addColorStop(0,'rgba('+c1+',0)');grad.addColorStop(0.6,'rgba('+c1+','+(this.life*0.4)+')');grad.addColorStop(1,'rgba('+c2+','+this.life+')');
   ctx.strokeStyle=grad;ctx.lineWidth=2;ctx.lineCap='round';
   ctx.beginPath();ctx.moveTo(tailX,tailY);ctx.lineTo(this.x,this.y);ctx.stroke();
-  ctx.fillStyle='rgba(255,250,220,'+this.life+')';
+  ctx.fillStyle='rgba('+c2+','+this.life+')';
   ctx.beginPath();ctx.arc(this.x,this.y,1.8,0,Math.PI*2);ctx.fill();
   var headGlow=ctx.createRadialGradient(this.x,this.y,0,this.x,this.y,12);
-  headGlow.addColorStop(0,'rgba(255,230,150,'+(this.life*0.6)+')');headGlow.addColorStop(1,'rgba(255,230,150,0)');
+  headGlow.addColorStop(0,'rgba('+c3+','+(this.life*0.6)+')');headGlow.addColorStop(1,'rgba('+c3+',0)');
   ctx.fillStyle=headGlow;ctx.beginPath();ctx.arc(this.x,this.y,12,0,Math.PI*2);ctx.fill();
 };
 function initGoldStarfield(){
@@ -2212,13 +2240,22 @@ function initGoldStarfield(){
   _goldCtx=_goldCanvas.getContext('2d');
   function resize(){_goldCanvas.width=window.innerWidth;_goldCanvas.height=window.innerHeight;}
   resize();window.addEventListener('resize',resize);
-  var starCount=350; /* tuned down from 10000 for mobile PWA perf */
+  var starCount=160; /* trimmed further — 350 was costing real frame time on mid-range phones */
   for(var i=0;i<starCount;i++)_goldStars.push(new _GoldStar(_goldCanvas.width,_goldCanvas.height));
   for(var j=0;j<5;j++)_goldShooting.push(new _GoldShootingStar(_goldCanvas.width,_goldCanvas.height));
   _goldStarsStarted=true;
+  // Pause the background canvas work while the tab is hidden or the user is
+  // actively scrolling/swiping — this is the thing competing with the UI
+  // thread for frames and causing the lag/jank during scroll.
+  var scrollEl=document.getElementById('scroll-content');
+  var scrollTimer=null;
+  function markScrolling(){_goldScrolling=true;clearTimeout(scrollTimer);scrollTimer=setTimeout(function(){_goldScrolling=false;},180);}
+  if(scrollEl){scrollEl.addEventListener('touchmove',markScrolling,{passive:true});scrollEl.addEventListener('scroll',markScrolling,{passive:true});}
+  document.addEventListener('visibilitychange',function(){_goldPaused=document.hidden;});
   function animate(){
-    if(document.documentElement.getAttribute('data-theme')==='light'){requestAnimationFrame(animate);return;}
-    _goldCtx.fillStyle='rgba(0,0,0,0.35)';
+    if(_goldPaused||_goldScrolling){requestAnimationFrame(animate);return;}
+    var isLight=document.documentElement.getAttribute('data-theme')==='light';
+    _goldCtx.fillStyle=isLight?'rgba(250,246,236,0.35)':'rgba(0,0,0,0.35)';
     _goldCtx.fillRect(0,0,_goldCanvas.width,_goldCanvas.height);
     _goldStars.forEach(function(s){s.W=_goldCanvas.width;s.H=_goldCanvas.height;s.update();s.draw(_goldCtx);});
     _goldShooting.forEach(function(s){s.W=_goldCanvas.width;s.H=_goldCanvas.height;s.update();s.draw(_goldCtx);});
@@ -2228,25 +2265,21 @@ function initGoldStarfield(){
 }
 function _updateGoldCanvasVisibility(){
   var c=document.getElementById('gold-star-bg');if(!c)return;
-  var isGold=document.documentElement.getAttribute('data-theme')!=='light';
+  var isGold=true;
   c.style.display=isGold?'block':'none';
   if(isGold)initGoldStarfield();
 }
 function setTheme(name){
   document.documentElement.setAttribute('data-theme',name);
   localStorage.setItem('signal_theme',name);
-  var names={dark:'⭐ Gold Cosmic — Dark',light:'⭐ Gold Cosmic — Light'};
-  var btn=document.getElementById('theme-toggle-sub');
-  if(btn)btn.textContent=names[name]||'⭐ Gold Cosmic';
   updateThemeOptions();
   _updateGoldCanvasVisibility();
 }
 function updateThemeOptions(){
   var cur=document.documentElement.getAttribute('data-theme')||'dark';
-  document.querySelectorAll('.theme-option').forEach(function(opt){
-    var themeName=opt.getAttribute('data-theme-name');
-    opt.classList.toggle('active',themeName===cur);
-  });
+  var d=document.getElementById('theme-seg-dark'),l=document.getElementById('theme-seg-light');
+  if(d)d.classList.toggle('active',cur==='dark');
+  if(l)l.classList.toggle('active',cur==='light');
 }
 function toggleTheme(){
   var cur=document.documentElement.getAttribute('data-theme')||'dark';
@@ -2346,10 +2379,6 @@ function triggerPullRefresh(){
 window.addEventListener('load',function(){
   initTheme();
   updateThemeOptions();
-  var theme=document.documentElement.getAttribute('data-theme')||'dark';
-  var names={dark:'⭐ Gold Cosmic — Dark',light:'⭐ Gold Cosmic — Light'};
-  var btn=document.getElementById('theme-toggle-sub');
-  if(btn)btn.textContent=names[theme]||'⭐ Gold Cosmic';
   setTimeout(function(){
     safeIcons();
   },500);

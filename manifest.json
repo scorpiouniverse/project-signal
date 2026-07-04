@@ -1,33 +1,33 @@
 {
   "name": "Project Signal - Business Intelligence System",
-  "short_name": "PROJECT SIGNAL",
+  "short_name": "Signal",
   "description": "Personal business intelligence monitoring RSS feeds across e-commerce, freelancing, AI, payments, SEO, and Pakistan regulatory topics.",
   "start_url": "/project-signal/",
   "scope": "/project-signal/",
   "display": "standalone",
   "orientation": "portrait-primary",
-  "background_color": "#0a1220",
-  "theme_color": "#22d3ee",
+  "background_color": "#000000",
+  "theme_color": "#000000",
   "icons": [
     {
       "src": "icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any"
+      "purpose": "any maskable"
     },
     {
-      "src": "icon-192.png",
-      "sizes": "192x192",
+      "src": "icon-512.png",
+      "sizes": "512x512",
       "type": "image/png",
-      "purpose": "maskable"
+      "purpose": "any maskable"
     }
   ],
   "categories": ["business", "productivity"],
   "screenshots": [
     {
-      "src": "icon-192.png",
+      "src": "icon-512.png",
       "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "512x512"
     }
   ],
   "shortcuts": [
@@ -36,34 +36,20 @@
       "short_name": "Live Feed",
       "description": "Check incoming signals",
       "url": "/project-signal/?page=news",
-      "icons": [
-        {
-          "src": "icon-192.png",
-          "sizes": "192x192"
-        }
-      ]
+      "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
     },
     {
       "name": "Browse Topics",
       "short_name": "Topics",
       "description": "Browse by category",
       "url": "/project-signal/?page=categories",
-      "icons": [
-        {
-          "src": "icon-192.png",
-          "sizes": "192x192"
-        }
-      ]
+      "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
     }
   ],
   "share_target": {
     "action": "/share",
     "method": "POST",
     "enctype": "application/x-www-form-urlencoded",
-    "params": {
-      "title": "title",
-      "text": "text",
-      "url": "url"
-    }
+    "params": { "title": "title", "text": "text", "url": "url" }
   }
 }
