@@ -21,20 +21,21 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#0a1220;--bg1:#0f1a28;--bg2:#142835;
-  --glass:rgba(255,255,255,0.08);--glass2:rgba(255,255,255,0.12);--glass3:rgba(255,255,255,0.18);
-  --border:rgba(255,255,255,0.15);--border2:rgba(255,255,255,0.22);
-  --purple:#6d28d9;--purple2:#c084fc;--blue2:#60a5fa;
-  --cyan:#0891b2;--cyan2:#22d3ee;--cyan3:#67e8f9;
-  --text:#e8eef7;--text2:#a8bbc9;--text3:#6d8fa3;
-  --red2:#ff6b6b;--amber2:#fcd34d;--green2:#4ade80;
+  /* ⭐ Gold Cosmic — Dark (the app's one and only theme, default mode) */
+  --bg:#000000;--bg1:#050505;--bg2:#0a0a0a;
+  --glass:rgba(255,255,255,0.03);--glass2:rgba(255,255,255,0.05);--glass3:rgba(255,215,0,0.1);
+  --border:rgba(255,255,255,0.1);--border2:rgba(255,215,0,0.3);
+  --purple:#FFD700;--purple2:#ffdf33;--blue2:#ffcc00;
+  --cyan:#FFD700;--cyan2:#ffdf33;--cyan3:#ffe666;
+  --text:#ffffff;--text2:rgba(255,255,255,0.85);--text3:rgba(255,255,255,0.65);
+  --red2:#ff4757;--amber2:#FFD700;--green2:#2ecc71;
   --fh:'Sora',sans-serif;--fb:'Inter',sans-serif;--fm:'JetBrains Mono',monospace;
   --nav-h:76px;--safe-b:env(safe-area-inset-bottom,0px);--safe-t:env(safe-area-inset-top,0px);
   --r:16px;--r2:12px;--r3:24px;
 }
 html{height:100%;overflow:hidden}
 body{height:100%;background:var(--bg);color:var(--text);font-family:var(--fb);font-size:15px;line-height:1.6;overflow:hidden;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility;user-select:none;-webkit-user-select:none;font-weight:400}
-#mesh-bg{position:fixed;inset:0;z-index:0;pointer-events:none}
+#mesh-bg{position:fixed;inset:0;z-index:0;pointer-events:none;display:none}
 .screen{position:fixed;inset:0;z-index:10;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 0.9s cubic-bezier(.4,0,.2,1)}
 .screen.hidden{opacity:0;pointer-events:none}
 .screen.gone{display:none}
@@ -45,7 +46,7 @@ body{height:100%;background:var(--bg);color:var(--text);font-family:var(--fb);fo
 .startup-logo.show{opacity:1;transform:translateY(0)}
 .startup-name{font-family:var(--fh);font-size:clamp(15px,3vw,26px);font-weight:500;letter-spacing:0.45em;background:linear-gradient(135deg,rgba(255,255,255,0.88) 0%,var(--cyan3) 50%,var(--purple2) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .startup-by{font-family:'Dancing Script',cursive;font-size:clamp(11px,1.8vw,16px);color:rgba(255,255,255,0.3);margin-top:10px}
-.startup-rule{width:1px;height:0;background:linear-gradient(180deg,transparent,rgba(34,211,238,0.35),transparent);margin:16px auto;transition:height 1s ease 0.3s}
+.startup-rule{width:1px;height:0;background:linear-gradient(180deg,transparent,rgba(255,215,0,0.4),transparent);margin:16px auto;transition:height 1s ease 0.3s}
 .startup-logo.show .startup-rule{height:32px}
 .startup-tag{font-family:var(--fm);font-size:9px;letter-spacing:0.28em;color:rgba(255,255,255,0.65);margin-top:16px;text-transform:uppercase}
 #lockscreen{z-index:90;background:linear-gradient(135deg,#020408 0%,#080f18 50%,#020810 100%)}
@@ -150,9 +151,9 @@ body.error-shake #app{animation:shake 0.5s cubic-bezier(0.36,0,0.66,-0.56) 1}
 .section-sub{font-size:9px;color:var(--text3);margin-top:2px;font-family:var(--fm);letter-spacing:0.06em}
 .section-link{font-family:var(--fm);font-size:9px;font-weight:600;letter-spacing:0.1em;color:var(--cyan2);cursor:pointer;text-transform:uppercase}
 .cards-grid{padding:11px 20px;display:flex;flex-direction:column;gap:11px}
-.card{background:linear-gradient(135deg,var(--glass2) 0%,var(--glass) 100%);border:1px solid var(--border);border-radius:18px;padding:15px;cursor:pointer;transition:all 0.28s cubic-bezier(0.34,1.56,0.64,1);position:relative;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,0.25),inset 0 1px 0 rgba(255,255,255,0.04)}
+.card{background:linear-gradient(135deg,var(--glass2) 0%,var(--glass) 100%);backdrop-filter:blur(16px) saturate(160%);-webkit-backdrop-filter:blur(16px) saturate(160%);border:1px solid var(--border);border-radius:22px;padding:15px;cursor:pointer;transition:all 0.35s cubic-bezier(0.23,1,0.320,1);position:relative;overflow:hidden;box-shadow:0 0 1px rgba(255,255,255,0.15),0 8px 24px rgba(0,0,0,0.25),inset 0 1px 0 rgba(255,255,255,0.06)}
 .card::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.05),transparent);pointer-events:none}
-.card:hover{transform:translateY(-4px);background:linear-gradient(135deg,var(--glass3) 0%,var(--glass2) 100%);border-color:var(--border2);box-shadow:0 16px 48px rgba(0,0,0,0.35)}
+.card:hover{transform:translateY(-5px);background:linear-gradient(135deg,var(--glass3) 0%,var(--glass2) 100%);border-color:var(--border2);box-shadow:0 0 2px var(--border2),0 20px 56px 0 rgba(255,215,0,0.1),inset 0 1px 0 rgba(255,255,255,0.2)}
 .card:active{transform:scale(0.985)}
 .card.reviewing{animation:cExit 0.45s ease forwards}
 @keyframes cExit{to{opacity:0;transform:translateY(-6px) scale(0.986)}}
@@ -173,7 +174,7 @@ body.error-shake #app{animation:shake 0.5s cubic-bezier(0.36,0,0.66,-0.56) 1}
 .badge-scam{background:rgba(225,29,72,0.12);color:#fb7185;border:1px solid rgba(225,29,72,0.22)}
 .card-source-label{font-family:var(--fm);font-size:8px;color:var(--text3);font-weight:500;letter-spacing:0.06em;text-align:right}
 .card-source-sub{font-family:var(--fm);font-size:7px;color:var(--text3);opacity:0.55;text-align:right;margin-top:1px}
-.card-title{font-family:var(--fh);font-size:13px;font-weight:700;color:var(--text);line-height:1.35;margin-bottom:7px;letter-spacing:-0.01em}
+.card-title{font-family:var(--fh);font-size:13px;font-weight:700;color:var(--text);line-height:1.35;margin-bottom:7px;letter-spacing:-0.01em;text-shadow:0 0 20px rgba(255,215,0,0.15)}
 .card-summary{font-size:12px;color:var(--text2);line-height:1.58;margin-bottom:9px}
 .card-impact{font-size:11px;padding:7px 9px;border-radius:7px;background:rgba(34,211,238,0.04);border:1px solid rgba(34,211,238,0.09);color:var(--cyan3);margin-bottom:9px;line-height:1.45}
 .card-impact-label{font-family:var(--fm);font-size:7px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--cyan2);margin-bottom:2px}
@@ -335,102 +336,44 @@ body.error-shake #app{animation:shake 0.5s cubic-bezier(0.36,0,0.66,-0.56) 1}
 
 /* ── LIGHT MODE ── */
 [data-theme="light"]{
-  --bg:#f5f7fa;--bg1:#ffffff;--bg2:#eef2f7;
-  --glass:rgba(15,23,42,0.08);--glass2:rgba(15,23,42,0.14);--glass3:rgba(15,23,42,0.2);
-  --border:rgba(15,23,42,0.18);--border2:rgba(15,23,42,0.28);
-  --purple:#5b21b6;--purple2:#6d28d9;--blue2:#1e40af;
-  --cyan:#0369a1;--cyan2:#0891b2;--cyan3:#0284c7;
-  --text:#0f172a;--text2:#1e293b;--text3:#475569;
+  /* ⭐ Gold Cosmic — Light. Warm ivory base with deep-gold accents and
+     dark, high-contrast text (the old light theme used near-white text
+     on a pale background, which is why the splash screen was unreadable). */
+  --bg:#faf6ec;--bg1:#ffffff;--bg2:#f2ead2;
+  --glass:rgba(120,90,10,0.05);--glass2:rgba(120,90,10,0.09);--glass3:rgba(184,134,11,0.16);
+  --border:rgba(120,90,10,0.16);--border2:rgba(184,134,11,0.35);
+  --purple:#a1720a;--purple2:#b8860b;--blue2:#8a6508;
+  --cyan:#a1720a;--cyan2:#b8860b;--cyan3:#c9971f;
+  --text:#1a1408;--text2:#3d3420;--text3:#6b5d3f;
   --red2:#dc2626;--amber2:#b45309;--green2:#059669;
 }
-
-/* ── SCORPIO UNIVERSE THEME ── */
-[data-theme="scorpio"]{
-  --bg:#0a0515;--bg1:#1a0f2e;--bg2:#2d1b47;
-  --glass:rgba(168,85,247,0.08);--glass2:rgba(168,85,247,0.14);--glass3:rgba(168,85,247,0.22);
-  --border:rgba(168,85,247,0.18);--border2:rgba(168,85,247,0.32);
-  --purple:#a855f7;--purple2:#d946ef;--blue2:#3b82f6;
-  --cyan:#06b6d4;--cyan2:#0ea5e9;--cyan3:#0284c7;
-  --text:#f3e8ff;--text2:#d8b4fe;--text3:#9d7fe0;
-  --red2:#ec4899;--amber2:#f59e0b;--green2:#4ade80;
-}
-
-/* ── AURORA THEME ── */
-[data-theme="aurora"]{
-  --bg:#0d0d1f;--bg1:#1a1a3f;--bg2:#2d1b4e;
-  --glass:rgba(59,130,246,0.08);--glass2:rgba(59,130,246,0.14);--glass3:rgba(59,130,246,0.22);
-  --border:rgba(59,130,246,0.18);--border2:rgba(59,130,246,0.32);
-  --purple:#60a5fa;--purple2:#3b82f6;--blue2:#1d4ed8;
-  --cyan:#06b6d4;--cyan2:#0ea5e9;--cyan3:#00d9ff;
-  --text:#e0e7ff;--text2:#c7d2fe;--text3:#818cf8;
-  --red2:#f87171;--amber2:#fbbf24;--green2:#4ade80;
-}
-
-/* ── MIDNIGHT THEME ── */
-[data-theme="midnight"]{
-  --bg:#0a0e27;--bg1:#131d3c;--bg2:#1e2847;
-  --glass:rgba(15,23,42,0.08);--glass2:rgba(15,23,42,0.14);--glass3:rgba(15,23,42,0.22);
-  --border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.16);
-  --purple:#7c3aed;--purple2:#8b5cf6;--blue2:#60a5fa;
-  --cyan:#0891b2;--cyan2:#22d3ee;--cyan3:#67e8f9;
-  --text:#f8fafc;--text2:#cbd5e1;--text3:#94a3b8;
-  --red2:#ff6b6b;--amber2:#fcd34d;--green2:#51cf66;
-}
-
-/* ── COSMIC THEME ── */
-[data-theme="cosmic"]{
-  --bg:#0f0a1a;--bg1:#1a1028;--bg2:#2a1f3d;
-  --glass:rgba(236,72,153,0.08);--glass2:rgba(236,72,153,0.14);--glass3:rgba(236,72,153,0.22);
-  --border:rgba(236,72,153,0.18);--border2:rgba(236,72,153,0.32);
-  --purple:#ec4899;--purple2:#f472b6;--blue2:#7c3aed;
-  --cyan:#a78bfa;--cyan2:#c084fc;--cyan3:#d8b4fe;
-  --text:#fae8ff;--text2:#f3e8ff;--text3:#d8b4fe;
-  --red2:#ff4757;--amber2:#ffa502;--green2:#2ecc71;
-}
-[data-theme="gold"]{
-  --bg:#000000;--bg1:#050505;--bg2:#0a0a0a;
-  --glass:rgba(255,255,255,0.03);--glass2:rgba(255,255,255,0.05);--glass3:rgba(255,215,0,0.1);
-  --border:rgba(255,255,255,0.1);--border2:rgba(255,215,0,0.3);
-  --purple:#FFD700;--purple2:#ffdf33;--blue2:#ffcc00;
-  --cyan:#FFD700;--cyan2:#ffdf33;--cyan3:#ffe666;
-  --text:#ffffff;--text2:rgba(255,255,255,0.85);--text3:rgba(255,255,255,0.65);
-  --red2:#ff4757;--amber2:#FFD700;--green2:#2ecc71;
-}
-[data-theme="gold"] .card,[data-theme="gold"] .glass-card{
-  background:rgba(255,255,255,0.03);backdrop-filter:blur(16px) saturate(160%);-webkit-backdrop-filter:blur(16px) saturate(160%);
-  border:1px solid rgba(255,255,255,0.1);border-radius:24px;
-  box-shadow:0 0 1px rgba(255,255,255,0.25),0 8px 32px 0 rgba(0,0,0,0.2),inset 0 1px 0 rgba(255,255,255,0.15);
-  transition:all 0.5s cubic-bezier(0.23,1,0.320,1);
-}
-[data-theme="gold"] .card:hover,[data-theme="gold"] .glass-card:hover{
-  background:rgba(255,255,255,0.05);border-color:rgba(255,215,0,0.3);
-  box-shadow:0 0 2px rgba(255,215,0,0.4),0 20px 60px 0 rgba(255,215,0,0.12),inset 0 1px 0 rgba(255,255,255,0.25);
-  transform:translateY(-6px);
-}
-[data-theme="gold"] .card-title{color:#fff;text-shadow:0 0 20px rgba(255,215,0,0.15)}
-[data-theme="gold"] .card-impact{background:rgba(255,215,0,0.08);border-color:rgba(255,215,0,0.25);color:#FFD700}
-[data-theme="gold"] #mesh-bg{display:none}
-[data-theme="light"] #lockscreen{background:linear-gradient(160deg,#e4eaf0 0%,#f0f4f8 50%,#eaf0f6 100%)}
-[data-theme="light"] .lock-brand-name{color:rgba(13,17,23,0.4)}
-[data-theme="light"] .lock-brand-script{color:rgba(13,17,23,0.3)}
-[data-theme="light"] .lock-dot{background:rgba(0,0,0,0.1);border-color:rgba(0,0,0,0.16)}
-[data-theme="light"] .lock-dot.filled{background:var(--cyan2);border-color:var(--cyan2);box-shadow:0 0 9px rgba(8,145,178,0.4)}
-[data-theme="light"] .key{background:rgba(255,255,255,0.7);border-color:rgba(0,0,0,0.1);box-shadow:0 3px 10px rgba(0,0,0,0.08),inset 0 1px 0 rgba(255,255,255,0.9)}
-[data-theme="light"] .key-num{color:#0d1117}
-[data-theme="light"] .key:active,[data-theme="light"] .key.pressed{background:rgba(8,145,178,0.12);border-color:rgba(8,145,178,0.3)}
+[data-theme="light"] #lockscreen{background:linear-gradient(160deg,#faf6ec 0%,#f5efdd 50%,#f2ead2 100%)}
+[data-theme="light"] .lock-brand-name{color:rgba(26,20,8,0.45)}
+[data-theme="light"] .lock-brand-script{color:rgba(26,20,8,0.35)}
+[data-theme="light"] .lock-dot{background:rgba(26,20,8,0.1);border-color:rgba(26,20,8,0.18)}
+[data-theme="light"] .lock-dot.filled{background:var(--cyan2);border-color:var(--cyan2);box-shadow:0 0 9px rgba(184,134,11,0.4)}
+[data-theme="light"] .key{background:rgba(255,255,255,0.75);border-color:rgba(26,20,8,0.1);box-shadow:0 3px 10px rgba(26,20,8,0.08),inset 0 1px 0 rgba(255,255,255,0.9)}
+[data-theme="light"] .key-num{color:#1a1408}
+[data-theme="light"] .key:active,[data-theme="light"] .key.pressed{background:rgba(184,134,11,0.12);border-color:rgba(184,134,11,0.3)}
 [data-theme="light"] .key.key-del{background:transparent;border-color:transparent;box-shadow:none}
 [data-theme="light"] .key.key-empty{background:transparent;border-color:transparent;box-shadow:none}
-[data-theme="light"] .nav-inner{background:rgba(255,255,255,0.95);border-color:rgba(0,0,0,0.14);box-shadow:0 8px 32px rgba(0,0,0,0.12),inset 0 1px 0 rgba(255,255,255,0.9)}
+[data-theme="light"] .nav-inner{background:rgba(255,255,255,0.95);border-color:rgba(26,20,8,0.14);box-shadow:0 8px 32px rgba(26,20,8,0.12),inset 0 1px 0 rgba(255,255,255,0.9)}
 [data-theme="light"] .nav-item{color:#6b7280}
-[data-theme="light"] .topbar{background:rgba(240,244,248,0.92)}
-[data-theme="light"] #startup{background:#e8edf3}
+[data-theme="light"] .topbar{background:rgba(250,246,236,0.92)}
+/* Splash screen — was near-invisible white-on-pale text; now a warm
+   ivory background with dark, high-contrast gold-branded text. */
+[data-theme="light"] #startup{background:linear-gradient(160deg,#faf6ec 0%,#f2ead2 100%)}
+[data-theme="light"] .startup-name{background:linear-gradient(135deg,#1a1408 0%,#8a6508 50%,#b8860b 100%);-webkit-background-clip:text;background-clip:text}
+[data-theme="light"] .startup-by{color:rgba(26,20,8,0.45)}
+[data-theme="light"] .startup-rule{background:linear-gradient(180deg,transparent,rgba(184,134,11,0.5),transparent)}
+[data-theme="light"] .startup-tag{color:rgba(26,20,8,0.55)}
 [data-theme="light"] .modal-sheet{background:#ffffff;border-color:rgba(0,0,0,0.1)}
 [data-theme="light"] .card{background:linear-gradient(135deg,rgba(255,255,255,0.98) 0%,rgba(255,255,255,0.95) 100%);border-color:rgba(15,23,42,0.14);box-shadow:0 4px 12px rgba(0,0,0,0.08),inset 0 1px 0 rgba(255,255,255,0.9)}
 [data-theme="light"] .card:hover{background:linear-gradient(135deg,#fff 0%,rgba(255,255,255,0.99) 100%);border-color:rgba(15,23,42,0.22);box-shadow:0 8px 28px rgba(0,0,0,0.12);transform:translateY(-4px)}
-[data-theme="light"] .card-title{color:#0f172a}
-[data-theme="light"] .card-summary{color:#1e293b}
-[data-theme="light"] .card-impact{background:rgba(3,105,161,0.08);border-color:rgba(3,105,161,0.18);color:#0369a1}
-[data-theme="light"] .card-impact-label{color:#0891b2}
+[data-theme="light"] .card-title{color:#1a1408;text-shadow:none}
+[data-theme="light"] .card-summary{color:#3d3420}
+[data-theme="light"] .card-impact{background:rgba(184,134,11,0.08);border-color:rgba(184,134,11,0.22);color:#8a6508}
+[data-theme="light"] .card-impact-label{color:#a1720a}
 [data-theme="light"] .card-source-label{color:#4b5563}
 [data-theme="light"] .card-source-sub{color:#6b7280}
 [data-theme="light"] .card-action-btn{background:rgba(255,255,255,0.8);border-color:rgba(0,0,0,0.1);color:#334155}
@@ -443,11 +386,11 @@ body.error-shake #app{animation:shake 0.5s cubic-bezier(0.36,0,0.66,-0.56) 1}
 [data-theme="light"] .status-chip:hover{background:rgba(0,0,0,0.08);border-color:rgba(0,0,0,0.18);color:#1a202c}
 [data-theme="light"] .section-title{color:#0d1117}
 [data-theme="light"] .section-sub{color:#6b7280}
-[data-theme="light"] .section-link{color:#0891b2}
+[data-theme="light"] .section-link{color:#a1720a}
 [data-theme="light"] .hero-title{color:#0d1117}
 [data-theme="light"] .hero-sub{color:#6b7280}
-[data-theme="light"] .hero-eyebrow{color:#0891b2}
-[data-theme="light"] .hero-eyebrow::before{background:#0891b2}
+[data-theme="light"] .hero-eyebrow{color:#a1720a}
+[data-theme="light"] .hero-eyebrow::before{background:#a1720a}
 [data-theme="light"] .settings-item{background:rgba(255,255,255,0.85);border-color:rgba(0,0,0,0.08)}
 [data-theme="light"] .settings-item:hover{background:#fff}
 [data-theme="light"] .settings-item-title{color:#0d1117}
@@ -460,7 +403,7 @@ body.error-shake #app{animation:shake 0.5s cubic-bezier(0.36,0,0.66,-0.56) 1}
 [data-theme="light"] .cat-name{color:#0d1117}
 [data-theme="light"] .cat-count{color:#6b7280}
 [data-theme="light"] .pill{background:rgba(255,255,255,0.8);border-color:rgba(0,0,0,0.1);color:#334155}
-[data-theme="light"] .pill.active{background:rgba(8,145,178,0.1);border-color:rgba(8,145,178,0.3);color:#0891b2}
+[data-theme="light"] .pill.active{background:rgba(184,134,11,0.12);border-color:rgba(184,134,11,0.3);color:#a1720a}
 [data-theme="light"] .date-divider{border-color:rgba(0,0,0,0.08)}
 [data-theme="light"] .date-divider-label{color:#6b7280;background:#f0f4f8}
 [data-theme="light"] .signal-row{background:rgba(255,255,255,0.85);border-color:rgba(0,0,0,0.09)}
@@ -471,7 +414,7 @@ body.error-shake #app{animation:shake 0.5s cubic-bezier(0.36,0,0.66,-0.56) 1}
 [data-theme="light"] .modal-section-label{color:#6b7280}
 [data-theme="light"] .modal-action-text{color:#0d1117}
 [data-theme="light"] .back-btn{color:#6b7280}
-[data-theme="light"] .back-btn:hover{color:#0891b2}
+[data-theme="light"] .back-btn:hover{color:#a1720a}
 [data-theme="light"] .alert-item{background:rgba(255,255,255,0.85);border-color:rgba(0,0,0,0.09)}
 [data-theme="light"] .alert-item-title{color:#0d1117}
 [data-theme="light"] .alert-item-desc{color:#334155}
@@ -846,7 +789,7 @@ body.error-shake #app{animation:shake 0.5s cubic-bezier(0.36,0,0.66,-0.56) 1}
           <div class="settings-list">
             <div class="settings-item" onclick="showThemeSelector()">
               <div class="settings-item-icon" style="background:rgba(245,158,11,0.07);color:var(--amber2)"><i data-lucide="palette" style="width:14px;height:14px"></i></div>
-              <div class="settings-item-body"><div class="settings-item-title">Theme</div><div class="settings-item-sub" id="theme-toggle-sub">Currently dark</div></div>
+              <div class="settings-item-body"><div class="settings-item-title">Theme</div><div class="settings-item-sub" id="theme-toggle-sub">⭐ Gold Cosmic — Dark</div></div>
               <i data-lucide="chevron-right" style="width:16px;height:16px;color:var(--text3)"></i>
             </div>
           </div>
@@ -854,11 +797,6 @@ body.error-shake #app{animation:shake 0.5s cubic-bezier(0.36,0,0.66,-0.56) 1}
             <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px">
               <div class="theme-option" onclick="setTheme('dark')" data-theme-name="dark">🌙 Dark</div>
               <div class="theme-option" onclick="setTheme('light')" data-theme-name="light">☀️ Light</div>
-              <div class="theme-option" onclick="setTheme('scorpio')" data-theme-name="scorpio">♏ Scorpio</div>
-              <div class="theme-option" onclick="setTheme('aurora')" data-theme-name="aurora">🌌 Aurora</div>
-              <div class="theme-option" onclick="setTheme('midnight')" data-theme-name="midnight">🌃 Midnight</div>
-              <div class="theme-option" onclick="setTheme('cosmic')" data-theme-name="cosmic">✨ Cosmic</div>
-              <div class="theme-option" onclick="setTheme('gold')" data-theme-name="gold">⭐ Gold Cosmic</div>
             </div>
           </div>
         </div>
@@ -1042,6 +980,9 @@ var SOURCES=[
   {id:'tiktok',n:'TikTok Shop',c:'E-commerce · Social',i:'📱'},
   {id:'walmart',n:'Walmart Marketplace',c:'E-commerce · Marketplace',i:'🔵'},
   {id:'faire',n:'Faire',c:'E-commerce · Wholesale',i:'📊'},
+  {id:'ebay',n:'eBay',c:'E-commerce · Marketplace',i:'🛍️'},
+  {id:'ecommercetimes',n:'eCommerce Times',c:'E-commerce · News',i:'📰'},
+  {id:'practicalecommerce',n:'Practical Ecommerce',c:'E-commerce · News',i:'📰'},
   {id:'stripe',n:'Stripe',c:'Payments · FinTech',i:'💳'},
   {id:'wise',n:'Wise',c:'Payments · FinTech',i:'💸'},
   {id:'payoneer',n:'Payoneer',c:'Payments · FinTech',i:'💰'},
@@ -1051,6 +992,10 @@ var SOURCES=[
   {id:'freelancercom',n:'Freelancer.com',c:'Freelancing · Platform',i:'💼'},
   {id:'meta',n:'Meta Business',c:'SEO · Marketing',i:'📘'},
   {id:'linkedin',n:'LinkedIn',c:'SEO · Marketing',i:'💼'},
+  {id:'sejournal',n:'SE Journal',c:'SEO · Marketing',i:'🔎'},
+  {id:'sel',n:'Search Engine Land',c:'SEO · Marketing',i:'🔎'},
+  {id:'moz',n:'Moz Blog',c:'SEO · Marketing',i:'🔎'},
+  {id:'ftc',n:'FTC Scam Alerts',c:'Scams · Consumer Protection',i:'🚨'},
 ];
 var REGIONS=[
   {id:'pakistan',flag:'🇵🇰',n:'Pakistan',s:'Regulatory, market & policy signals'},
@@ -1060,7 +1005,9 @@ var REGIONS=[
   {id:'uae',flag:'🇦🇪',n:'UAE',s:'Trade & business signals'},
   {id:'asia',flag:'🌏',n:'Asia/Southeast',s:'E-commerce, markets & expansion'},
 ];
-if(!sourcesEnabled){sourcesEnabled={};SOURCES.forEach(function(s){sourcesEnabled[s.id]=true;});localStorage.setItem('ssrc',JSON.stringify(sourcesEnabled));}
+if(!sourcesEnabled){sourcesEnabled={};}
+SOURCES.forEach(function(s){if(!(s.id in sourcesEnabled))sourcesEnabled[s.id]=true;});
+localStorage.setItem('ssrc',JSON.stringify(sourcesEnabled));
 
 var SIGNALS=[
   {id:1,type:'critical',category:'pakistan',title:'FBR Launches Real-Time Sales Tax Monitoring for E-commerce Sellers',summary:'FBR deployed an AI-based surveillance system targeting unregistered e-commerce operators. Sellers on Daraz and Instagram shops must register by next month or face penalties up to PKR 500,000.',why:'Unregistered sellers face automated detection and fines up to PKR 500,000 per violation.',impact:'Register immediately with FBR if you sell online. Affects all Pakistani e-commerce operators.',action:'File for NTN registration at iris.fbr.gov.pk before the deadline.',source:'FBR Pakistan',sourceId:'fbr',url:'https://fbr.gov.pk',readTime:'2 min',cat:'pakistan'},
@@ -1118,9 +1065,13 @@ function initMesh(){
 /* ─── STARTUP ─── */
 function initStartup(){
   var c=document.getElementById('startup-canvas'),ctx=c.getContext('2d'),W,H,t=0,phase=0;
+  var isLight=document.documentElement.getAttribute('data-theme')==='light';
+  var glowRGB=isLight?'184,134,11':'255,215,0';   // deep gold on light bg, bright gold on black
+  var dotRGB =isLight?'138,101,8':'255,223,51';
+  var dotBaseOp=isLight?2.2:1;                     // light-mode dots need more opacity to read
   function resize(){W=c.width=window.innerWidth;H=c.height=window.innerHeight;}
   resize();window.addEventListener('resize',resize);
-  var pts=[];for(var i=0;i<55;i++)pts.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.22,vy:(Math.random()-.5)*.22,r:Math.random()*1.1+0.2,o:Math.random()*0.25+0.05});
+  var pts=[];for(var i=0;i<55;i++)pts.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.22,vy:(Math.random()-.5)*.22,r:Math.random()*1.1+0.2,o:(Math.random()*0.25+0.05)*dotBaseOp});
   var nodes=[];for(var i=0;i<10;i++)nodes.push({x:0,y:0,r:0,tR:2+Math.random()*2,delay:Math.random()*80+40,o:0});
   function placeNodes(){nodes.forEach(function(n){n.x=W*0.1+Math.random()*W*0.8;n.y=H*0.1+Math.random()*H*0.8;});}
   placeNodes();
@@ -1128,11 +1079,11 @@ function initStartup(){
   function draw(){
     ctx.clearRect(0,0,W,H);t++;
     var g=ctx.createRadialGradient(W/2,H/2,0,W/2,H/2,W*.6);
-    g.addColorStop(0,'rgba(109,40,217,'+(0.07*Math.min(1,t/60))+')');g.addColorStop(1,'transparent');
+    g.addColorStop(0,'rgba('+glowRGB+','+(0.07*Math.min(1,t/60))+')');g.addColorStop(1,'transparent');
     ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
-    pts.forEach(function(p){p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle='rgba(34,211,238,'+(p.o*Math.min(1,t/40))+')';ctx.fill();});
-    if(phase>=1){var sy=((t-40)*2.5)%H;var sg=ctx.createLinearGradient(0,sy-18,0,sy+3);sg.addColorStop(0,'transparent');sg.addColorStop(1,'rgba(34,211,238,0.05)');ctx.fillStyle=sg;ctx.fillRect(0,sy-18,W,21);}
-    if(phase>=2){nodes.forEach(function(n,i){if(t>n.delay){n.r=Math.min(n.tR,n.r+0.12);n.o=Math.min(0.65,n.o+0.015);}if(n.o>0.05){ctx.beginPath();ctx.arc(n.x,n.y,n.r,0,Math.PI*2);ctx.fillStyle='rgba(34,211,238,'+n.o+')';ctx.shadowBlur=6;ctx.shadowColor='rgba(34,211,238,0.4)';ctx.fill();ctx.shadowBlur=0;nodes.forEach(function(n2,j){if(j>i&&n2.o>0.2){var dx=n2.x-n.x,dy=n2.y-n.y,d=Math.sqrt(dx*dx+dy*dy);if(d<170){ctx.beginPath();ctx.moveTo(n.x,n.y);ctx.lineTo(n2.x,n2.y);ctx.strokeStyle='rgba(34,211,238,'+((1-d/170)*0.08*n.o)+')';ctx.lineWidth=0.5;ctx.stroke();}}});}});}
+    pts.forEach(function(p){p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle='rgba('+dotRGB+','+(p.o*Math.min(1,t/40))+')';ctx.fill();});
+    if(phase>=1){var sy=((t-40)*2.5)%H;var sg=ctx.createLinearGradient(0,sy-18,0,sy+3);sg.addColorStop(0,'transparent');sg.addColorStop(1,'rgba('+dotRGB+',0.06)');ctx.fillStyle=sg;ctx.fillRect(0,sy-18,W,21);}
+    if(phase>=2){nodes.forEach(function(n,i){if(t>n.delay){n.r=Math.min(n.tR,n.r+0.12);n.o=Math.min(0.65,n.o+0.015);}if(n.o>0.05){ctx.beginPath();ctx.arc(n.x,n.y,n.r,0,Math.PI*2);ctx.fillStyle='rgba('+dotRGB+','+n.o+')';ctx.shadowBlur=6;ctx.shadowColor='rgba('+dotRGB+',0.4)';ctx.fill();ctx.shadowBlur=0;nodes.forEach(function(n2,j){if(j>i&&n2.o>0.2){var dx=n2.x-n.x,dy=n2.y-n.y,d=Math.sqrt(dx*dx+dy*dy);if(d<170){ctx.beginPath();ctx.moveTo(n.x,n.y);ctx.lineTo(n2.x,n2.y);ctx.strokeStyle='rgba('+dotRGB+','+((1-d/170)*0.08*n.o)+')';ctx.lineWidth=0.5;ctx.stroke();}}});}});}
     raf=requestAnimationFrame(draw);
   }
   draw();
@@ -1363,13 +1314,13 @@ function showPage(name, skipHistory){
   if(navIds.includes(name)){var ni=document.getElementById('nav-'+name);if(ni)ni.classList.add('active');}
   updatePageDots();
   if(name==='search')setTimeout(function(){var inp=document.getElementById('search-input');if(inp)inp.focus();},300);
-  if(name==='news')setTimeout(function(){renderNews('all');},50);
+  if(name==='news')setTimeout(function(){_curNewsTab='all';renderNews('all');},50);
   if(name==='categories')setTimeout(function(){updateCategoryCounts();},50);
   if(name==='sources')renderSources();
   if(name==='regions')renderRegions();
   if(name==='news')renderNews('today');
   if(name==='readtab')renderReadTab();
-  if(name==='settings')applyTheme(localStorage.getItem('sp_theme')||'system');
+  if(name==='settings')updateThemeOptions();
   safeIcons();
 }
 var _curPage='dashboard';
@@ -1456,6 +1407,10 @@ function filterSources(tab,el){
 function toggleSource(id,el){
   sourcesEnabled[id]=!sourcesEnabled[id];el.classList.toggle('on',sourcesEnabled[id]);
   localStorage.setItem('ssrc',JSON.stringify(sourcesEnabled));
+  invalidateSignalsCache();
+  renderAll();
+  renderNews(_curNewsTab);
+  updateCategoryCounts();
   showToast(Object.values(sourcesEnabled).filter(Boolean).length+' sources active');
 }
 /* ─── REGIONS ─── */
@@ -1472,6 +1427,10 @@ function toggleRegion(id,el){
   localStorage.setItem('sreg',JSON.stringify(activeRegions));
   var tg=el.querySelector('.toggle');if(tg)tg.classList.toggle('on',activeRegions.includes(id));
   var rs=document.getElementById('regions-sub');if(rs)rs.textContent=REGIONS.filter(function(r){return activeRegions.includes(r.id);}).map(function(r){return r.n;}).join(', ');
+  invalidateSignalsCache();
+  renderAll();
+  renderNews(_curNewsTab);
+  updateCategoryCounts();
   showToast('Region tracking updated');
 }
 /* ─── PIN CHANGE ─── */
@@ -1618,9 +1577,11 @@ function updateCategoryCounts(){
     }
   });
 }
+var _curNewsTab='all';
 function filterNews(tab,el){
   document.querySelectorAll('#page-news .pill').forEach(function(p){p.classList.remove('active');});
   el.classList.add('active');
+  _curNewsTab=tab;
   renderNews(tab);
 }
 /* Call renderNews when News page is opened */
@@ -1698,40 +1659,37 @@ var _liveSignals = []; // live RSS signals, merged with SIGNALS on render
 ─────────────────────────────────────────────────────────── */
 var RSS_FEEDS = [
   /* E-commerce — Amazon, Shopify, Etsy, Walmart, eBay, TikTok Shop, Faire, WooCommerce */
-  { url:'https://feeds.feedburner.com/shopify/blog',                        cat:'ecommerce', label:'Shopify'            },
-  { url:'https://sellercentral.amazon.com/forums/rss/allposts',             cat:'ecommerce', label:'Amazon'             },
-  { url:'https://www.etsy.com/blog/en/feed/',                               cat:'ecommerce', label:'Etsy'               },
-  { url:'https://feeds.feedburner.com/ecommercetimes',                      cat:'ecommerce', label:'eCommerce Times'    },
-  { url:'https://www.practical-ecommerce.com/feed',                         cat:'ecommerce', label:'Practical Ecommerce'},
-  { url:'https://www.ebayinc.com/stories/news/rss/',                        cat:'ecommerce', label:'eBay'               },
-  { url:'https://news.google.com/rss/search?q=%22TikTok+Shop%22&hl=en-US&gl=US&ceid=US:en', cat:'ecommerce', label:'TikTok Shop'  },
-  { url:'https://marketplace.walmart.com/feed',                             cat:'ecommerce', label:'Walmart Marketplace'},
-  { url:'https://news.google.com/rss/search?q=Faire+wholesale&hl=en-US&gl=US&ceid=US:en',   cat:'ecommerce', label:'Faire'         },
+  { id:'shopify',           url:'https://feeds.feedburner.com/shopify/blog',                        cat:'ecommerce', label:'Shopify'            },
+  { id:'amazon',            url:'https://sellercentral.amazon.com/forums/rss/allposts',             cat:'ecommerce', label:'Amazon'             },
+  { id:'etsy',              url:'https://www.etsy.com/blog/en/feed/',                               cat:'ecommerce', label:'Etsy'               },
+  { id:'ecommercetimes',    url:'https://feeds.feedburner.com/ecommercetimes',                      cat:'ecommerce', label:'eCommerce Times'    },
+  { id:'practicalecommerce',url:'https://www.practical-ecommerce.com/feed',                         cat:'ecommerce', label:'Practical Ecommerce'},
+  { id:'ebay',              url:'https://www.ebayinc.com/stories/news/rss/',                        cat:'ecommerce', label:'eBay'               },
+  { id:'tiktok',            url:'https://news.google.com/rss/search?q=%22TikTok+Shop%22&hl=en-US&gl=US&ceid=US:en', cat:'ecommerce', label:'TikTok Shop'  },
+  { id:'walmart',           url:'https://marketplace.walmart.com/feed',                             cat:'ecommerce', label:'Walmart Marketplace'},
+  { id:'faire',             url:'https://news.google.com/rss/search?q=Faire+wholesale&hl=en-US&gl=US&ceid=US:en',   cat:'ecommerce', label:'Faire'         },
   /* AI & Tech */
-  { url:'https://openai.com/blog/rss.xml',                                  cat:'ai',        label:'OpenAI'             },
-  { url:'https://www.anthropic.com/rss.xml',                                cat:'ai',        label:'Anthropic'          },
-  { url:'https://blog.google/technology/ai/rss/',                           cat:'ai',        label:'Google AI'          },
-  { url:'https://github.blog/category/product/feed/',                       cat:'ai',        label:'GitHub'             },
-  { url:'https://feeds.feedburner.com/TechCrunch/',                         cat:'ai',        label:'TechCrunch'         },
+  { id:'openai',            url:'https://openai.com/blog/rss.xml',                                  cat:'ai',        label:'OpenAI'             },
+  { id:'anthropic',         url:'https://www.anthropic.com/rss.xml',                                cat:'ai',        label:'Anthropic'          },
+  { id:'google',            url:'https://blog.google/technology/ai/rss/',                           cat:'ai',        label:'Google AI'          },
+  { id:'github',            url:'https://github.blog/category/product/feed/',                       cat:'ai',        label:'GitHub'             },
+  { id:'techcrunch',        url:'https://feeds.feedburner.com/TechCrunch/',                         cat:'ai',        label:'TechCrunch'         },
   /* SEO & Marketing */
-  { url:'https://www.searchenginejournal.com/feed/',                        cat:'seo',       label:'SE Journal'         },
-  { url:'https://feeds.feedburner.com/searchengineland',                    cat:'seo',       label:'Search Engine Land' },
-  { url:'https://feeds.feedburner.com/Moz-The-Moz-Blog',                   cat:'seo',       label:'Moz Blog'           },
+  { id:'sejournal',         url:'https://www.searchenginejournal.com/feed/',                        cat:'seo',       label:'SE Journal'         },
+  { id:'sel',               url:'https://feeds.feedburner.com/searchengineland',                    cat:'seo',       label:'Search Engine Land' },
+  { id:'moz',               url:'https://feeds.feedburner.com/Moz-The-Moz-Blog',                   cat:'seo',       label:'Moz Blog'           },
   /* Freelancing */
-  { url:'https://www.upwork.com/blog/feed/',                                cat:'freelancing',label:'Upwork'            },
-  { url:'https://www.fiverr.com/resources/feed',                            cat:'freelancing',label:'Fiverr'            },
-  { url:'https://www.freelancer.com/articles/feed',                         cat:'freelancing',label:'Freelancer.com'    },
+  { id:'upwork',            url:'https://www.upwork.com/blog/feed/',                                cat:'freelancing',label:'Upwork'            },
+  { id:'fiverr',            url:'https://www.fiverr.com/resources/feed',                            cat:'freelancing',label:'Fiverr'            },
+  { id:'freelancercom',     url:'https://www.freelancer.com/articles/feed',                         cat:'freelancing',label:'Freelancer.com'    },
   /* Payments & Banking */
-  { url:'https://stripe.com/blog/feed.rss',                                 cat:'payments',  label:'Stripe'             },
-  { url:'https://wise.com/us/blog/rss.xml',                                 cat:'payments',  label:'Wise'               },
+  { id:'stripe',            url:'https://stripe.com/blog/feed.rss',                                 cat:'payments',  label:'Stripe'             },
+  { id:'wise',              url:'https://wise.com/us/blog/rss.xml',                                 cat:'payments',  label:'Wise'               },
   /* Pakistan */
-  { url:'https://www.dawn.com/feeds/business-finance',                      cat:'pakistan',  label:'Dawn Business'      },
-  { url:'https://brecorder.com/feed',                                       cat:'pakistan',  label:'Business Recorder'  },
-  /* Business & Opportunities */
-  { url:'https://feeds.feedburner.com/entrepreneur/latest',                 cat:'business',  label:'Entrepreneur'       },
-  { url:'https://www.inc.com/rss/',                                         cat:'business',  label:'Inc Magazine'       },
+  { id:'dawn',              url:'https://www.dawn.com/feeds/business-finance',                      cat:'pakistan',  label:'Dawn Business'      },
+  { id:'brecorder',         url:'https://brecorder.com/feed',                                       cat:'pakistan',  label:'Business Recorder'  },
   /* Scam Alerts */
-  { url:'https://www.consumer.ftc.gov/rss/scam-alerts.xml',                cat:'scams',     label:'FTC Scam Alerts'    },
+  { id:'ftc',               url:'https://www.consumer.ftc.gov/rss/scam-alerts.xml',                cat:'scams',     label:'FTC Scam Alerts'    },
 ];
 
 /* ── KEYWORD CATEGORIZER ──
@@ -1752,19 +1710,24 @@ var CAT_RULES = [
 /* Exclude these keywords to filter out unrelated content */
 var EXCLUDE_KW = ['sports','football','basketball','soccer','baseball','tennis','championship','game score','celebrity','gossip','entertainment','movie','actor','music','hollywood','trending twitter','viral','weather','recipe','cooking','fashion','luxury','real estate','cruise','vacation'];
 
+/* Whole-word/phrase matcher — avoids false positives like 'ban' matching
+   inside "banned"/"bankruptcy", or 'free' matching inside "freelance". */
+function hasKw(text, kw) {
+  return new RegExp('\\b' + kw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'i').test(text);
+}
 
 function categorize(item, feedCat) {
   var text = (item.title + ' ' + (item.summary || '')).toLowerCase();
   
   /* Filter out unrelated content */
   for (var i = 0; i < EXCLUDE_KW.length; i++) {
-    if (text.indexOf(EXCLUDE_KW[i]) !== -1) return 'unrelated';
+    if (hasKw(text, EXCLUDE_KW[i])) return 'unrelated';
   }
   
   for (var i = 0; i < CAT_RULES.length; i++) {
     var rule = CAT_RULES[i];
     for (var j = 0; j < rule.kw.length; j++) {
-      if (text.indexOf(rule.kw[j]) !== -1) return rule.cat;
+      if (hasKw(text, rule.kw[j])) return rule.cat;
     }
   }
   return feedCat;
@@ -1776,12 +1739,12 @@ function categorize(item, feedCat) {
 function classifyType(item, cat) {
   var text = (item.title + ' ' + (item.summary || '')).toLowerCase();
   if (cat === 'scams') return 'critical';
-  var critKw = ['suspended','ban','blocked','breach','urgent','critical','warning','alert','outage','down','penalty','fine'];
+  var critKw = ['suspended','ban','banned','blocked','breach','urgent','critical','warning','alert','outage','down','penalty','fine'];
   var oppKw  = ['launch','new feature','opportunity','discount','free','growth','expansion','open','apply','funding','grant'];
   var aiKw   = ['gpt','claude','gemini','llm','model','ai','release','update','version'];
-  for (var i = 0; i < critKw.length; i++) if (text.indexOf(critKw[i]) !== -1) return 'critical';
-  for (var i = 0; i < aiKw.length;  i++) if (text.indexOf(aiKw[i])  !== -1) return 'ai';
-  for (var i = 0; i < oppKw.length; i++) if (text.indexOf(oppKw[i]) !== -1) return 'opportunity';
+  for (var i = 0; i < critKw.length; i++) if (hasKw(text, critKw[i])) return 'critical';
+  for (var i = 0; i < aiKw.length;  i++) if (hasKw(text, aiKw[i]))  return 'ai';
+  for (var i = 0; i < oppKw.length; i++) if (hasKw(text, oppKw[i])) return 'opportunity';
   return 'important';
 }
 
@@ -1820,6 +1783,7 @@ function parseRSS(xmlText, feed) {
         impact  : 'Review this signal and assess relevance to your current operations.',
         action  : 'Read the full article for details and take appropriate action.',
         source  : feed.label,
+        sourceId: feed.id,
         url     : link || '#',
         readTime: Math.max(1, Math.round(desc.length / 600)) + ' min',
         ts      : ts,
@@ -1919,7 +1883,7 @@ function fetchAllFeeds(force) {
     _notifyNewSignals(all);
     // Merge and re-render the visible page
     renderAll();
-    renderNews('all');
+    renderNews(_curNewsTab);
     updateCategoryCounts();
   });
 }
@@ -1973,6 +1937,14 @@ function setRSSStatus(state, count, ts) {
    or the reviewed/saved state changes, so renderAll() can call allSignals()
    freely without re-running the dedup loop on every single card render. */
 var _allSignalsCache = null;
+/* Maps a signal's category to one of the toggleable regions in Settings.
+   Pakistan- and USA-tagged signals map directly; everything else (AI,
+   e-commerce, freelancing, payments, SEO, scams) is treated as global. */
+function regionOfCat(cat) {
+  if (cat === 'pakistan') return 'pakistan';
+  if (cat === 'usa') return 'usa';
+  return 'global';
+}
 function allSignals() {
   if (_allSignalsCache) return _allSignalsCache;
   var combined = _liveSignals.concat(SIGNALS);
@@ -1981,6 +1953,10 @@ function allSignals() {
     var k = String(s.id);
     if (seen[k]) return false;
     seen[k] = true;
+    // Hide signals from a source that's been toggled off
+    if (s.sourceId && sourcesEnabled && sourcesEnabled[s.sourceId] === false) return false;
+    // Hide signals from a region that's been toggled off
+    if (activeRegions && activeRegions.indexOf(regionOfCat(s.cat)) === -1) return false;
     return true;
   });
   return _allSignalsCache;
@@ -2156,6 +2132,9 @@ setTimeout(function(){
 /* ── THEME ── */
 function initTheme(){
   var saved=localStorage.getItem('signal_theme');
+  // Older builds had extra themes (scorpio/aurora/midnight/cosmic/gold) —
+  // now there's only Gold Cosmic Dark/Light, so fold any legacy value into 'dark'.
+  if(saved&&saved!=='dark'&&saved!=='light'){saved='dark';localStorage.setItem('signal_theme','dark');}
   var prefersDark=window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches;
   var theme=saved||(prefersDark?'dark':'light');
   document.documentElement.setAttribute('data-theme',theme);
@@ -2238,7 +2217,7 @@ function initGoldStarfield(){
   for(var j=0;j<5;j++)_goldShooting.push(new _GoldShootingStar(_goldCanvas.width,_goldCanvas.height));
   _goldStarsStarted=true;
   function animate(){
-    if(document.documentElement.getAttribute('data-theme')!=='gold'){requestAnimationFrame(animate);return;}
+    if(document.documentElement.getAttribute('data-theme')==='light'){requestAnimationFrame(animate);return;}
     _goldCtx.fillStyle='rgba(0,0,0,0.35)';
     _goldCtx.fillRect(0,0,_goldCanvas.width,_goldCanvas.height);
     _goldStars.forEach(function(s){s.W=_goldCanvas.width;s.H=_goldCanvas.height;s.update();s.draw(_goldCtx);});
@@ -2249,16 +2228,16 @@ function initGoldStarfield(){
 }
 function _updateGoldCanvasVisibility(){
   var c=document.getElementById('gold-star-bg');if(!c)return;
-  var isGold=document.documentElement.getAttribute('data-theme')==='gold';
+  var isGold=document.documentElement.getAttribute('data-theme')!=='light';
   c.style.display=isGold?'block':'none';
   if(isGold)initGoldStarfield();
 }
 function setTheme(name){
   document.documentElement.setAttribute('data-theme',name);
   localStorage.setItem('signal_theme',name);
-  var names={dark:'Currently dark',light:'Currently light',scorpio:'♏ Scorpio Universe',aurora:'🌌 Aurora',midnight:'🌃 Midnight',cosmic:'✨ Cosmic',gold:'⭐ Gold Cosmic'};
+  var names={dark:'⭐ Gold Cosmic — Dark',light:'⭐ Gold Cosmic — Light'};
   var btn=document.getElementById('theme-toggle-sub');
-  if(btn)btn.textContent=names[name]||'Currently '+name;
+  if(btn)btn.textContent=names[name]||'⭐ Gold Cosmic';
   updateThemeOptions();
   _updateGoldCanvasVisibility();
 }
@@ -2368,13 +2347,12 @@ window.addEventListener('load',function(){
   initTheme();
   updateThemeOptions();
   var theme=document.documentElement.getAttribute('data-theme')||'dark';
-  var names={dark:'Currently dark',light:'Currently light',scorpio:'♏ Scorpio Universe',aurora:'🌌 Aurora',midnight:'🌃 Midnight',cosmic:'✨ Cosmic'};
+  var names={dark:'⭐ Gold Cosmic — Dark',light:'⭐ Gold Cosmic — Light'};
   var btn=document.getElementById('theme-toggle-sub');
-  if(btn)btn.textContent=names[theme]||'Currently '+theme;
+  if(btn)btn.textContent=names[theme]||'⭐ Gold Cosmic';
   setTimeout(function(){
     safeIcons();
   },500);
-  initMesh();
   initSwipe();
   initPullToRefresh();
   initStartup();
